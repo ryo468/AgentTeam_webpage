@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>日本の魅力を巡る旅 — Japan Travel Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <style>
         /* ===== Reset & Base ===== */
         *,
@@ -667,6 +668,197 @@
             }
         }
 
+        /* ===== Map Section ===== */
+        .map-container {
+            width: 100%;
+            height: 520px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(194, 24, 91, 0.06);
+            margin-bottom: 1rem;
+        }
+
+        #leaflet-map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .leaflet-container {
+            font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+        }
+
+        .map-instruction {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #aaa;
+            letter-spacing: 0.03em;
+            margin-top: 0.5rem;
+        }
+
+        /* Card map button */
+        .card-map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 1rem;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: #c2185b;
+            background: transparent;
+            border: 1.5px solid #c2185b;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.18s;
+        }
+
+        .card-map-btn::before {
+            content: '📍';
+            font-size: 0.75rem;
+        }
+
+        .card-map-btn:hover {
+            background: #c2185b;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(194, 24, 91, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .card[data-accent="purple"] .card-map-btn {
+            color: #7b1fa2;
+            border-color: #7b1fa2;
+        }
+
+        .card[data-accent="purple"] .card-map-btn:hover {
+            background: #7b1fa2;
+            box-shadow: 0 4px 14px rgba(123, 31, 162, 0.28);
+        }
+
+        .card[data-accent="orange"] .card-map-btn {
+            color: #e65100;
+            border-color: #e65100;
+        }
+
+        .card[data-accent="orange"] .card-map-btn:hover {
+            background: #e65100;
+            box-shadow: 0 4px 14px rgba(230, 81, 0, 0.28);
+        }
+
+        .card[data-accent="blue"] .card-map-btn {
+            color: #1565c0;
+            border-color: #1565c0;
+        }
+
+        .card[data-accent="blue"] .card-map-btn:hover {
+            background: #1565c0;
+            box-shadow: 0 4px 14px rgba(21, 101, 192, 0.28);
+        }
+
+        .card[data-accent="teal"] .card-map-btn {
+            color: #00838f;
+            border-color: #00838f;
+        }
+
+        .card[data-accent="teal"] .card-map-btn:hover {
+            background: #00838f;
+            box-shadow: 0 4px 14px rgba(0, 131, 143, 0.28);
+        }
+
+        .card[data-accent="green"] .card-map-btn {
+            color: #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        .card[data-accent="green"] .card-map-btn:hover {
+            background: #2e7d32;
+            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.28);
+        }
+
+        /* Leaflet popup */
+        .map-popup-wrapper .leaflet-popup-content-wrapper {
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14) !important;
+            padding: 0 !important;
+            overflow: hidden;
+            border: none !important;
+        }
+
+        .map-popup-wrapper .leaflet-popup-content {
+            margin: 0 !important;
+        }
+
+        .map-popup-wrapper .leaflet-popup-tip {
+            background: #fff !important;
+        }
+
+        .map-popup {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto;
+            gap: 2px 10px;
+            padding: 14px 18px;
+            border-top: 4px solid var(--popup-accent, #c2185b);
+            min-width: 180px;
+        }
+
+        .map-popup__emoji {
+            grid-row: 1 / 3;
+            font-size: 2rem;
+            line-height: 1;
+            align-self: center;
+        }
+
+        .map-popup__title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--popup-accent, #c2185b);
+            line-height: 1.2;
+        }
+
+        .map-popup__desc {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Leaflet controls */
+        .leaflet-bar {
+            border-radius: 10px !important;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;
+            border: none !important;
+        }
+
+        .leaflet-bar a {
+            color: #1a1a2e !important;
+            border-bottom-color: #eee !important;
+            transition: background 0.18s, color 0.18s !important;
+        }
+
+        .leaflet-bar a:hover {
+            background: #c2185b !important;
+            color: #fff !important;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 0.65rem !important;
+            background: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        .leaflet-control-attribution a {
+            color: #c2185b !important;
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                height: 320px;
+                border-radius: 14px;
+            }
+        }
+
         /* ===== Scroll animation ===== */
         .fade-in {
             opacity: 0;
@@ -713,6 +905,7 @@
     <!-- Navigation -->
     <nav class="nav">
         <a href="#destinations" data-ja="観光地" data-en="Destinations">観光地</a>
+        <a href="#map" data-ja="地図" data-en="Map">地図</a>
         <a href="#seasons" data-ja="四季の楽しみ" data-en="Four Seasons">四季の楽しみ</a>
         <a href="#tips" data-ja="旅のヒント" data-en="Travel Tips">旅のヒント</a>
     </nav>
@@ -761,6 +954,8 @@
                         <span>Shinjuku Gyoen</span>
                         <span>Akihabara</span>
                     </div>
+                    <button class="card-map-btn" data-dest="tokyo"><span data-lang-ja>地図で見る</span><span
+                            data-lang-en>View on Map</span></button>
                 </div>
             </article>
 
@@ -798,6 +993,8 @@
                         <span>Arashiyama Bamboo</span>
                         <span>Gion District</span>
                     </div>
+                    <button class="card-map-btn" data-dest="kyoto"><span data-lang-ja>地図で見る</span><span
+                            data-lang-en>View on Map</span></button>
                 </div>
             </article>
 
@@ -836,6 +1033,8 @@
                         <span>Tsutenkaku Tower</span>
                         <span>Street Food</span>
                     </div>
+                    <button class="card-map-btn" data-dest="osaka"><span data-lang-ja>地図で見る</span><span
+                            data-lang-en>View on Map</span></button>
                 </div>
             </article>
 
@@ -874,6 +1073,8 @@
                         <span>Oshino Hakkai</span>
                         <span>Climbing Trail</span>
                     </div>
+                    <button class="card-map-btn" data-dest="fuji"><span data-lang-ja>地図で見る</span><span data-lang-en>View
+                            on Map</span></button>
                 </div>
             </article>
 
@@ -912,6 +1113,8 @@
                         <span>Kerama Islands</span>
                         <span>Ryukyu Culture</span>
                     </div>
+                    <button class="card-map-btn" data-dest="okinawa"><span data-lang-ja>地図で見る</span><span
+                            data-lang-en>View on Map</span></button>
                 </div>
             </article>
 
@@ -950,10 +1153,28 @@
                         <span>Otaru Canal</span>
                         <span>Sapporo Cuisine</span>
                     </div>
+                    <button class="card-map-btn" data-dest="hokkaido"><span data-lang-ja>地図で見る</span><span
+                            data-lang-en>View on Map</span></button>
                 </div>
             </article>
 
         </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="section">
+        <h2 class="section-title fade-in" data-lang-ja>日本の旅先を地図で探す</h2>
+        <h2 class="section-title fade-in" data-lang-en>Explore Japan on the Map</h2>
+        <p class="section-subtitle fade-in" data-lang-ja>訪れたい場所を選び、地図の上で旅の物語を描こう</p>
+        <p class="section-subtitle fade-in" data-lang-en>Chart your journey across the Land of the Rising Sun</p>
+
+        <div class="map-container fade-in">
+            <div id="leaflet-map"></div>
+        </div>
+        <p class="map-instruction">
+            <span data-lang-ja>📍 カードの「地図で見る」をクリックすると地図がその場所に移動します</span>
+            <span data-lang-en>📍 Click "View on Map" on any destination card to fly there</span>
+        </p>
     </section>
 
     <!-- Seasons Section -->
@@ -1115,6 +1336,137 @@
             </div>
         </div>
     </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Map Module -->
+    <script>
+        (function () {
+            'use strict';
+
+            var destinations = [
+                { id: 'tokyo', lat: 35.6762, lng: 139.6503, emoji: '🗼', titleJa: '東京', titleEn: 'Tokyo', descJa: '伝統と最先端の融合', descEn: 'Where tradition meets innovation', accent: '#c2185b' },
+                { id: 'kyoto', lat: 35.0116, lng: 135.7681, emoji: '⛩️', titleJa: '京都', titleEn: 'Kyoto', descJa: '千年の都・日本文化の心', descEn: 'The cultural soul of Japan', accent: '#7b1fa2' },
+                { id: 'osaka', lat: 34.6937, lng: 135.5023, emoji: '🏯', titleJa: '大阪', titleEn: 'Osaka', descJa: '天下の台所・食の都', descEn: "Japan's kitchen & street food capital", accent: '#e65100' },
+                { id: 'fuji', lat: 35.3606, lng: 138.7274, emoji: '🗻', titleJa: '富士山', titleEn: 'Mt. Fuji', descJa: '日本の象徴・標高3,776m', descEn: "Japan's iconic sacred peak, 3,776m", accent: '#1565c0' },
+                { id: 'okinawa', lat: 26.2124, lng: 127.6792, emoji: '🏝️', titleJa: '沖縄', titleEn: 'Okinawa', descJa: '南国のエメラルドビーチ', descEn: 'Tropical paradise with emerald seas', accent: '#00838f' },
+                { id: 'hokkaido', lat: 43.0642, lng: 141.3469, emoji: '❄️', titleJa: '北海道', titleEn: 'Hokkaido', descJa: '大自然と美食の北の大地', descEn: 'Northern wilderness & world-class cuisine', accent: '#2e7d32' }
+            ];
+
+            function isEnglish() {
+                return document.body.classList.contains('lang-en');
+            }
+
+            function buildPopupHTML(dest) {
+                var title = isEnglish() ? dest.titleEn : dest.titleJa;
+                var desc = isEnglish() ? dest.descEn : dest.descJa;
+                return '<div class="map-popup" style="--popup-accent:' + dest.accent + '">'
+                    + '<span class="map-popup__emoji">' + dest.emoji + '</span>'
+                    + '<strong class="map-popup__title">' + title + '</strong>'
+                    + '<p class="map-popup__desc">' + desc + '</p>'
+                    + '</div>';
+            }
+
+            function createIcon(dest) {
+                return L.divIcon({
+                    className: '',
+                    iconSize: [44, 44],
+                    iconAnchor: [22, 22],
+                    popupAnchor: [0, -26],
+                    html: '<div style="'
+                        + 'width:44px;height:44px;border-radius:50%;'
+                        + 'background:' + dest.accent + ';'
+                        + 'border:3px solid #fff;'
+                        + 'box-shadow:0 4px 12px ' + dest.accent + '66,0 2px 4px rgba(0,0,0,.25);'
+                        + 'display:flex;align-items:center;justify-content:center;'
+                        + 'font-size:22px;cursor:pointer;'
+                        + 'transition:transform .18s;'
+                        + '" onmouseenter="this.style.transform=\'scale(1.2)\'" onmouseleave="this.style.transform=\'scale(1)\'">'
+                        + dest.emoji + '</div>'
+                });
+            }
+
+            var leafletMap = null;
+            var markerMap = {};
+
+            function initMap() {
+                if (leafletMap) return;
+                if (typeof L === 'undefined') {
+                    console.error('[Map] Leaflet が読み込まれていません。インターネット接続を確認してください。');
+                    return;
+                }
+                leafletMap = L.map('leaflet-map', {
+                    center: [36.5, 137.5],
+                    zoom: 5,
+                    scrollWheelZoom: true
+                });
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19
+                }).addTo(leafletMap);
+
+                destinations.forEach(function (dest) {
+                    var marker = L.marker([dest.lat, dest.lng], { icon: createIcon(dest) });
+                    marker.bindPopup(buildPopupHTML(dest), { maxWidth: 260, className: 'map-popup-wrapper' });
+                    marker.addTo(leafletMap);
+                    markerMap[dest.id] = marker;
+                });
+            }
+
+            window.flyToDestination = function (id) {
+                var dest = destinations.find(function (d) { return d.id === id; });
+                var marker = markerMap[id];
+                if (!dest) return;
+
+                var mapSection = document.getElementById('map');
+                if (mapSection) mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                if (!leafletMap) { initMap(); }
+
+                setTimeout(function () {
+                    leafletMap.flyTo([dest.lat, dest.lng], 10, { duration: 1.4 });
+                    setTimeout(function () {
+                        if (marker) marker.openPopup();
+                    }, 1500);
+                }, 400);
+            };
+
+            // Refresh open popup on language switch
+            var langObserver = new MutationObserver(function () {
+                if (!leafletMap) return;
+                destinations.forEach(function (dest) {
+                    var marker = markerMap[dest.id];
+                    if (marker && marker.isPopupOpen()) {
+                        marker.setPopupContent(buildPopupHTML(dest));
+                    }
+                });
+            });
+            langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+            // Lazy-init when map section scrolls into view
+            var mapSection = document.getElementById('map');
+            if (mapSection && 'IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    if (entries[0].isIntersecting) { initMap(); io.disconnect(); }
+                }, { threshold: 0.1 });
+                io.observe(mapSection);
+            } else if (mapSection) {
+                initMap();
+            }
+
+            // Card map button click handlers
+            document.querySelectorAll('.card-map-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (btn.dataset.dest) window.flyToDestination(btn.dataset.dest);
+                });
+            });
+        })();
+    </script>
 
     <!-- Scripts -->
     <script>
