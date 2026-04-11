@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>日本の魅力を巡る旅 — Japan Travel Guide</title>
+    <style>
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+            color: #2d2d2d;
+            line-height: 1.8;
+            background: #fafaf7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ===== Language Toggle ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1.5rem;
+            z-index: 200;
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .lang-toggle button {
+            border: none;
+            background: transparent;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #888;
+            transition: all 0.3s;
+            letter-spacing: 0.03em;
+            font-family: inherit;
+        }
+
+        .lang-toggle button.active {
+            background: #c2185b;
+            color: #fff;
+        }
+
+        .lang-toggle button:not(.active):hover {
+            color: #c2185b;
+            background: rgba(194, 24, 91, 0.06);
+        }
+
+        /* ===== Bilingual Text ===== */
+        [data-lang-en] {
+            display: none !important;
+        }
+
+        body.lang-en [data-lang-ja] {
+            display: none !important;
+        }
+
+        body.lang-en [data-lang-en] {
+            display: revert !important;
+        }
+
+        body.lang-en span[data-lang-en] {
+            display: inline !important;
+        }
+
+        body.lang-en div[data-lang-en] {
+            display: block !important;
+        }
+
+        body.lang-en p[data-lang-en] {
+            display: block !important;
+        }
+
+        body.lang-en h1[data-lang-en] {
+            display: block !important;
+        }
+
+        body.lang-en h2[data-lang-en] {
+            display: block !important;
+        }
+
+        body.lang-en h3[data-lang-en] {
+            display: block !important;
+        }
+
+        body.lang-en h4[data-lang-en] {
+            display: block !important;
+        }
+
+        /* ===== Photo Modal ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 720px;
+            width: 100%;
+            position: relative;
+            animation: modalSlideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            border: none;
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .modal-photo {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .modal-info {
+            padding: 1.8rem 2rem 2rem;
+        }
+
+        .modal-info h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-info .modal-sub {
+            color: #999;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .card {
+            cursor: pointer;
+        }
+
+        /* ===== Header / Hero ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #c2185b 25%, #7b1fa2 50%, #1565c0 75%, #00838f 100%);
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 183, 197, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 .hero-sub {
+            display: block;
+            font-size: 0.35em;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            max-width: 600px;
+            margin: 1rem auto 2rem;
+            opacity: 0.92;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 0.9rem 2.8rem;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+        .hero-cta:hover {
+            background: #fff;
+            color: #7b1fa2;
+        }
+
+        /* Sakura petals animation */
+        .sakura {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sakura .petal {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 183, 197, 0.7);
+            border-radius: 50% 0 50% 0;
+            animation: fall linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 0;
+                transform: translateY(-10%) rotate(0deg);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(110vh) rotate(720deg);
+            }
+        }
+
+        /* ===== Navigation ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #555;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c2185b;
+            transition: width 0.3s;
+        }
+
+        .nav a:hover {
+            color: #c2185b;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Section Shared ===== */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 3rem;
+            letter-spacing: 0.15em;
+        }
+
+        /* ===== Destination Cards ===== */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            transition: transform 0.35s, box-shadow 0.35s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 60%);
+        }
+
+        .card-season {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.92);
+            color: #c2185b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            z-index: 1;
+            letter-spacing: 0.05em;
+        }
+
+        .card-body {
+            padding: 1.8rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            color: #1a1a2e;
+        }
+
+        .card-body .card-en {
+            font-size: 0.8rem;
+            color: #aaa;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .card-body p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .card-highlights span {
+            background: #f5f0ff;
+            color: #7b1fa2;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+        }
+
+        /* Card color accents */
+        .card[data-accent="red"] .card-highlights span {
+            background: #fff0f0;
+            color: #c2185b;
+        }
+
+        .card[data-accent="blue"] .card-highlights span {
+            background: #e8f4fd;
+            color: #1565c0;
+        }
+
+        .card[data-accent="green"] .card-highlights span {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .card[data-accent="orange"] .card-highlights span {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .card[data-accent="teal"] .card-highlights span {
+            background: #e0f7fa;
+            color: #00838f;
+        }
+
+        .card[data-accent="purple"] .card-highlights span {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        /* Emoji icons for cards */
+        .card-image .card-emoji {
+            position: absolute;
+            bottom: 1rem;
+            left: 1.5rem;
+            font-size: 3rem;
+            z-index: 1;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* ===== Seasons Section ===== */
+        .seasons {
+            background: linear-gradient(135deg, #fce4ec 0%, #e8f5e9 50%, #e3f2fd 100%);
+        }
+
+        .seasons-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .season-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .season-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .season-card .season-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .season-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .season-card .season-months {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.8rem;
+        }
+
+        .season-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* ===== Tips Section ===== */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid #c2185b;
+        }
+
+        .tip-item h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #1a1a2e;
+        }
+
+        .tip-item p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: #1a1a2e;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+        }
+
+        footer .footer-links {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        footer .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        footer .footer-links a:hover {
+            color: #fff;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .nav {
+                gap: 1rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .nav a {
+                font-size: 0.8rem;
+            }
+
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3rem 1.2rem;
+            }
+
+            .seasons-inner {
+                padding: 3rem 1.2rem;
+            }
+
+            .lang-toggle {
+                top: 0.6rem;
+                right: 0.8rem;
+            }
+
+            .lang-toggle button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.78rem;
+            }
+        }
+
+        /* ===== Scroll animation ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle" id="langToggle">
+        <button class="active" data-lang="ja">日本語</button>
+        <button data-lang="en">English</button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="sakura" id="sakura"></div>
+        <div class="hero-content">
+            <h1 data-lang-ja>
+                <span class="hero-sub">Discover the beauty of</span>
+                日本の魅力を巡る旅
+            </h1>
+            <h1 data-lang-en>
+                <span class="hero-sub">Discover the beauty of</span>
+                Journey Through Japan
+            </h1>
+            <p data-lang-ja>古都の静寂から大都市の活気まで、四季折々の美しさに彩られた日本の魅力をご紹介します。</p>
+            <p data-lang-en>From the serene temples of ancient capitals to the electric energy of modern cities, explore
+                the
+                timeless beauty of Japan across all four seasons.</p>
+            <a href="#destinations" class="hero-cta" data-lang-ja>観光地を見る</a>
+            <a href="#destinations" class="hero-cta" data-lang-en>Explore Destinations</a>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#destinations" data-ja="観光地" data-en="Destinations">観光地</a>
+        <a href="#seasons" data-ja="四季の楽しみ" data-en="Four Seasons">四季の楽しみ</a>
+        <a href="#tips" data-ja="旅のヒント" data-en="Travel Tips">旅のヒント</a>
+    </nav>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="section">
+        <h2 class="section-title fade-in" data-lang-ja>人気の観光地</h2>
+        <h2 class="section-title fade-in" data-lang-en>Popular Destinations</h2>
+        <p class="section-subtitle fade-in" data-lang-ja>POPULAR DESTINATIONS</p>
+        <p class="section-subtitle fade-in" data-lang-en>POPULAR DESTINATIONS</p>
+
+        <div class="destinations-grid">
+
+            <!-- Tokyo -->
+            <article class="card fade-in" data-accent="red">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>通年おすすめ</span>
+                    <span class="card-season" data-lang-en>Year-round</span>
+                    <span class="card-emoji">🗼</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>東京</h3>
+                    <h3 data-lang-en>Tokyo</h3>
+                    <div class="card-en" data-lang-ja>TOKYO</div>
+                    <div class="card-en" data-lang-en>TOKYO</div>
+                    <p data-lang-ja>
+                        伝統と最先端が共存する世界最大級の都市。渋谷のスクランブル交差点、浅草の雷門、秋葉原のポップカルチャーなど、多彩な魅力が凝縮されています。新旧の文化が融合した唯一無二の都市体験をお楽しみください。
+                    </p>
+                    <p data-lang-en>A dazzling metropolis where ancient tradition meets cutting-edge innovation. Lose
+                        yourself in
+                        the neon-lit streets of Shibuya, discover the spiritual heart of Asakusa at the iconic
+                        Kaminarimon gate, and
+                        dive into the pop-culture wonderland of Akihabara. Tokyo offers a one-of-a-kind urban experience
+                        like
+                        nowhere else on Earth.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>浅草寺・雷門</span>
+                        <span>渋谷スクランブル</span>
+                        <span>新宿御苑</span>
+                        <span>秋葉原</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Senso-ji Temple</span>
+                        <span>Shibuya Crossing</span>
+                        <span>Shinjuku Gyoen</span>
+                        <span>Akihabara</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Kyoto -->
+            <article class="card fade-in" data-accent="purple">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>春・秋がベスト</span>
+                    <span class="card-season" data-lang-en>Best in Spring & Fall</span>
+                    <span class="card-emoji">⛩️</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>京都</h3>
+                    <h3 data-lang-en>Kyoto</h3>
+                    <div class="card-en" data-lang-ja>KYOTO</div>
+                    <div class="card-en" data-lang-en>KYOTO</div>
+                    <p data-lang-ja>
+                        千年の都として栄えた日本文化の中心地。金閣寺や伏見稲荷大社の朱色の千本鳥居、嵐山の竹林など、日本の美意識が凝縮された古都です。春の桜と秋の紅葉の季節は特に幻想的な景色が広がります。</p>
+                    <p data-lang-en>The cultural soul of Japan, where a thousand years of history come alive. Walk
+                        through the
+                        mesmerizing vermillion torii gates of Fushimi Inari, marvel at the golden splendor of
+                        Kinkaku-ji, and wander
+                        the enchanting bamboo groves of Arashiyama. In spring and autumn, the city transforms into a
+                        breathtaking
+                        canvas of cherry blossoms and fiery maple leaves.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>伏見稲荷大社</span>
+                        <span>金閣寺</span>
+                        <span>嵐山竹林</span>
+                        <span>祇園</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Fushimi Inari Shrine</span>
+                        <span>Kinkaku-ji</span>
+                        <span>Arashiyama Bamboo</span>
+                        <span>Gion District</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Osaka -->
+            <article class="card fade-in" data-accent="orange">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1590559899731-a382839e5549?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>通年おすすめ</span>
+                    <span class="card-season" data-lang-en>Year-round</span>
+                    <span class="card-emoji">🏯</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>大阪</h3>
+                    <h3 data-lang-en>Osaka</h3>
+                    <div class="card-en" data-lang-ja>OSAKA</div>
+                    <div class="card-en" data-lang-en>OSAKA</div>
+                    <p data-lang-ja>
+                        「天下の台所」と称される食い倒れの街。道頓堀のネオン輝く繁華街、大阪城の雄大な姿、そして何より、たこ焼き・お好み焼き・串カツなど絶品グルメの宝庫です。人情味あふれる活気ある街をお楽しみください。
+                    </p>
+                    <p data-lang-en>Japan's kitchen and the nation's street-food capital. Stroll through the
+                        neon-drenched
+                        Dotonbori district, stand in awe before the majestic Osaka Castle, and feast on legendary
+                        takoyaki,
+                        okonomiyaki, and kushikatsu. Known for its warm hospitality and infectious energy, Osaka is a
+                        city that
+                        feeds both body and soul.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>道頓堀</span>
+                        <span>大阪城</span>
+                        <span>通天閣</span>
+                        <span>食い倒れグルメ</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Dotonbori</span>
+                        <span>Osaka Castle</span>
+                        <span>Tsutenkaku Tower</span>
+                        <span>Street Food</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Mt. Fuji -->
+            <article class="card fade-in" data-accent="blue">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>登山: 7〜9月</span>
+                    <span class="card-season" data-lang-en>Climbing: Jul–Sep</span>
+                    <span class="card-emoji">🗻</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>富士山</h3>
+                    <h3 data-lang-en>Mt. Fuji</h3>
+                    <div class="card-en" data-lang-ja>MT. FUJI</div>
+                    <div class="card-en" data-lang-en>MT. FUJI</div>
+                    <p data-lang-ja>
+                        標高3,776m、日本の象徴として世界文化遺産に登録された霊峰。河口湖や山中湖から望む雄大な姿、ご来光を目指す登山体験など、日本を訪れたら必ず見たい絶景です。周辺の五湖エリアも四季を通じて美しい景色が楽しめます。
+                    </p>
+                    <p data-lang-en>Standing at 3,776 meters, Japan's iconic sacred peak and UNESCO World Heritage Site
+                        is an
+                        absolute must-see. Watch the sunrise from the summit, admire its perfectly symmetrical
+                        silhouette from the
+                        shores of Lake Kawaguchi, or explore the stunning Five Lakes region that offers spectacular
+                        views
+                        year-round.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>ご来光</span>
+                        <span>富士五湖</span>
+                        <span>忍野八海</span>
+                        <span>登山体験</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Sunrise Summit</span>
+                        <span>Fuji Five Lakes</span>
+                        <span>Oshino Hakkai</span>
+                        <span>Climbing Trail</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Okinawa -->
+            <article class="card fade-in" data-accent="teal">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>4〜10月がベスト</span>
+                    <span class="card-season" data-lang-en>Best: Apr–Oct</span>
+                    <span class="card-emoji">🏝️</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>沖縄</h3>
+                    <h3 data-lang-en>Okinawa</h3>
+                    <div class="card-en" data-lang-ja>OKINAWA</div>
+                    <div class="card-en" data-lang-en>OKINAWA</div>
+                    <p data-lang-ja>
+                        エメラルドグリーンの海と独自の琉球文化が魅力の南国リゾート。美ら海水族館の巨大水槽、首里城の歴史、世界屈指の透明度を誇るビーチでのダイビングなど、本土とは異なる特別な日本を体験できます。
+                    </p>
+                    <p data-lang-en>Japan's tropical paradise, where emerald waters meet a rich Ryukyu heritage unlike
+                        anything on
+                        the mainland. Dive into crystal-clear seas ranked among the world's best, explore the majestic
+                        Churaumi
+                        Aquarium, and discover the storied history of Shuri Castle. Okinawa is a sun-soaked escape that
+                        feels like
+                        another world.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>美ら海水族館</span>
+                        <span>首里城</span>
+                        <span>慶良間諸島</span>
+                        <span>琉球文化</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Churaumi Aquarium</span>
+                        <span>Shuri Castle</span>
+                        <span>Kerama Islands</span>
+                        <span>Ryukyu Culture</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Hokkaido -->
+            <article class="card fade-in" data-accent="green">
+                <div class="card-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?w=800&q=80');">
+                    <span class="card-season" data-lang-ja>夏・冬がベスト</span>
+                    <span class="card-season" data-lang-en>Best: Summer & Winter</span>
+                    <span class="card-emoji">❄️</span>
+                </div>
+                <div class="card-body">
+                    <h3 data-lang-ja>北海道</h3>
+                    <h3 data-lang-en>Hokkaido</h3>
+                    <div class="card-en" data-lang-ja>HOKKAIDO</div>
+                    <div class="card-en" data-lang-en>HOKKAIDO</div>
+                    <p data-lang-ja>
+                        広大な大自然と美食の宝庫。夏はラベンダー畑が広がる富良野、冬は世界的に有名なニセコのパウダースノーでスキーが楽しめます。札幌の味噌ラーメン、海鮮丼、ジンギスカンなど北の大地ならではのグルメも必見です。
+                    </p>
+                    <p data-lang-en>A vast northern wonderland renowned for pristine nature and world-class cuisine. In
+                        summer,
+                        endless lavender fields paint Furano in purple hues. In winter, Niseko's legendary powder snow
+                        draws skiers
+                        from around the globe. Don't miss Sapporo's famous miso ramen, fresh seafood bowls, and sizzling
+                        Genghis
+                        Khan lamb barbecue.</p>
+                    <div class="card-highlights" data-lang-ja>
+                        <span>富良野ラベンダー</span>
+                        <span>ニセコスキー</span>
+                        <span>小樽運河</span>
+                        <span>札幌グルメ</span>
+                    </div>
+                    <div class="card-highlights" data-lang-en>
+                        <span>Furano Lavender</span>
+                        <span>Niseko Skiing</span>
+                        <span>Otaru Canal</span>
+                        <span>Sapporo Cuisine</span>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Seasons Section -->
+    <section id="seasons" class="seasons">
+        <div class="seasons-inner">
+            <h2 class="section-title fade-in" data-lang-ja>四季の楽しみ方</h2>
+            <h2 class="section-title fade-in" data-lang-en>Four Seasons of Japan</h2>
+            <p class="section-subtitle fade-in" data-lang-ja>FOUR SEASONS OF JAPAN</p>
+            <p class="section-subtitle fade-in" data-lang-en>FOUR SEASONS OF JAPAN</p>
+
+            <div class="seasons-grid">
+                <!-- Spring -->
+                <div class="season-card fade-in">
+                    <div class="season-icon">🌸</div>
+                    <h3 data-lang-ja>春 — Spring</h3>
+                    <h3 data-lang-en>Spring</h3>
+                    <div class="season-months" data-lang-ja>3月〜5月</div>
+                    <div class="season-months" data-lang-en>March – May</div>
+                    <p data-lang-ja>桜が日本全国を淡いピンクに染める季節。花見文化を体験し、京都や東京の名所で幻想的な桜並木を楽しめます。気候も穏やかで観光に最適です。</p>
+                    <p data-lang-en>Cherry blossoms blanket the entire country in delicate pink. Join locals for hanami
+                        picnics
+                        beneath the trees, stroll through Kyoto's and Tokyo's most celebrated spots, and enjoy the mild,
+                        perfect-for-sightseeing weather.</p>
+                </div>
+                <!-- Summer -->
+                <div class="season-card fade-in">
+                    <div class="season-icon">🌻</div>
+                    <h3 data-lang-ja>夏 — Summer</h3>
+                    <h3 data-lang-en>Summer</h3>
+                    <div class="season-months" data-lang-ja>6月〜8月</div>
+                    <div class="season-months" data-lang-en>June – August</div>
+                    <p data-lang-ja>花火大会や夏祭りで日本の活気を肌で感じられます。北海道の涼しい高原、沖縄の美しいビーチなど、避暑地でのアクティビティも豊富です。</p>
+                    <p data-lang-en>Experience Japan at its most vibrant with spectacular fireworks festivals and lively
+                        summer
+                        matsuri. Escape the heat in Hokkaido's cool highlands or dive into Okinawa's turquoise waters
+                        for
+                        unforgettable adventures.</p>
+                </div>
+                <!-- Autumn -->
+                <div class="season-card fade-in">
+                    <div class="season-icon">🍁</div>
+                    <h3 data-lang-ja>秋 — Autumn</h3>
+                    <h3 data-lang-en>Autumn</h3>
+                    <div class="season-months" data-lang-ja>9月〜11月</div>
+                    <div class="season-months" data-lang-en>September – November</div>
+                    <p data-lang-ja>山々が赤や黄金色に染まる紅葉の季節。京都の寺社仏閣と紅葉の組み合わせは息をのむ美しさ。秋の味覚も楽しめる食欲の秋です。</p>
+                    <p data-lang-en>Mountains erupt in fiery reds and golden hues as autumn foliage sweeps across the
+                        land.
+                        Kyoto's temples framed by crimson maple leaves are simply stunning. It's also the season of
+                        harvest — savor
+                        chestnuts, persimmons, and seasonal delicacies.</p>
+                </div>
+                <!-- Winter -->
+                <div class="season-card fade-in">
+                    <div class="season-icon">⛄</div>
+                    <h3 data-lang-ja>冬 — Winter</h3>
+                    <h3 data-lang-en>Winter</h3>
+                    <div class="season-months" data-lang-ja>12月〜2月</div>
+                    <div class="season-months" data-lang-en>December – February</div>
+                    <p data-lang-ja>世界最高品質のパウダースノーでウィンタースポーツを満喫。温泉で心身を癒し、雪景色の中のライトアップイベントは冬ならではの絶景です。</p>
+                    <p data-lang-en>Carve through the world's finest powder snow, then unwind in a steaming onsen hot
+                        spring.
+                        Winter illumination events transform snowy landscapes into magical wonderlands — an experience
+                        unique to
+                        Japan's coldest months.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Tips Section -->
+    <section id="tips" class="section">
+        <h2 class="section-title fade-in" data-lang-ja>旅のヒント</h2>
+        <h2 class="section-title fade-in" data-lang-en>Travel Tips</h2>
+        <p class="section-subtitle fade-in" data-lang-ja>TRAVEL TIPS</p>
+        <p class="section-subtitle fade-in" data-lang-en>TRAVEL TIPS</p>
+
+        <div class="tips-grid">
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>🚄 交通手段</h4>
+                <h4 data-lang-en>🚄 Getting Around</h4>
+                <p data-lang-ja>ジャパン・レール・パス（JR Pass）を活用すれば、新幹線を含むJR全線が乗り放題。都市間の移動が格段にお得になります。ICカード（Suica/PASMO）も便利です。
+                </p>
+                <p data-lang-en>The Japan Rail Pass (JR Pass) gives you unlimited access to the entire JR network,
+                    including
+                    bullet trains — making intercity travel fast and affordable. Grab a Suica or PASMO IC card for
+                    seamless local
+                    transit.</p>
+            </div>
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>💴 通貨・支払い</h4>
+                <h4 data-lang-en>💴 Money & Payments</h4>
+                <p data-lang-ja>通貨は日本円（JPY）。近年はクレジットカードや電子決済が普及していますが、小さなお店や地方では現金が必要な場合もあります。コンビニATMが便利です。</p>
+                <p data-lang-en>The currency is the Japanese Yen (JPY). While credit cards and digital payments are
+                    increasingly
+                    accepted, some smaller shops and rural areas still prefer cash. Convenience store ATMs (7-Eleven,
+                    Lawson) are
+                    your best friend for withdrawals.</p>
+            </div>
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>🗣️ 言語</h4>
+                <h4 data-lang-en>🗣️ Language</h4>
+                <p data-lang-ja>主要観光地では英語の案内が充実しています。翻訳アプリを活用すれば言葉の壁も心配ありません。簡単な日本語の挨拶を覚えると現地の方に喜ばれます。</p>
+                <p data-lang-en>Major tourist areas offer English signage and information. Translation apps make
+                    communication a
+                    breeze anywhere you go. Learning a few Japanese phrases like "arigatou" (thank you) and "sumimasen"
+                    (excuse
+                    me) will earn you warm smiles from locals.</p>
+            </div>
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>🏨 宿泊</h4>
+                <h4 data-lang-en>🏨 Accommodation</h4>
+                <p data-lang-ja>ホテルから旅館、ゲストハウスまで多彩な選択肢。日本ならではの旅館に泊まり、畳の部屋で温泉と懐石料理を堪能する体験は格別です。</p>
+                <p data-lang-en>From modern hotels to traditional ryokan inns and cozy guesthouses, Japan offers
+                    something for
+                    every traveler. Staying at a ryokan — sleeping on tatami, soaking in a private onsen, and savoring a
+                    multi-course kaiseki dinner — is an unmissable cultural experience.</p>
+            </div>
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>🍽️ 食文化</h4>
+                <h4 data-lang-en>🍽️ Food Culture</h4>
+                <p data-lang-ja>寿司、ラーメン、天ぷら、和牛など世界に誇る日本食。コンビニグルメやデパ地下も侮れません。食べ歩きも旅の醍醐味のひとつです。</p>
+                <p data-lang-en>Sushi, ramen, tempura, wagyu beef — Japanese cuisine is a world treasure. Don't overlook
+                    convenience store gems and the stunning "depachika" (department store basement) food halls.
+                    Street-food crawls
+                    through local markets are a delicious way to explore any city.</p>
+            </div>
+            <div class="tip-item fade-in">
+                <h4 data-lang-ja>📱 通信環境</h4>
+                <h4 data-lang-en>📱 Connectivity</h4>
+                <p data-lang-ja>空港でSIMカードやポケットWi-Fiをレンタル可能。主要観光地やコンビニでは無料Wi-Fiも利用できます。事前予約がおすすめです。</p>
+                <p data-lang-en>Pick up a SIM card or pocket Wi-Fi at the airport for reliable internet on the go. Free
+                    Wi-Fi is
+                    available at major tourist spots and convenience stores. Pre-booking online often gets you the best
+                    rates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#destinations" data-ja="観光地" data-en="Destinations">観光地</a>
+            <a href="#seasons" data-ja="四季の楽しみ" data-en="Four Seasons">四季の楽しみ</a>
+            <a href="#tips" data-ja="旅のヒント" data-en="Travel Tips">旅のヒント</a>
+        </div>
+        <p data-lang-ja>日本の魅力を巡る旅 &copy; 2026 — Japan Travel Guide</p>
+        <p data-lang-en>Journey Through Japan &copy; 2026 — Japan Travel Guide</p>
+    </footer>
+
+    <!-- Photo Modal -->
+    <div class="modal-overlay" id="photoModal">
+        <div class="modal-box" id="modalBox">
+            <button class="modal-close" id="modalClose">&#x2715;</button>
+            <div class="modal-photo" id="modalPhoto"></div>
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <div class="modal-sub" id="modalSub"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Sakura petals
+        (function () {
+            var container = document.getElementById('sakura');
+            for (var i = 0; i < 30; i++) {
+                var petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.width = (8 + Math.random() * 10) + 'px';
+                petal.style.height = petal.style.width;
+                petal.style.animationDuration = (6 + Math.random() * 8) + 's';
+                petal.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(petal);
+            }
+        })();
+
+        // Scroll fade-in
+        (function () {
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(function (el) {
+                observer.observe(el);
+            });
+        })();
+
+        // Language toggle
+        (function () {
+            var toggle = document.getElementById('langToggle');
+            var buttons = toggle.querySelectorAll('button');
+            var currentLang = 'ja';
+
+            function updateBilingualLinks(lang) {
+                document.querySelectorAll('[data-ja][data-en]').forEach(function (el) {
+                    el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ja;
+                });
+            }
+
+            buttons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var lang = this.getAttribute('data-lang');
+                    if (lang === currentLang) return;
+                    currentLang = lang;
+
+                    buttons.forEach(function (b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+
+                    if (lang === 'en') {
+                        document.body.classList.add('lang-en');
+                        document.documentElement.lang = 'en';
+                    } else {
+                        document.body.classList.remove('lang-en');
+                        document.documentElement.lang = 'ja';
+                    }
+                    updateBilingualLinks(lang);
+                });
+            });
+
+            updateBilingualLinks('ja');
+        })();
+
+        // Photo Modal
+        (function () {
+            var destinations = [
+                {
+                    selector: '[data-accent="red"]',
+                    titleJa: '東京', titleEn: 'Tokyo',
+                    subJa: '伝統と最先端が共存する世界最大級の都市', subEn: 'Where tradition meets cutting-edge innovation',
+                    img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=900&q=85'
+                },
+                {
+                    selector: '[data-accent="purple"]',
+                    titleJa: '京都', titleEn: 'Kyoto',
+                    subJa: '千年の都、日本文化の中心地', subEn: 'The cultural soul of Japan',
+                    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900&q=85'
+                },
+                {
+                    selector: '[data-accent="orange"]',
+                    titleJa: '大阪', titleEn: 'Osaka',
+                    subJa: '食い倒れの街、天下の台所', subEn: "Japan's kitchen and street-food capital",
+                    img: 'https://images.unsplash.com/photo-1590559899731-a382839e5549?w=900&q=85'
+                },
+                {
+                    selector: '[data-accent="blue"]',
+                    titleJa: '富士山', titleEn: 'Mt. Fuji',
+                    subJa: '日本の象徴、世界文化遺産の霊峰', subEn: "Japan's iconic sacred peak",
+                    img: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=900&q=85'
+                },
+                {
+                    selector: '[data-accent="teal"]',
+                    titleJa: '沖縄', titleEn: 'Okinawa',
+                    subJa: 'エメラルドグリーンの海と琉球文化', subEn: "Japan's tropical paradise",
+                    img: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=900&q=85'
+                },
+                {
+                    selector: '[data-accent="green"]',
+                    titleJa: '北海道', titleEn: 'Hokkaido',
+                    subJa: '広大な大自然と美食の宝庫', subEn: 'A vast northern wonderland',
+                    img: 'https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?w=900&q=85'
+                }
+            ];
+
+            var overlay = document.getElementById('photoModal');
+            var modalPhoto = document.getElementById('modalPhoto');
+            var modalTitle = document.getElementById('modalTitle');
+            var modalSub = document.getElementById('modalSub');
+
+            function openModal(dest) {
+                var isEn = document.body.classList.contains('lang-en');
+                modalPhoto.style.backgroundImage = 'url("' + dest.img + '")';
+                modalTitle.textContent = isEn ? dest.titleEn : dest.titleJa;
+                modalSub.textContent = isEn ? dest.subEn : dest.subJa;
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            destinations.forEach(function (dest) {
+                var card = document.querySelector('.card' + dest.selector);
+                if (card) {
+                    card.addEventListener('click', function () { openModal(dest); });
+                }
+            });
+
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) closeModal();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeModal();
+            });
+        })();
+    </script>
+
+</body>
+
+</html>
