@@ -870,10 +870,1457 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* ===== Back to Top Button ===== */
+        #backToTop {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: #c2185b;
+            color: #fff;
+            border: none;
+            font-size: 1.4rem;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(194, 24, 91, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.3s ease;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #backToTop:hover {
+            background: #a01649;
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(160, 22, 73, 0.45);
+        }
+        #backToTop:focus {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        /* ===== Climate Section (Monthly Climate Guide) ===== */
+        #climate {
+            background: #fff9f9;
+        }
+        .climate-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin: 1.5rem auto 2rem;
+            max-width: 900px;
+        }
+        .climate-tab {
+            padding: 0.55rem 1.4rem;
+            border: 2px solid #c2185b;
+            border-radius: 50px;
+            background: #fff;
+            color: #c2185b;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            font-family: inherit;
+        }
+        .climate-tab:hover {
+            background: #fce4ec;
+            transform: translateY(-2px);
+        }
+        .climate-tab.active {
+            background: #c2185b;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(194, 24, 91, 0.3);
+        }
+        .climate-table-wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            overflow-x: auto;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(194, 24, 91, 0.08);
+            background: #fff;
+        }
+        .climate-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 560px;
+        }
+        .climate-table thead tr {
+            background: #c2185b;
+            color: #fff;
+        }
+        .climate-table th {
+            padding: 1rem 0.8rem;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .climate-table td {
+            padding: 0.8rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #f8bbd0;
+            color: #2d2d2d;
+        }
+        .climate-table tbody tr:nth-child(even) {
+            background: #fdf4f7;
+        }
+        .climate-table tbody tr:hover {
+            background: #fce4ec;
+        }
+        .climate-table .climate-temp {
+            font-weight: 700;
+            color: #c2185b;
+        }
+        .climate-table .climate-rating {
+            color: #c2185b;
+            letter-spacing: 3px;
+            font-size: 1rem;
+        }
+        @media (max-width: 768px) {
+            .climate-table {
+                font-size: 0.82rem;
+                min-width: 520px;
+            }
+            .climate-table th {
+                padding: 0.75rem 0.5rem;
+            }
+            .climate-table td {
+                padding: 0.6rem 0.5rem;
+            }
+            .climate-tab {
+                padding: 0.45rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+
+    <!-- Quiz & Planner CSS -->
+    <style>
+    /* ===== Quiz Section ===== */
+    #quiz {
+        background: linear-gradient(160deg, #fff9fb 0%, #f3e5f5 40%, #e8f4fd 100%);
+    }
+
+    .quiz-wrapper {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    /* Progress Bar */
+    .quiz-progress-bar-container {
+        background: rgba(194, 24, 91, 0.12);
+        border-radius: 50px;
+        height: 8px;
+        margin-bottom: 2.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .quiz-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #c2185b, #7b1fa2);
+        border-radius: 50px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 0%;
+    }
+
+    .quiz-progress-label {
+        text-align: center;
+        font-size: 0.82rem;
+        color: #aaa;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Question Container */
+    .quiz-question-container {
+        position: relative;
+        min-height: 320px;
+    }
+
+    .quiz-question {
+        display: none;
+        animation: quizSlideIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quiz-question.active {
+        display: block;
+    }
+
+    .quiz-question.slide-out {
+        animation: quizSlideOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes quizSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes quizSlideOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+    }
+
+    .quiz-question-number {
+        display: inline-block;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+    }
+
+    .quiz-question h3 {
+        font-size: clamp(1.3rem, 3vw, 1.7rem);
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+
+    .quiz-question h3[data-lang-en] {
+        display: none;
+        font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+    }
+
+    body.lang-en .quiz-question h3[data-lang-ja] {
+        display: none !important;
+    }
+
+    body.lang-en .quiz-question h3[data-lang-en] {
+        display: block !important;
+    }
+
+    .quiz-answers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        margin-top: 1.5rem;
+    }
+
+    .quiz-answer-btn {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.4rem;
+        border: 2px solid rgba(194, 24, 91, 0.18);
+        border-radius: 16px;
+        background: #fff;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2d2d2d;
+        text-align: left;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-answer-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        opacity: 0;
+        transition: opacity 0.25s;
+    }
+
+    .quiz-answer-btn:hover {
+        border-color: #c2185b;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(194, 24, 91, 0.18);
+    }
+
+    .quiz-answer-btn:hover::before {
+        opacity: 0.06;
+    }
+
+    .quiz-answer-btn.selected {
+        border-color: #c2185b;
+        background: linear-gradient(135deg, rgba(194, 24, 91, 0.08), rgba(123, 31, 162, 0.08));
+        color: #c2185b;
+    }
+
+    .quiz-answer-icon {
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .quiz-answer-text {
+        position: relative;
+        z-index: 1;
+        line-height: 1.3;
+    }
+
+    .quiz-answer-text .ja-text {
+        display: block;
+        font-size: 0.95rem;
+    }
+
+    .quiz-answer-text .en-text {
+        display: block;
+        font-size: 0.78rem;
+        color: #999;
+        font-weight: 500;
+        margin-top: 0.1rem;
+    }
+
+    body.lang-en .quiz-answer-btn .ja-text {
+        display: none !important;
+    }
+
+    body.lang-en .quiz-answer-btn .en-text {
+        font-size: 0.95rem;
+        color: inherit;
+        font-weight: 600;
+    }
+
+    /* Horizontal answer layout for Q2 and Q3 (2 options) */
+    .quiz-answers.quiz-answers-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .quiz-answers.quiz-answers-row .quiz-answer-btn {
+        flex: 1;
+        min-width: 160px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.4rem 1rem;
+    }
+
+    .quiz-answers.quiz-answers-row .quiz-answer-text {
+        text-align: center;
+    }
+
+    /* Result Card */
+    .quiz-result {
+        display: none;
+        animation: quizSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quiz-result.active {
+        display: block;
+    }
+
+    .quiz-result-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-result-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #c2185b, #7b1fa2, #1565c0);
+    }
+
+    .quiz-result-confetti {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        animation: confettiFall 2.5s ease-in forwards;
+    }
+
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(-20px) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(300px) rotate(540deg);
+            opacity: 0;
+        }
+    }
+
+    .quiz-result-emoji {
+        font-size: 5rem;
+        margin-bottom: 0.5rem;
+        animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        display: inline-block;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0); opacity: 0; }
+        60% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .quiz-result-tag {
+        display: inline-block;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        padding: 0.3rem 1.2rem;
+        border-radius: 50px;
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .quiz-result-name {
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        font-weight: 900;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+        line-height: 1.1;
+    }
+
+    .quiz-result-name-en {
+        font-size: 1rem;
+        color: #aaa;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+    }
+
+    .quiz-result-desc {
+        font-size: 0.98rem;
+        color: #555;
+        max-width: 480px;
+        margin: 0 auto 1.8rem;
+        line-height: 1.8;
+    }
+
+    .quiz-result-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .quiz-btn-primary {
+        padding: 0.75rem 2rem;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        box-shadow: 0 6px 20px rgba(194, 24, 91, 0.3);
+        letter-spacing: 0.03em;
+    }
+
+    .quiz-btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(194, 24, 91, 0.4);
+    }
+
+    .quiz-btn-secondary {
+        padding: 0.75rem 2rem;
+        background: transparent;
+        color: #7b1fa2;
+        border: 2px solid #7b1fa2;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        letter-spacing: 0.03em;
+    }
+
+    .quiz-btn-secondary:hover {
+        background: #7b1fa2;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(123, 31, 162, 0.3);
+    }
+
+    /* ===== Planner Section ===== */
+    #planner {
+        background: #fff;
+    }
+
+    .planner-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Planner Card */
+    .planner-card {
+        background: #fafaf7;
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+        margin-bottom: 2.5rem;
+    }
+
+    .planner-step-label {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .planner-step-num {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .planner-step-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    /* Day selector buttons */
+    .planner-day-btns {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .planner-day-btn {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        border: 2px solid rgba(194, 24, 91, 0.25);
+        background: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #555;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .planner-day-btn:hover {
+        border-color: #c2185b;
+        color: #c2185b;
+        transform: scale(1.08);
+    }
+
+    .planner-day-btn.active {
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(194, 24, 91, 0.35);
+        transform: scale(1.08);
+    }
+
+    /* Destination checkboxes */
+    .planner-dest-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+    }
+
+    .planner-dest-item {
+        position: relative;
+    }
+
+    .planner-dest-item input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .planner-dest-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 1rem 0.6rem;
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.25s;
+        text-align: center;
+        user-select: none;
+    }
+
+    .planner-dest-label:hover {
+        border-color: #c2185b;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(194, 24, 91, 0.12);
+    }
+
+    .planner-dest-item input:checked + .planner-dest-label {
+        border-color: #c2185b;
+        background: linear-gradient(135deg, rgba(194, 24, 91, 0.07), rgba(123, 31, 162, 0.07));
+        box-shadow: 0 6px 18px rgba(194, 24, 91, 0.15);
+    }
+
+    .planner-dest-emoji {
+        font-size: 2rem;
+    }
+
+    .planner-dest-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .planner-dest-name-en {
+        font-size: 0.72rem;
+        color: #aaa;
+    }
+
+    .planner-max-hint {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-top: 0.8rem;
+    }
+
+    /* Generate Button */
+    .planner-generate-btn {
+        display: block;
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+        padding: 1.1rem 2rem;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        box-shadow: 0 8px 24px rgba(194, 24, 91, 0.3);
+        letter-spacing: 0.04em;
+    }
+
+    .planner-generate-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 32px rgba(194, 24, 91, 0.4);
+    }
+
+    .planner-generate-btn:active {
+        transform: translateY(-1px);
+    }
+
+    /* Schedule Output */
+    .planner-schedule {
+        display: none;
+        animation: quizSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .planner-schedule.active {
+        display: block;
+    }
+
+    .planner-schedule-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .planner-schedule-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+    }
+
+    .planner-schedule-sub {
+        font-size: 0.88rem;
+        color: #aaa;
+        letter-spacing: 0.08em;
+    }
+
+    /* Day Row */
+    .planner-day-row {
+        margin-bottom: 1.8rem;
+    }
+
+    .planner-day-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .planner-day-badge {
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 800;
+        padding: 0.35rem 1.1rem;
+        border-radius: 50px;
+        letter-spacing: 0.06em;
+        flex-shrink: 0;
+    }
+
+    .planner-day-dest-tag {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.25rem 0.85rem;
+        border-radius: 20px;
+        letter-spacing: 0.04em;
+    }
+
+    /* Activity Cards */
+    .planner-activities {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+
+    .planner-activity {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #c2185b;
+        transition: transform 0.25s;
+    }
+
+    .planner-activity:hover {
+        transform: translateY(-3px);
+    }
+
+    .planner-activity-time {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #aaa;
+        margin-bottom: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .planner-activity-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        line-height: 1.4;
+    }
+
+    .planner-activity-name-en {
+        font-size: 0.76rem;
+        color: #aaa;
+        margin-top: 0.2rem;
+        line-height: 1.3;
+    }
+
+    body.lang-en .planner-activity-name {
+        display: none !important;
+    }
+
+    body.lang-en .planner-activity-name-en {
+        display: block !important;
+        font-size: 0.88rem;
+        color: #1a1a2e;
+        font-weight: 700;
+    }
+
+    /* Destination color themes for activity borders */
+    .planner-activity[data-dest="tokyo"] { border-top-color: #c2185b; }
+    .planner-activity[data-dest="kyoto"] { border-top-color: #7b1fa2; }
+    .planner-activity[data-dest="osaka"] { border-top-color: #e65100; }
+    .planner-activity[data-dest="fuji"] { border-top-color: #1565c0; }
+    .planner-activity[data-dest="okinawa"] { border-top-color: #00838f; }
+    .planner-activity[data-dest="hokkaido"] { border-top-color: #2e7d32; }
+
+    /* Activity card soft bg per destination */
+    .planner-activity[data-dest="tokyo"] { background: #fff9fa; }
+    .planner-activity[data-dest="kyoto"] { background: #fdf5ff; }
+    .planner-activity[data-dest="osaka"] { background: #fff8f0; }
+    .planner-activity[data-dest="fuji"] { background: #f0f4ff; }
+    .planner-activity[data-dest="okinawa"] { background: #f0fbfc; }
+    .planner-activity[data-dest="hokkaido"] { background: #f0faf0; }
+
+    /* Destination day tag colors */
+    .planner-day-dest-tag[data-dest="tokyo"] { background: #fff0f0; color: #c2185b; }
+    .planner-day-dest-tag[data-dest="kyoto"] { background: #f3e5f5; color: #7b1fa2; }
+    .planner-day-dest-tag[data-dest="osaka"] { background: #fff3e0; color: #e65100; }
+    .planner-day-dest-tag[data-dest="fuji"] { background: #e8f4fd; color: #1565c0; }
+    .planner-day-dest-tag[data-dest="okinawa"] { background: #e0f7fa; color: #00838f; }
+    .planner-day-dest-tag[data-dest="hokkaido"] { background: #e8f5e9; color: #2e7d32; }
+
+    .planner-reset-btn {
+        display: block;
+        margin: 2rem auto 0;
+        padding: 0.7rem 2rem;
+        background: transparent;
+        color: #7b1fa2;
+        border: 2px solid #7b1fa2;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        letter-spacing: 0.03em;
+    }
+
+    .planner-reset-btn:hover {
+        background: #7b1fa2;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(123, 31, 162, 0.28);
+    }
+
+    /* No destination selected warning */
+    .planner-no-dest-msg {
+        display: none;
+        text-align: center;
+        color: #c2185b;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 0.8rem;
+        padding: 0.6rem 1rem;
+        background: rgba(194, 24, 91, 0.06);
+        border-radius: 10px;
+        animation: quizSlideIn 0.3s ease;
+    }
+
+    /* ===== Responsive — Quiz & Planner ===== */
+    @media (max-width: 768px) {
+        .quiz-answers.quiz-answers-row {
+            flex-direction: column;
+        }
+
+        .quiz-answers.quiz-answers-row .quiz-answer-btn {
+            flex-direction: row;
+            text-align: left;
+            align-items: center;
+        }
+
+        .quiz-answers.quiz-answers-row .quiz-answer-text {
+            text-align: left;
+        }
+
+        .quiz-result-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .quiz-btn-primary,
+        .quiz-btn-secondary {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .planner-dest-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .planner-activities {
+            grid-template-columns: 1fr;
+        }
+
+        .planner-card {
+            padding: 1.8rem 1.2rem;
+        }
+
+        .planner-day-badge {
+            font-size: 0.78rem;
+            padding: 0.3rem 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .planner-dest-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quiz-result-card {
+            padding: 1.8rem 1.2rem;
+        }
+
+        .quiz-result-emoji {
+            font-size: 3.5rem;
+        }
+    }
+    </style>
+
+    <!-- Gourmet & Filter CSS -->
+    <style>
+
+/* ===== Gourmet Section ===== */
+#gourmet {
+    padding: 5rem 2rem;
+    background: linear-gradient(160deg, #fff9f0 0%, #fafaf7 60%, #f9f0f5 100%);
+    overflow: hidden;
+}
+
+#gourmet .section-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+}
+
+#gourmet .section-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #888;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+}
+
+.gourmet-intro {
+    max-width: 720px;
+    margin: 0 auto 3.5rem;
+    text-align: center;
+}
+
+.gourmet-intro p {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.9;
+}
+
+.gourmet-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gourmet-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.gourmet-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gourmet-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+}
+
+.gourmet-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 140px;
+    font-size: 5rem;
+    line-height: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Distinct gradients per card via data attribute */
+.gourmet-card[data-dish="takoyaki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+}
+.gourmet-card[data-dish="sushi"] .gourmet-card-top {
+    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+}
+.gourmet-card[data-dish="ramen"] .gourmet-card-top {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
+.gourmet-card[data-dish="okonomiyaki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%);
+}
+.gourmet-card[data-dish="kaisendon"] .gourmet-card-top {
+    background: linear-gradient(135deg, #00838f 0%, #006064 100%);
+}
+.gourmet-card[data-dish="okinawa-soba"] .gourmet-card-top {
+    background: linear-gradient(135deg, #00796b 0%, #004d40 100%);
+}
+.gourmet-card[data-dish="kaiseki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+}
+.gourmet-card[data-dish="yakisoba"] .gourmet-card-top {
+    background: linear-gradient(135deg, #558b2f 0%, #33691e 100%);
+}
+
+.gourmet-card-top .food-emoji {
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gourmet-card:hover .food-emoji {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+.gourmet-card-body {
+    padding: 1.2rem 1.3rem 1.4rem;
+}
+
+.gourmet-dish-name {
+    margin-bottom: 0.4rem;
+}
+
+.gourmet-dish-name h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.3;
+}
+
+.gourmet-dish-name h3 span.dish-en {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #888;
+    display: block;
+    margin-top: 0.1rem;
+    letter-spacing: 0.03em;
+}
+
+.gourmet-region-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.04em;
+}
+
+.gourmet-card[data-dish="takoyaki"] .gourmet-region-badge,
+.gourmet-card[data-dish="okonomiyaki"] .gourmet-region-badge {
+    background: rgba(230, 81, 0, 0.12);
+    color: #e65100;
+}
+.gourmet-card[data-dish="sushi"] .gourmet-region-badge {
+    background: rgba(21, 101, 192, 0.12);
+    color: #1565c0;
+}
+.gourmet-card[data-dish="ramen"] .gourmet-region-badge,
+.gourmet-card[data-dish="kaisendon"] .gourmet-region-badge {
+    background: rgba(46, 125, 50, 0.12);
+    color: #2e7d32;
+}
+.gourmet-card[data-dish="okinawa-soba"] .gourmet-region-badge {
+    background: rgba(0, 131, 143, 0.12);
+    color: #00838f;
+}
+.gourmet-card[data-dish="kaiseki"] .gourmet-region-badge {
+    background: rgba(123, 31, 162, 0.12);
+    color: #7b1fa2;
+}
+.gourmet-card[data-dish="yakisoba"] .gourmet-region-badge {
+    background: rgba(85, 139, 47, 0.12);
+    color: #558b2f;
+}
+
+.gourmet-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    min-height: 2.8em;
+}
+
+.gourmet-btn {
+    display: inline-block;
+    padding: 0.45rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 2px solid #c2185b;
+    color: #c2185b;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.04em;
+    transition: background 0.22s ease, color 0.22s ease, transform 0.18s ease;
+}
+
+.gourmet-btn:hover {
+    background: #c2185b;
+    color: #fff;
+    transform: scale(1.04);
+}
+
+/* ===== Destination Filter ===== */
+.dest-filter-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 0.5rem;
+    padding: 0 0 2rem;
+}
+
+.search-wrap {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto 1.4rem;
+}
+
+.search-wrap .search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+    line-height: 1;
+}
+
+#dest-search {
+    width: 100%;
+    padding: 0.7rem 1.2rem 0.7rem 3rem;
+    border-radius: 50px;
+    border: 2px solid #e0e0e0;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: #2d2d2d;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+#dest-search:focus {
+    border-color: #c2185b;
+    box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.12);
+}
+
+#dest-search::placeholder {
+    color: #bbb;
+}
+
+.dest-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 50px;
+    border: 2px solid #c2185b;
+    color: #c2185b;
+    background: transparent;
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background 0.22s ease, color 0.22s ease,
+                transform 0.18s ease, box-shadow 0.22s ease;
+}
+
+.filter-btn:hover:not(.active) {
+    background: rgba(194, 24, 91, 0.07);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #c2185b;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(194, 24, 91, 0.3);
+}
+
+/* Destination card show/hide animation */
+.dest-card-hidden {
+    transform: scale(0.8) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+.dest-card-visible {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* No-results message */
+.dest-no-results {
+    text-align: center;
+    width: 100%;
+    padding: 3rem 1rem;
+    color: #aaa;
+    font-size: 1rem;
+    display: none;
+}
+
+.dest-no-results.visible {
+    display: block;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #gourmet {
+        padding: 3.5rem 1.2rem;
+    }
+
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .gourmet-card-top {
+        height: 110px;
+        font-size: 3.8rem;
+    }
+
+    .gourmet-card-body {
+        padding: 0.9rem 1rem 1.1rem;
+    }
+
+    .gourmet-dish-name h3 {
+        font-size: 0.97rem;
+    }
+
+    .gourmet-desc {
+        font-size: 0.78rem;
+    }
+
+    .filter-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+
+    .gourmet-card-top {
+        height: 90px;
+        font-size: 3rem;
+    }
+}
+    </style>
+
+    <!-- Accessibility CSS -->
+    <style>
+  /* ===== Screen-reader only utility ===== */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ===== Skip Navigation Link ===== */
+  .skip-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #c2185b;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    z-index: 9999;
+    transform: translateY(-100%);
+    transition: transform 0.2s ease;
+    border-radius: 0 0 8px 0;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+
+  /* ===== Focus Visible Enhancement ===== */
+  :focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Remove outline for mouse users, keep for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Ensure card focus ring is clearly visible */
+  .card:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 4px;
+    border-radius: 20px;
+  }
+
+  /* Climate tab focus enhancement */
+  .climate-tab:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+  }
+
+  /* Nav link focus */
+  .nav a:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 4px;
+    border-radius: 4px;
+    color: #c2185b;
+  }
+
+  /* Language toggle button focus */
+  .lang-toggle button:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 2px;
+    border-radius: 50px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Modal close button focus */
+  #modalClose:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  /* Back to top button focus */
+  #backToTop:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  /* Card map button focus */
+  .card-map-btn:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+  }
+
+  /* Hero CTA focus */
+  .hero-cta:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+
+  /* ===== Active nav link indicator ===== */
+  .nav a[aria-current="page"] {
+    color: #c2185b;
+  }
+
+  .nav a[aria-current="page"]::after {
+    width: 100%;
+  }
+
+  /* ===== Reduced Motion Support ===== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .sakura .petal {
+      display: none;
+    }
+
+    /* Ensure fade-in elements are visible even without animation */
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .modal-box {
+      animation: none !important;
+    }
+
+    .modal-overlay.open {
+      animation: none !important;
+    }
+  }
     </style>
 </head>
 
 <body>
+
+    <!-- Skip Navigation -->
+    <a href="#destinations" class="skip-link" data-lang-ja>メインコンテンツへスキップ</a>
+    <a href="#destinations" class="skip-link" data-lang-en>Skip to main content</a>
+    <div id="filter-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
     <!-- Language Toggle -->
     <div class="lang-toggle" id="langToggle">
@@ -905,6 +2352,10 @@
     <!-- Navigation -->
     <nav class="nav">
         <a href="#destinations" data-ja="観光地" data-en="Destinations">観光地</a>
+        <a href="#filter" data-ja="絞り込み" data-en="Filter">絞り込み</a>
+        <a href="#quiz" data-ja="診断クイズ" data-en="Quiz">診断クイズ</a>
+        <a href="#planner" data-ja="旅程プランナー" data-en="Planner">旅程プランナー</a>
+        <a href="#gourmet" data-ja="グルメ特集" data-en="Gourmet">グルメ特集</a>
         <a href="#map" data-ja="地図" data-en="Map">地図</a>
         <a href="#seasons" data-ja="四季の楽しみ" data-en="Four Seasons">四季の楽しみ</a>
         <a href="#tips" data-ja="旅のヒント" data-en="Travel Tips">旅のヒント</a>
@@ -917,10 +2368,67 @@
         <p class="section-subtitle fade-in" data-lang-ja>POPULAR DESTINATIONS</p>
         <p class="section-subtitle fade-in" data-lang-en>POPULAR DESTINATIONS</p>
 
+        <div class="dest-filter-wrapper fade-in">
+
+    <!-- Search input -->
+    <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+            type="search"
+            id="dest-search"
+            placeholder="観光地を検索... / Search destinations..."
+            aria-label="観光地を検索 / Search destinations"
+            autocomplete="off"
+        >
+    </div>
+
+    <!-- Filter pills -->
+    <div id="dest-filter" class="dest-filter" role="group" aria-label="目的地フィルター / Destination filters">
+
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">
+            <span data-lang-ja>✨ 全て</span>
+            <span data-lang-en>✨ All</span>
+        </button>
+
+        <button class="filter-btn" data-filter="sea" aria-pressed="false">
+            <span data-lang-ja>🌊 海</span>
+            <span data-lang-en>🌊 Sea</span>
+        </button>
+
+        <button class="filter-btn" data-filter="history" aria-pressed="false">
+            <span data-lang-ja>🏛️ 歴史</span>
+            <span data-lang-en>🏛️ History</span>
+        </button>
+
+        <button class="filter-btn" data-filter="nature" aria-pressed="false">
+            <span data-lang-ja>🌿 自然</span>
+            <span data-lang-en>🌿 Nature</span>
+        </button>
+
+        <button class="filter-btn" data-filter="gourmet" aria-pressed="false">
+            <span data-lang-ja>🍜 グルメ</span>
+            <span data-lang-en>🍜 Gourmet</span>
+        </button>
+
+        <button class="filter-btn" data-filter="city" aria-pressed="false">
+            <span data-lang-ja>🌆 都市</span>
+            <span data-lang-en>🌆 City</span>
+        </button>
+
+    </div>
+
+    <!-- No results message -->
+    <p class="dest-no-results" id="dest-no-results" aria-live="polite">
+        <span data-lang-ja>条件に合う観光地が見つかりませんでした。</span>
+        <span data-lang-en>No destinations match your search.</span>
+    </p>
+
+</div>
+
         <div class="destinations-grid">
 
             <!-- Tokyo -->
-            <article class="card fade-in" data-accent="red">
+            <article class="card fade-in" data-accent="red" data-tags="history city gourmet">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80');">
                     <span class="card-season" data-lang-ja>通年おすすめ</span>
@@ -960,7 +2468,7 @@
             </article>
 
             <!-- Kyoto -->
-            <article class="card fade-in" data-accent="purple">
+            <article class="card fade-in" data-accent="purple" data-tags="history city">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80');">
                     <span class="card-season" data-lang-ja>春・秋がベスト</span>
@@ -999,7 +2507,7 @@
             </article>
 
             <!-- Osaka -->
-            <article class="card fade-in" data-accent="orange">
+            <article class="card fade-in" data-accent="orange" data-tags="history city gourmet">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1590559899731-a382839e5549?w=800&q=80');">
                     <span class="card-season" data-lang-ja>通年おすすめ</span>
@@ -1039,7 +2547,7 @@
             </article>
 
             <!-- Mt. Fuji -->
-            <article class="card fade-in" data-accent="blue">
+            <article class="card fade-in" data-accent="blue" data-tags="nature">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=800&q=80');">
                     <span class="card-season" data-lang-ja>登山: 7〜9月</span>
@@ -1079,7 +2587,7 @@
             </article>
 
             <!-- Okinawa -->
-            <article class="card fade-in" data-accent="teal">
+            <article class="card fade-in" data-accent="teal" data-tags="sea nature">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=800&q=80');">
                     <span class="card-season" data-lang-ja>4〜10月がベスト</span>
@@ -1119,7 +2627,7 @@
             </article>
 
             <!-- Hokkaido -->
-            <article class="card fade-in" data-accent="green">
+            <article class="card fade-in" data-accent="green" data-tags="nature gourmet">
                 <div class="card-image"
                     style="background-image: url('https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?w=800&q=80');">
                     <span class="card-season" data-lang-ja>夏・冬がベスト</span>
@@ -1160,6 +2668,299 @@
 
         </div>
     </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section fade-in">
+    <h2 class="section-title">
+        <span data-lang-ja>🗺️ 行き先診断クイズ</span>
+        <span data-lang-en>🗺️ Destination Quiz</span>
+    </h2>
+    <p class="section-subtitle">
+        <span data-lang-ja>4つの質問で、あなたにぴったりの旅先を診断します</span>
+        <span data-lang-en>4 questions to find your perfect Japan destination</span>
+    </p>
+
+    <div class="quiz-wrapper fade-in">
+        <!-- Progress -->
+        <p class="quiz-progress-label" id="quiz-progress-label">
+            <span data-lang-ja>質問 <span id="quiz-q-num">1</span> / 4</span>
+            <span data-lang-en>Question <span id="quiz-q-num-en">1</span> / 4</span>
+        </p>
+        <div class="quiz-progress-bar-container">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Questions -->
+        <div class="quiz-question-container" id="quiz-question-container">
+
+            <!-- Q1 -->
+            <div class="quiz-question active" data-q="1">
+                <span class="quiz-question-number">Q1</span>
+                <h3 data-lang-ja>どんな旅がしたいですか？</h3>
+                <h3 data-lang-en>What type of trip do you prefer?</h3>
+                <div class="quiz-answers">
+                    <button class="quiz-answer-btn" data-tags="nature" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🌿</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">自然・アウトドア</span>
+                            <span class="en-text">Nature & Outdoors</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="culture" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">⛩️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">文化・歴史</span>
+                            <span class="en-text">Culture & History</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="city" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🏙️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">グルメ・都市</span>
+                            <span class="en-text">Food & City</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="quiz-question" data-q="2">
+                <span class="quiz-question-number">Q2</span>
+                <h3 data-lang-ja>好きな季節は？</h3>
+                <h3 data-lang-en>Preferred season?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="warm" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🌸</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">春・夏</span>
+                            <span class="en-text">Spring & Summer</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="cool" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🍁</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">秋・冬</span>
+                            <span class="en-text">Autumn & Winter</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="quiz-question" data-q="3">
+                <span class="quiz-question-number">Q3</span>
+                <h3 data-lang-ja>どんな旅スタイル？</h3>
+                <h3 data-lang-en>What's your travel style?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="active" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🏃</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">アクティブ（歩き回る）</span>
+                            <span class="en-text">Active — Explore on foot</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="relaxed" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">☕</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">のんびり（ゆっくり）</span>
+                            <span class="en-text">Relaxed — Take it slow</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="quiz-question" data-q="4">
+                <span class="quiz-question-number">Q4</span>
+                <h3 data-lang-ja>旅行期間は？</h3>
+                <h3 data-lang-en>How long is your trip?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="short" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">⚡</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">1〜3日</span>
+                            <span class="en-text">1–3 days</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="long" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🗓️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">4〜7日</span>
+                            <span class="en-text">4–7 days</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+        </div><!-- /quiz-question-container -->
+
+        <!-- Result -->
+        <div class="quiz-result" id="quiz-result">
+            <div class="quiz-result-card">
+                <div class="quiz-result-confetti" id="quiz-confetti"></div>
+                <div class="quiz-result-emoji" id="quiz-result-emoji">🗼</div>
+                <div class="quiz-result-tag">
+                    <span data-lang-ja>あなたにおすすめ！</span>
+                    <span data-lang-en>Your match!</span>
+                </div>
+                <div class="quiz-result-name" id="quiz-result-name"></div>
+                <div class="quiz-result-name-en" id="quiz-result-name-en"></div>
+                <p class="quiz-result-desc" id="quiz-result-desc"></p>
+                <div class="quiz-result-actions">
+                    <button class="quiz-btn-primary" id="quiz-see-details">
+                        <span data-lang-ja>🔍 詳細を見る</span>
+                        <span data-lang-en>🔍 See Details</span>
+                    </button>
+                    <button class="quiz-btn-secondary" onclick="quizReset()">
+                        <span data-lang-ja>🔄 もう一度</span>
+                        <span data-lang-en>🔄 Retake Quiz</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /quiz-wrapper -->
+</section>
+
+    <!-- Planner Section -->
+    <section id="planner" class="section fade-in">
+    <h2 class="section-title">
+        <span data-lang-ja>📅 旅程プランナー</span>
+        <span data-lang-en>📅 Itinerary Planner</span>
+    </h2>
+    <p class="section-subtitle">
+        <span data-lang-ja>日数と訪問地を選んで、オリジナル旅程を作成しよう</span>
+        <span data-lang-en>Choose days and destinations to build your custom itinerary</span>
+    </p>
+
+    <div class="planner-wrapper">
+        <div class="planner-card fade-in">
+
+            <!-- Step 1: Days -->
+            <div class="planner-step-label">
+                <div class="planner-step-num">1</div>
+                <div class="planner-step-title">
+                    <span data-lang-ja>日数を選んでください</span>
+                    <span data-lang-en>Select number of days</span>
+                </div>
+            </div>
+            <div class="planner-day-btns" id="planner-day-btns">
+                <button class="planner-day-btn" data-day="1" onclick="plannerSelectDay(this)">1</button>
+                <button class="planner-day-btn" data-day="2" onclick="plannerSelectDay(this)">2</button>
+                <button class="planner-day-btn active" data-day="3" onclick="plannerSelectDay(this)">3</button>
+                <button class="planner-day-btn" data-day="4" onclick="plannerSelectDay(this)">4</button>
+                <button class="planner-day-btn" data-day="5" onclick="plannerSelectDay(this)">5</button>
+                <button class="planner-day-btn" data-day="6" onclick="plannerSelectDay(this)">6</button>
+                <button class="planner-day-btn" data-day="7" onclick="plannerSelectDay(this)">7</button>
+            </div>
+
+        </div>
+
+        <div class="planner-card fade-in">
+
+            <!-- Step 2: Destinations -->
+            <div class="planner-step-label">
+                <div class="planner-step-num">2</div>
+                <div class="planner-step-title">
+                    <span data-lang-ja>訪問地を選んでください（最大3つ）</span>
+                    <span data-lang-en>Choose destinations (up to 3)</span>
+                </div>
+            </div>
+            <div class="planner-dest-grid" id="planner-dest-grid">
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-tokyo" name="dest" value="tokyo" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-tokyo">
+                        <span class="planner-dest-emoji">🗼</span>
+                        <span class="planner-dest-name" data-lang-ja>東京</span>
+                        <span class="planner-dest-name" data-lang-en>Tokyo</span>
+                        <span class="planner-dest-name-en">Tokyo</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-kyoto" name="dest" value="kyoto" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-kyoto">
+                        <span class="planner-dest-emoji">⛩️</span>
+                        <span class="planner-dest-name" data-lang-ja>京都</span>
+                        <span class="planner-dest-name" data-lang-en>Kyoto</span>
+                        <span class="planner-dest-name-en">Kyoto</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-osaka" name="dest" value="osaka" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-osaka">
+                        <span class="planner-dest-emoji">🦀</span>
+                        <span class="planner-dest-name" data-lang-ja>大阪</span>
+                        <span class="planner-dest-name" data-lang-en>Osaka</span>
+                        <span class="planner-dest-name-en">Osaka</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-fuji" name="dest" value="fuji" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-fuji">
+                        <span class="planner-dest-emoji">🗻</span>
+                        <span class="planner-dest-name" data-lang-ja>富士山</span>
+                        <span class="planner-dest-name" data-lang-en>Mt. Fuji</span>
+                        <span class="planner-dest-name-en">Mt. Fuji</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-okinawa" name="dest" value="okinawa" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-okinawa">
+                        <span class="planner-dest-emoji">🌺</span>
+                        <span class="planner-dest-name" data-lang-ja>沖縄</span>
+                        <span class="planner-dest-name" data-lang-en>Okinawa</span>
+                        <span class="planner-dest-name-en">Okinawa</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-hokkaido" name="dest" value="hokkaido" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-hokkaido">
+                        <span class="planner-dest-emoji">🦌</span>
+                        <span class="planner-dest-name" data-lang-ja>北海道</span>
+                        <span class="planner-dest-name" data-lang-en>Hokkaido</span>
+                        <span class="planner-dest-name-en">Hokkaido</span>
+                    </label>
+                </div>
+
+            </div>
+            <p class="planner-max-hint">
+                <span data-lang-ja>💡 最大3つまで選択できます</span>
+                <span data-lang-en>💡 You can select up to 3 destinations</span>
+            </p>
+            <p class="planner-no-dest-msg" id="planner-no-dest-msg">
+                <span data-lang-ja>⚠️ 少なくとも1つの訪問地を選んでください</span>
+                <span data-lang-en>⚠️ Please select at least one destination</span>
+            </p>
+
+        </div>
+
+        <!-- Generate Button -->
+        <button class="planner-generate-btn fade-in" onclick="plannerGenerate()">
+            <span data-lang-ja>✨ プランを作成する</span>
+            <span data-lang-en>✨ Create My Plan</span>
+        </button>
+
+        <!-- Schedule Output -->
+        <div class="planner-schedule" id="planner-schedule">
+            <div class="planner-schedule-header">
+                <h3 class="planner-schedule-title" id="planner-schedule-title"></h3>
+                <p class="planner-schedule-sub" id="planner-schedule-sub"></p>
+            </div>
+            <div id="planner-schedule-body"></div>
+            <button class="planner-reset-btn" onclick="plannerReset()">
+                <span data-lang-ja>🔄 プランをリセット</span>
+                <span data-lang-en>🔄 Reset Plan</span>
+            </button>
+        </div>
+
+    </div><!-- /planner-wrapper -->
+</section>
 
     <!-- Map Section -->
     <section id="map" class="section">
@@ -1245,6 +3046,289 @@
         </div>
     </section>
 
+    <!-- ===== Climate Section (Monthly Climate & Weather Guide) ===== -->
+    <section id="climate" class="section">
+        <h2 class="section-title fade-in" data-lang-ja>月別の気候・天気ガイド</h2>
+        <h2 class="section-title fade-in" data-lang-en>Monthly Climate &amp; Weather Guide</h2>
+        <p class="section-subtitle fade-in" data-lang-ja>MONTHLY CLIMATE GUIDE</p>
+        <p class="section-subtitle fade-in" data-lang-en>MONTHLY CLIMATE GUIDE</p>
+
+        <!-- City Tabs (Tokyo / Kyoto / Sapporo / Naha) -->
+        <div class="climate-tabs fade-in">
+            <button class="climate-tab active" data-city="tokyo" data-lang-ja>東京</button>
+            <button class="climate-tab active" data-city="tokyo" data-lang-en>Tokyo</button>
+            <button class="climate-tab" data-city="kyoto" data-lang-ja>京都</button>
+            <button class="climate-tab" data-city="kyoto" data-lang-en>Kyoto</button>
+            <button class="climate-tab" data-city="sapporo" data-lang-ja>札幌</button>
+            <button class="climate-tab" data-city="sapporo" data-lang-en>Sapporo</button>
+            <button class="climate-tab" data-city="naha" data-lang-ja>那覇</button>
+            <button class="climate-tab" data-city="naha" data-lang-en>Naha</button>
+        </div>
+
+        <!-- Climate Table -->
+        <div class="climate-table-wrap fade-in">
+            <table class="climate-table" id="climateTable">
+                <thead>
+                    <tr>
+                        <th data-lang-ja>月</th><th data-lang-en>Month</th>
+                        <th data-lang-ja>平均気温</th><th data-lang-en>Avg Temp</th>
+                        <th data-lang-ja>降水量</th><th data-lang-en>Rainfall</th>
+                        <th data-lang-ja>天気の特徴</th><th data-lang-en>Weather</th>
+                        <th data-lang-ja>おすすめ度</th><th data-lang-en>Rating</th>
+                    </tr>
+                </thead>
+                <tbody id="climateTbody"><!-- Populated by JS --></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Gourmet Section -->
+    <section id="gourmet" class="section fade-in">
+
+    <p class="section-subtitle" data-lang-ja>— JAPANESE GOURMET —</p>
+    <p class="section-subtitle" data-lang-en>— JAPANESE GOURMET —</p>
+
+    <h2 class="section-title">
+        <span data-lang-ja>グルメ特集</span>
+        <span data-lang-en>Gourmet Feature</span>
+    </h2>
+
+    <!-- Food Map intro blurb -->
+    <div class="gourmet-intro">
+        <p data-lang-ja>
+            🗺️ <strong>食の地図</strong> — 日本の各地には、その土地ならではの美食が息づいています。
+            北海道の新鮮な海の幸から、大阪の庶民グルメ、京都の洗練された懐石料理まで、
+            旅の楽しみは「食」にあり。47都道府県それぞれが誇る郷土の味を、この旅で存分に味わってください。
+        </p>
+        <p data-lang-en>
+            🗺️ <strong>Food Map</strong> — Every corner of Japan has its own culinary soul.
+            From Hokkaido's pristine seafood to Osaka's street-food energy, from Kyoto's refined kaiseki
+            to Okinawa's tropical flavors — Japan's greatest journey is tasted, not just seen.
+            Explore the map of flavors below.
+        </p>
+    </div>
+
+    <div class="gourmet-grid">
+
+        <!-- 1. Takoyaki -->
+        <div class="gourmet-card fade-in" data-dish="takoyaki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Takoyaki">🐙</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>たこ焼き<span class="dish-en">Takoyaki</span></span>
+                        <span data-lang-en>Takoyaki<span class="dish-en">たこ焼き</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 大阪</span>
+                    <span data-lang-en>📍 Osaka</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>大阪生まれのソウルフード。外はカリッ、中はトロッの食感が絶品。</span>
+                    <span data-lang-en>Osaka's soul food — crispy outside, creamy inside octopus balls.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('osaka')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Sushi -->
+        <div class="gourmet-card fade-in" data-dish="sushi">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Sushi">🍣</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>寿司<span class="dish-en">Sushi</span></span>
+                        <span data-lang-en>Sushi<span class="dish-en">寿司</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 東京・北海道</span>
+                    <span data-lang-en>📍 Tokyo · Hokkaido</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>江戸前寿司の本場・東京と、新鮮な海の幸が揃う北海道。</span>
+                    <span data-lang-en>Tokyo's Edomae-style and Hokkaido's ultra-fresh seafood — sushi at its finest.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('tokyo')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. Ramen -->
+        <div class="gourmet-card fade-in" data-dish="ramen">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Ramen">🍜</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>ラーメン<span class="dish-en">Ramen</span></span>
+                        <span data-lang-en>Ramen<span class="dish-en">ラーメン</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 北海道（札幌）</span>
+                    <span data-lang-en>📍 Hokkaido (Sapporo)</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>札幌の味噌ラーメン、博多の豚骨など地域ごとに個性豊かなスープ。</span>
+                    <span data-lang-en>Sapporo miso, Hakata tonkotsu — Japan's ramen scene has incredible regional diversity.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('hokkaido')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. Okonomiyaki -->
+        <div class="gourmet-card fade-in" data-dish="okonomiyaki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Okonomiyaki">🥘</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>お好み焼き<span class="dish-en">Okonomiyaki</span></span>
+                        <span data-lang-en>Okonomiyaki<span class="dish-en">お好み焼き</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 大阪・広島</span>
+                    <span data-lang-en>📍 Osaka · Hiroshima</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>「ソース焼き」とも呼ばれる日本風お好みのパンケーキ。大阪・広島で進化した。</span>
+                    <span data-lang-en>Japan's savory pancake — evolved in Osaka and Hiroshima with distinct regional styles.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('osaka')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. Kaisendon -->
+        <div class="gourmet-card fade-in" data-dish="kaisendon">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Kaisendon">🦞</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>海鮮丼<span class="dish-en">Kaisendon</span></span>
+                        <span data-lang-en>Kaisendon<span class="dish-en">海鮮丼</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 北海道</span>
+                    <span data-lang-en>📍 Hokkaido</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>北海道産のイクラ・ウニ・カニなど豪華海鮮が乗った丼は格別。</span>
+                    <span data-lang-en>A bowl of Hokkaido's finest — sea urchin, salmon roe, crab — pure luxury.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('hokkaido')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 6. Okinawa Soba -->
+        <div class="gourmet-card fade-in" data-dish="okinawa-soba">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Okinawa Soba">🍡</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>沖縄そば<span class="dish-en">Okinawa Soba</span></span>
+                        <span data-lang-en>Okinawa Soba<span class="dish-en">沖縄そば</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 沖縄</span>
+                    <span data-lang-en>📍 Okinawa</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>豚肉とかまぼこが乗った、本土のそばとは一線を画す独特の麺料理。</span>
+                    <span data-lang-en>Okinawa's unique noodle soup with pork and fishcake — unlike any other soba in Japan.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('okinawa')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 7. Kyoto Kaiseki -->
+        <div class="gourmet-card fade-in" data-dish="kaiseki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Kaiseki">🍱</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>京懐石<span class="dish-en">Kyoto Kaiseki</span></span>
+                        <span data-lang-en>Kyoto Kaiseki<span class="dish-en">京懐石</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 京都</span>
+                    <span data-lang-en>📍 Kyoto</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>旬の食材を美しく盛り付けた日本料理の最高峰。京都の料亭で真髄を味わう。</span>
+                    <span data-lang-en>Japan's highest culinary art form — seasonal ingredients beautifully plated in Kyoto's finest restaurants.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('kyoto')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 8. Fujinomiya Yakisoba -->
+        <div class="gourmet-card fade-in" data-dish="yakisoba">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Yakisoba">🗻</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>富士宮焼きそば<span class="dish-en">Fujinomiya Yakisoba</span></span>
+                        <span data-lang-en>Fujinomiya Yakisoba<span class="dish-en">富士宮焼きそば</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 富士山周辺</span>
+                    <span data-lang-en>📍 Near Mt. Fuji</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>モチモチの特製麺とラードで炒めた独特の食感が癖になる富士山麓のB級グルメ。</span>
+                    <span data-lang-en>The chewy noodles fried with lard near Mt. Fuji — a beloved local B-grade gourmet specialty.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('fuji')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
     <!-- Travel Tips Section -->
     <section id="tips" class="section">
         <h2 class="section-title fade-in" data-lang-ja>旅のヒント</h2>
@@ -1318,6 +3402,9 @@
     <footer>
         <div class="footer-links">
             <a href="#destinations" data-ja="観光地" data-en="Destinations">観光地</a>
+            <a href="#quiz" data-ja="診断クイズ" data-en="Quiz">診断クイズ</a>
+            <a href="#planner" data-ja="旅程プランナー" data-en="Planner">旅程プランナー</a>
+            <a href="#gourmet" data-ja="グルメ特集" data-en="Gourmet">グルメ特集</a>
             <a href="#seasons" data-ja="四季の楽しみ" data-en="Four Seasons">四季の楽しみ</a>
             <a href="#tips" data-ja="旅のヒント" data-en="Travel Tips">旅のヒント</a>
         </div>
@@ -1610,6 +3697,1285 @@
                 if (e.key === 'Escape') closeModal();
             });
         })();
+
+        // Back to Top
+        (function() {
+            var btn = document.getElementById('backToTop');
+            if (!btn) return;
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    btn.classList.add('visible');
+                } else {
+                    btn.classList.remove('visible');
+                }
+            });
+            btn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        // Monthly Climate & Weather Guide (4 cities)
+        (function () {
+            var climateData = {
+                tokyo: [
+                    { month: { ja: '1月', en: 'Jan' }, temp: '6°C', rain: '52mm', weather: { ja: '乾燥・晴れ', en: 'Dry & clear' }, rating: 3 },
+                    { month: { ja: '2月', en: 'Feb' }, temp: '7°C', rain: '56mm', weather: { ja: '寒さ厳しい', en: 'Cold' }, rating: 3 },
+                    { month: { ja: '3月', en: 'Mar' }, temp: '10°C', rain: '118mm', weather: { ja: '桜の季節', en: 'Cherry blossoms' }, rating: 5 },
+                    { month: { ja: '4月', en: 'Apr' }, temp: '15°C', rain: '125mm', weather: { ja: '春本番', en: 'Spring in full' }, rating: 5 },
+                    { month: { ja: '5月', en: 'May' }, temp: '19°C', rain: '138mm', weather: { ja: '新緑・快適', en: 'Fresh greens' }, rating: 5 },
+                    { month: { ja: '6月', en: 'Jun' }, temp: '23°C', rain: '168mm', weather: { ja: '梅雨', en: 'Rainy season' }, rating: 2 },
+                    { month: { ja: '7月', en: 'Jul' }, temp: '27°C', rain: '154mm', weather: { ja: '蒸し暑い', en: 'Humid' }, rating: 3 },
+                    { month: { ja: '8月', en: 'Aug' }, temp: '28°C', rain: '168mm', weather: { ja: '猛暑・花火', en: 'Hot, fireworks' }, rating: 3 },
+                    { month: { ja: '9月', en: 'Sep' }, temp: '25°C', rain: '210mm', weather: { ja: '台風シーズン', en: 'Typhoon season' }, rating: 3 },
+                    { month: { ja: '10月', en: 'Oct' }, temp: '19°C', rain: '198mm', weather: { ja: '秋晴れ', en: 'Clear autumn' }, rating: 5 },
+                    { month: { ja: '11月', en: 'Nov' }, temp: '14°C', rain: '93mm', weather: { ja: '紅葉見頃', en: 'Autumn leaves' }, rating: 5 },
+                    { month: { ja: '12月', en: 'Dec' }, temp: '9°C', rain: '51mm', weather: { ja: 'イルミネーション', en: 'Illuminations' }, rating: 4 }
+                ],
+                kyoto: [
+                    { month: { ja: '1月', en: 'Jan' }, temp: '4°C', rain: '50mm', weather: { ja: '底冷え', en: 'Bitter cold' }, rating: 3 },
+                    { month: { ja: '2月', en: 'Feb' }, temp: '5°C', rain: '68mm', weather: { ja: '寒い晴天', en: 'Cold & clear' }, rating: 3 },
+                    { month: { ja: '3月', en: 'Mar' }, temp: '9°C', rain: '106mm', weather: { ja: '梅・桜準備', en: 'Plum & early sakura' }, rating: 4 },
+                    { month: { ja: '4月', en: 'Apr' }, temp: '14°C', rain: '130mm', weather: { ja: '桜満開', en: 'Cherry blossoms peak' }, rating: 5 },
+                    { month: { ja: '5月', en: 'May' }, temp: '19°C', rain: '146mm', weather: { ja: '新緑・青もみじ', en: 'Fresh maple greens' }, rating: 5 },
+                    { month: { ja: '6月', en: 'Jun' }, temp: '23°C', rain: '214mm', weather: { ja: '梅雨・紫陽花', en: 'Rainy, hydrangeas' }, rating: 2 },
+                    { month: { ja: '7月', en: 'Jul' }, temp: '27°C', rain: '220mm', weather: { ja: '祇園祭', en: 'Gion Matsuri' }, rating: 4 },
+                    { month: { ja: '8月', en: 'Aug' }, temp: '29°C', rain: '130mm', weather: { ja: '猛暑・五山送り火', en: 'Very hot, Daimonji' }, rating: 3 },
+                    { month: { ja: '9月', en: 'Sep' }, temp: '25°C', rain: '170mm', weather: { ja: '残暑・台風', en: 'Lingering heat' }, rating: 3 },
+                    { month: { ja: '10月', en: 'Oct' }, temp: '18°C', rain: '130mm', weather: { ja: '快適な秋', en: 'Comfortable autumn' }, rating: 5 },
+                    { month: { ja: '11月', en: 'Nov' }, temp: '12°C', rain: '72mm', weather: { ja: '紅葉最盛期', en: 'Peak autumn leaves' }, rating: 5 },
+                    { month: { ja: '12月', en: 'Dec' }, temp: '7°C', rain: '46mm', weather: { ja: '静かな冬景色', en: 'Quiet winter' }, rating: 4 }
+                ],
+                sapporo: [
+                    { month: { ja: '1月', en: 'Jan' }, temp: '-4°C', rain: '108mm', weather: { ja: '厳寒・雪景色', en: 'Snowy' }, rating: 4 },
+                    { month: { ja: '2月', en: 'Feb' }, temp: '-3°C', rain: '92mm', weather: { ja: '雪まつり', en: 'Snow Festival' }, rating: 5 },
+                    { month: { ja: '3月', en: 'Mar' }, temp: '1°C', rain: '78mm', weather: { ja: '雪残る', en: 'Lingering snow' }, rating: 3 },
+                    { month: { ja: '4月', en: 'Apr' }, temp: '7°C', rain: '55mm', weather: { ja: '遅い春', en: 'Late spring' }, rating: 3 },
+                    { month: { ja: '5月', en: 'May' }, temp: '13°C', rain: '56mm', weather: { ja: '桜・新緑', en: 'Sakura & greens' }, rating: 5 },
+                    { month: { ja: '6月', en: 'Jun' }, temp: '17°C', rain: '60mm', weather: { ja: '爽やか・梅雨なし', en: 'No rainy season' }, rating: 5 },
+                    { month: { ja: '7月', en: 'Jul' }, temp: '21°C', rain: '90mm', weather: { ja: '涼しい夏', en: 'Cool summer' }, rating: 5 },
+                    { month: { ja: '8月', en: 'Aug' }, temp: '22°C', rain: '124mm', weather: { ja: 'ラベンダー・避暑', en: 'Lavender, cool escape' }, rating: 5 },
+                    { month: { ja: '9月', en: 'Sep' }, temp: '18°C', rain: '135mm', weather: { ja: '早い秋', en: 'Early autumn' }, rating: 4 },
+                    { month: { ja: '10月', en: 'Oct' }, temp: '11°C', rain: '108mm', weather: { ja: '紅葉', en: 'Autumn leaves' }, rating: 4 },
+                    { month: { ja: '11月', en: 'Nov' }, temp: '4°C', rain: '104mm', weather: { ja: '初雪', en: 'First snow' }, rating: 3 },
+                    { month: { ja: '12月', en: 'Dec' }, temp: '-1°C', rain: '111mm', weather: { ja: 'ホワイトイルミ', en: 'White illuminations' }, rating: 4 }
+                ],
+                naha: [
+                    { month: { ja: '1月', en: 'Jan' }, temp: '17°C', rain: '107mm', weather: { ja: '温暖・観光好機', en: 'Mild, great for trips' }, rating: 5 },
+                    { month: { ja: '2月', en: 'Feb' }, temp: '17°C', rain: '120mm', weather: { ja: '桜・プロ野球キャンプ', en: 'Cherry & baseball camps' }, rating: 5 },
+                    { month: { ja: '3月', en: 'Mar' }, temp: '19°C', rain: '161mm', weather: { ja: '海開き前', en: 'Pre beach season' }, rating: 5 },
+                    { month: { ja: '4月', en: 'Apr' }, temp: '21°C', rain: '166mm', weather: { ja: '海開き・快適', en: 'Beaches open' }, rating: 5 },
+                    { month: { ja: '5月', en: 'May' }, temp: '24°C', rain: '232mm', weather: { ja: '梅雨入り', en: 'Rainy season begins' }, rating: 3 },
+                    { month: { ja: '6月', en: 'Jun' }, temp: '27°C', rain: '247mm', weather: { ja: '梅雨明け後暑い', en: 'Rainy then hot' }, rating: 3 },
+                    { month: { ja: '7月', en: 'Jul' }, temp: '29°C', rain: '141mm', weather: { ja: '真夏・マリン', en: 'Peak marine season' }, rating: 4 },
+                    { month: { ja: '8月', en: 'Aug' }, temp: '29°C', rain: '241mm', weather: { ja: '台風・猛暑', en: 'Typhoons, very hot' }, rating: 3 },
+                    { month: { ja: '9月', en: 'Sep' }, temp: '28°C', rain: '261mm', weather: { ja: '台風シーズン', en: 'Typhoon season' }, rating: 2 },
+                    { month: { ja: '10月', en: 'Oct' }, temp: '25°C', rain: '153mm', weather: { ja: '夏の延長', en: 'Extended summer' }, rating: 4 },
+                    { month: { ja: '11月', en: 'Nov' }, temp: '22°C', rain: '110mm', weather: { ja: '穏やかな海', en: 'Calm seas' }, rating: 5 },
+                    { month: { ja: '12月', en: 'Dec' }, temp: '19°C', rain: '103mm', weather: { ja: '温暖な冬', en: 'Warm winter' }, rating: 5 }
+                ]
+            };
+
+            var tbody = document.getElementById('climateTbody');
+            if (!tbody) return;
+            var tabs = document.querySelectorAll('.climate-tab');
+            var currentCity = 'tokyo';
+
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            }
+
+            function render(city) {
+                var rows = climateData[city] || [];
+                tbody.innerHTML = rows.map(function (row) {
+                    var stars = '★'.repeat(row.rating) + '☆'.repeat(5 - row.rating);
+                    return '<tr>'
+                        + '<td data-lang-ja>' + escapeHtml(row.month.ja) + '</td>'
+                        + '<td data-lang-en>' + escapeHtml(row.month.en) + '</td>'
+                        + '<td class="climate-temp" data-lang-ja>' + escapeHtml(row.temp) + '</td>'
+                        + '<td class="climate-temp" data-lang-en>' + escapeHtml(row.temp) + '</td>'
+                        + '<td data-lang-ja>' + escapeHtml(row.rain) + '</td>'
+                        + '<td data-lang-en>' + escapeHtml(row.rain) + '</td>'
+                        + '<td data-lang-ja>' + escapeHtml(row.weather.ja) + '</td>'
+                        + '<td data-lang-en>' + escapeHtml(row.weather.en) + '</td>'
+                        + '<td class="climate-rating" data-lang-ja>' + stars + '</td>'
+                        + '<td class="climate-rating" data-lang-en>' + stars + '</td>'
+                        + '</tr>';
+                }).join('');
+            }
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var city = tab.getAttribute('data-city');
+                    if (!city || city === currentCity) {
+                        // still update active styling for sibling button of same city
+                    }
+                    currentCity = city;
+                    tabs.forEach(function (t) {
+                        if (t.getAttribute('data-city') === city) {
+                            t.classList.add('active');
+                        } else {
+                            t.classList.remove('active');
+                        }
+                    });
+                    render(currentCity);
+                });
+            });
+
+            render(currentCity);
+        })();
+    </script>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="ページトップへ戻る / Back to top">↑</button>
+
+    <!-- Quiz & Planner JS -->
+    <script>
+(function () {
+    'use strict';
+
+    /* =============================================
+       QUIZ DATA & LOGIC
+    ============================================= */
+    const QUIZ_DESTINATIONS = {
+        tokyo: {
+            emoji: '🗼',
+            nameJa: '東京',
+            nameEn: 'Tokyo',
+            descJa: '最先端のカルチャーと伝統が融合する日本の首都。多彩なグルメ、最新スポット、そして下町の魅力を一度に楽しめます。',
+            descEn: 'Japan\'s capital where cutting-edge culture meets tradition. Enjoy diverse cuisine, trending hotspots, and charming old-town neighborhoods.',
+            scores: { city: 2, active: 2, long: 1, warm: 1 },
+            destId: 'tokyo'
+        },
+        kyoto: {
+            emoji: '⛩️',
+            nameJa: '京都',
+            nameEn: 'Kyoto',
+            descJa: '千年の歴史を持つ古都。神社仏閣、枯山水の庭園、そして伝統的な京料理があなたを非日常へと誘います。',
+            descEn: 'The ancient capital with a thousand years of history. Shrines, zen gardens, and traditional cuisine transport you to another era.',
+            scores: { culture: 2, relaxed: 2, cool: 1, short: 1 },
+            destId: 'kyoto'
+        },
+        osaka: {
+            emoji: '🦀',
+            nameJa: '大阪',
+            nameEn: 'Osaka',
+            descJa: '「食い倒れの街」として知られる大阪は、たこ焼き・お好み焼きなど絶品グルメと、陽気な人々の笑顔が魅力です。',
+            descEn: 'Known as Japan\'s food capital, Osaka delights with takoyaki, okonomiyaki, and the warmest, funniest people in Japan.',
+            scores: { city: 2, short: 1, warm: 2, active: 1 },
+            destId: 'osaka'
+        },
+        fuji: {
+            emoji: '🗻',
+            nameJa: '富士山',
+            nameEn: 'Mt. Fuji',
+            descJa: '日本のシンボル、霊峰富士。登山はもちろん、河口湖からの絶景や忍野八海など、圧倒的な自然美が広がります。',
+            descEn: 'Japan\'s iconic sacred peak. Whether you climb it or admire it from Kawaguchiko, Mt. Fuji\'s majesty is awe-inspiring.',
+            scores: { nature: 2, active: 2, warm: 1, short: 1 },
+            destId: 'fuji'
+        },
+        okinawa: {
+            emoji: '🌺',
+            nameJa: '沖縄',
+            nameEn: 'Okinawa',
+            descJa: 'エメラルドグリーンの海と独自の文化が息づく南の楽園。シュノーケリングや美ら海水族館など、非日常体験が満載です。',
+            descEn: 'A tropical paradise with emerald waters and unique Ryukyu culture. Perfect for snorkeling, stunning beaches, and relaxed island vibes.',
+            scores: { nature: 2, warm: 2, relaxed: 1, long: 1 },
+            destId: 'okinawa'
+        },
+        hokkaido: {
+            emoji: '🦌',
+            nameJa: '北海道',
+            nameEn: 'Hokkaido',
+            descJa: '雄大な大自然と新鮮な海の幸、ラベンダー畑に温泉。四季折々の北海道の絶景は日本屈指の癒しをもたらします。',
+            descEn: 'Vast nature, fresh seafood, lavender fields, and hot springs. Hokkaido\'s sweeping landscapes offer the ultimate restorative escape.',
+            scores: { nature: 2, cool: 2, active: 1, long: 1 },
+            destId: 'hokkaido'
+        }
+    };
+
+    let quizCurrentQ = 1;
+    let quizTags = [];
+    const QUIZ_TOTAL = 4;
+
+    function quizUpdateProgress() {
+        const pct = ((quizCurrentQ - 1) / QUIZ_TOTAL) * 100;
+        document.getElementById('quiz-progress-fill').style.width = pct + '%';
+        const el1 = document.getElementById('quiz-q-num');
+        const el2 = document.getElementById('quiz-q-num-en');
+        if (el1) el1.textContent = quizCurrentQ;
+        if (el2) el2.textContent = quizCurrentQ;
+    }
+
+    window.quizAnswer = function (btn) {
+        const q = btn.closest('.quiz-question');
+        if (!q) return;
+
+        q.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        const tags = btn.getAttribute('data-tags').split(',').map(t => t.trim());
+        quizTags = quizTags.concat(tags);
+
+        setTimeout(() => {
+            if (quizCurrentQ < QUIZ_TOTAL) {
+                q.classList.add('slide-out');
+                setTimeout(() => {
+                    q.classList.remove('active', 'slide-out');
+                    quizCurrentQ++;
+                    quizUpdateProgress();
+                    const next = document.querySelector(`.quiz-question[data-q="${quizCurrentQ}"]`);
+                    if (next) next.classList.add('active');
+                }, 350);
+            } else {
+                q.classList.add('slide-out');
+                setTimeout(() => {
+                    q.classList.remove('active', 'slide-out');
+                    quizCurrentQ = QUIZ_TOTAL + 1;
+                    document.getElementById('quiz-progress-fill').style.width = '100%';
+                    quizShowResult();
+                }, 350);
+            }
+        }, 280);
+    };
+
+    function quizCalcResult() {
+        const destKeys = Object.keys(QUIZ_DESTINATIONS);
+        const totals = {};
+        destKeys.forEach(k => totals[k] = 0);
+
+        quizTags.forEach(tag => {
+            destKeys.forEach(k => {
+                const s = QUIZ_DESTINATIONS[k].scores;
+                if (s[tag]) totals[k] += s[tag];
+            });
+        });
+
+        let best = 'kyoto';
+        let bestScore = -1;
+        destKeys.forEach(k => {
+            if (totals[k] > bestScore) {
+                bestScore = totals[k];
+                best = k;
+            }
+        });
+        return best;
+    }
+
+    function quizShowResult() {
+        const destKey = quizCalcResult();
+        const dest = QUIZ_DESTINATIONS[destKey];
+        const isEn = document.body.classList.contains('lang-en');
+
+        document.getElementById('quiz-result-emoji').textContent = dest.emoji;
+        document.getElementById('quiz-result-name').textContent = dest.nameJa;
+        document.getElementById('quiz-result-name-en').textContent = dest.nameEn.toUpperCase();
+
+        const descEl = document.getElementById('quiz-result-desc');
+        descEl.innerHTML =
+            `<span data-lang-ja>${dest.descJa}</span><span data-lang-en style="display:none">${dest.descEn}</span>`;
+
+        if (isEn) {
+            descEl.querySelector('[data-lang-ja]').style.display = 'none';
+            descEl.querySelector('[data-lang-en]').style.display = 'block';
+        }
+
+        const detailsBtn = document.getElementById('quiz-see-details');
+        detailsBtn.onclick = function () {
+            if (typeof window.flyToDestination === 'function') {
+                window.flyToDestination(dest.destId);
+            }
+            const destSection = document.getElementById('destinations');
+            if (destSection) {
+                destSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
+        document.getElementById('quiz-result').classList.add('active');
+        spawnConfetti();
+    }
+
+    window.quizReset = function () {
+        quizTags = [];
+        quizCurrentQ = 1;
+        quizUpdateProgress();
+
+        document.getElementById('quiz-result').classList.remove('active');
+        document.querySelectorAll('.quiz-question').forEach(q => {
+            q.classList.remove('active', 'slide-out');
+            q.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.remove('selected'));
+        });
+        document.querySelector('.quiz-question[data-q="1"]').classList.add('active');
+    };
+
+    function spawnConfetti() {
+        const container = document.getElementById('quiz-confetti');
+        if (!container) return;
+        container.innerHTML = '';
+        const colors = ['#c2185b', '#7b1fa2', '#1565c0', '#e65100', '#00838f', '#2e7d32', '#f4c430'];
+        for (let i = 0; i < 28; i++) {
+            const p = document.createElement('div');
+            p.className = 'confetti-piece';
+            p.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 40}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-delay: ${Math.random() * 0.8}s;
+                animation-duration: ${1.8 + Math.random() * 1.2}s;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            container.appendChild(p);
+        }
+    }
+
+    quizUpdateProgress();
+
+    /* =============================================
+       PLANNER DATA & LOGIC
+    ============================================= */
+    const PLANNER_DATA = {
+        tokyo: {
+            color: '#c2185b',
+            emoji: '🗼',
+            nameJa: '東京',
+            nameEn: 'Tokyo',
+            days: [
+                {
+                    morning:   { ja: '浅草寺・雷門参拝',        en: 'Senso-ji Temple & Kaminarimon Gate' },
+                    lunch:     { ja: '築地場外市場でグルメ',      en: 'Tsukiji Outer Market food stroll' },
+                    evening:   { ja: '渋谷スクランブル交差点',    en: 'Shibuya Scramble Crossing' }
+                },
+                {
+                    morning:   { ja: '新宿御苑散策',             en: 'Shinjuku Gyoen Garden stroll' },
+                    lunch:     { ja: '原宿・竹下通り',           en: 'Harajuku Takeshita Street' },
+                    evening:   { ja: '六本木ヒルズ夜景',         en: 'Roppongi Hills night view' }
+                },
+                {
+                    morning:   { ja: '秋葉原探索',               en: 'Akihabara electronics town' },
+                    lunch:     { ja: '上野・アメ横',             en: 'Ueno Ameyoko market' },
+                    evening:   { ja: '東京スカイツリー',         en: 'Tokyo Skytree observation deck' }
+                }
+            ]
+        },
+        kyoto: {
+            color: '#7b1fa2',
+            emoji: '⛩️',
+            nameJa: '京都',
+            nameEn: 'Kyoto',
+            days: [
+                {
+                    morning:   { ja: '伏見稲荷大社',             en: 'Fushimi Inari Shrine torii gates' },
+                    lunch:     { ja: '錦市場グルメ',             en: 'Nishiki Market food walk' },
+                    evening:   { ja: '祇園散策',                 en: 'Gion district evening stroll' }
+                },
+                {
+                    morning:   { ja: '金閣寺',                   en: 'Kinkaku-ji Golden Pavilion' },
+                    lunch:     { ja: '嵐山・竹林の道',           en: 'Arashiyama bamboo grove' },
+                    evening:   { ja: '河原町グルメ',             en: 'Kawaramachi dining & bars' }
+                },
+                {
+                    morning:   { ja: '清水寺',                   en: 'Kiyomizudera Temple' },
+                    lunch:     { ja: '哲学の道',                 en: 'Philosopher\'s Path canal walk' },
+                    evening:   { ja: '二条城ライトアップ',       en: 'Nijo Castle illumination' }
+                }
+            ]
+        },
+        osaka: {
+            color: '#e65100',
+            emoji: '🦀',
+            nameJa: '大阪',
+            nameEn: 'Osaka',
+            days: [
+                {
+                    morning:   { ja: '大阪城',                   en: 'Osaka Castle & park' },
+                    lunch:     { ja: '道頓堀グルメ',             en: 'Dotonbori street food' },
+                    evening:   { ja: '通天閣・新世界',           en: 'Tsutenkaku & Shinsekai' }
+                },
+                {
+                    morning:   { ja: '海遊館',                   en: 'Kaiyukan Aquarium' },
+                    lunch:     { ja: '心斎橋ショッピング',       en: 'Shinsaibashi shopping street' },
+                    evening:   { ja: '梅田スカイビル夜景',       en: 'Umeda Sky Building night view' }
+                },
+                {
+                    morning:   { ja: '黒門市場',                 en: 'Kuromon Ichiba Market' },
+                    lunch:     { ja: 'たこ焼き・お好み焼き体験', en: 'Takoyaki & okonomiyaki tasting' },
+                    evening:   { ja: '天王寺公園・あべのハルカス', en: 'Tennoji Park & Abeno Harukas' }
+                }
+            ]
+        },
+        fuji: {
+            color: '#1565c0',
+            emoji: '🗻',
+            nameJa: '富士山',
+            nameEn: 'Mt. Fuji',
+            days: [
+                {
+                    morning:   { ja: '五合目登山口',             en: 'Fuji 5th Station trailhead' },
+                    lunch:     { ja: '富士宮焼きそば',           en: 'Fujinomiya yakisoba lunch' },
+                    evening:   { ja: '河口湖ほとりの宿',         en: 'Lakeside ryokan at Kawaguchiko' }
+                },
+                {
+                    morning:   { ja: '忍野八海散策',             en: 'Oshino Hakkai spring ponds' },
+                    lunch:     { ja: '富士吉田うどん',           en: 'Fujiyoshida udon noodles' },
+                    evening:   { ja: '河口湖大橋から富士山',     en: 'Kawaguchi Bridge Mt. Fuji sunset' }
+                },
+                {
+                    morning:   { ja: '青木ヶ原樹海ウォーク',     en: 'Aokigahara forest walk' },
+                    lunch:     { ja: '山梨のほうとう鍋',         en: 'Yamanashi hoto noodle hot pot' },
+                    evening:   { ja: '富士山世界遺産センター',   en: 'Mt. Fuji World Heritage Centre' }
+                }
+            ]
+        },
+        okinawa: {
+            color: '#00838f',
+            emoji: '🌺',
+            nameJa: '沖縄',
+            nameEn: 'Okinawa',
+            days: [
+                {
+                    morning:   { ja: '美ら海水族館',             en: 'Churaumi Aquarium' },
+                    lunch:     { ja: 'ソーキそば',               en: 'Soki soba noodles' },
+                    evening:   { ja: '古宇利島ドライブ',         en: 'Kouri Island sunset drive' }
+                },
+                {
+                    morning:   { ja: '首里城',                   en: 'Shuri Castle' },
+                    lunch:     { ja: '国際通りショッピング',     en: 'Kokusai Street shopping' },
+                    evening:   { ja: '波上宮・那覇の夕日',       en: 'Naminoue Shrine & Naha sunset' }
+                },
+                {
+                    morning:   { ja: '慶良間諸島シュノーケル',   en: 'Kerama Islands snorkeling' },
+                    lunch:     { ja: '島の海鮮',                 en: 'Fresh island seafood' },
+                    evening:   { ja: '残波岬夕日',               en: 'Zanpa Cape sunset' }
+                }
+            ]
+        },
+        hokkaido: {
+            color: '#2e7d32',
+            emoji: '🦌',
+            nameJa: '北海道',
+            nameEn: 'Hokkaido',
+            days: [
+                {
+                    morning:   { ja: '札幌市場の海鮮丼',         en: 'Sapporo market seafood rice bowl' },
+                    lunch:     { ja: '大通公園',                 en: 'Odori Park stroll' },
+                    evening:   { ja: 'ススキノグルメ',           en: 'Susukino dining & entertainment' }
+                },
+                {
+                    morning:   { ja: '小樽運河',                 en: 'Otaru Canal walk' },
+                    lunch:     { ja: '小樽寿司',                 en: 'Otaru sushi lunch' },
+                    evening:   { ja: 'ニセコ温泉',               en: 'Niseko onsen hot springs' }
+                },
+                {
+                    morning:   { ja: '富良野ラベンダー畑',       en: 'Furano lavender fields' },
+                    lunch:     { ja: '富良野カレー',             en: 'Furano curry lunch' },
+                    evening:   { ja: '美瑛の丘',                 en: 'Biei rolling hills & sunset' }
+                }
+            ]
+        }
+    };
+
+    const DEST_ORDER = ['tokyo', 'kyoto', 'osaka', 'fuji', 'okinawa', 'hokkaido'];
+
+    let plannerDays = 3;
+    let plannerDests = [];
+
+    window.plannerSelectDay = function (btn) {
+        document.querySelectorAll('.planner-day-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        plannerDays = parseInt(btn.getAttribute('data-day'));
+    };
+
+    window.plannerDestChange = function () {
+        const checked = document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked');
+        if (checked.length > 3) {
+            event.target.checked = false;
+        }
+        plannerDests = Array.from(
+            document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+
+        if (plannerDests.length > 0) {
+            document.getElementById('planner-no-dest-msg').style.display = 'none';
+        }
+    };
+
+    window.plannerGenerate = function () {
+        plannerDests = Array.from(
+            document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+
+        if (plannerDests.length === 0) {
+            const msg = document.getElementById('planner-no-dest-msg');
+            msg.style.display = 'block';
+            msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            return;
+        }
+        document.getElementById('planner-no-dest-msg').style.display = 'none';
+
+        const isEn = document.body.classList.contains('lang-en');
+
+        const titleEl = document.getElementById('planner-schedule-title');
+        const subEl = document.getElementById('planner-schedule-sub');
+        const destNames = plannerDests.map(d => {
+            const data = PLANNER_DATA[d];
+            return `${data.emoji} ${isEn ? data.nameEn : data.nameJa}`;
+        }).join(' → ');
+
+        if (isEn) {
+            titleEl.textContent = `Your ${plannerDays}-Day Japan Itinerary`;
+            subEl.textContent = destNames;
+        } else {
+            titleEl.textContent = `${plannerDays}日間の旅程プラン`;
+            subEl.textContent = destNames;
+        }
+
+        const body = document.getElementById('planner-schedule-body');
+        body.innerHTML = '';
+
+        const daysPerDest = distributeDays(plannerDays, plannerDests.length);
+
+        let globalDay = 1;
+        plannerDests.forEach((destKey, destIdx) => {
+            const destData = PLANNER_DATA[destKey];
+            const numDays = daysPerDest[destIdx];
+
+            for (let d = 0; d < numDays; d++) {
+                const dayData = destData.days[d % destData.days.length];
+                const row = buildDayRow(globalDay, destKey, destData, dayData, isEn);
+                body.appendChild(row);
+                globalDay++;
+            }
+        });
+
+        const scheduleEl = document.getElementById('planner-schedule');
+        scheduleEl.classList.add('active');
+        scheduleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    function distributeDays(totalDays, numDests) {
+        const base = Math.floor(totalDays / numDests);
+        const remainder = totalDays % numDests;
+        const result = [];
+        for (let i = 0; i < numDests; i++) {
+            result.push(base + (i < remainder ? 1 : 0));
+        }
+        return result;
+    }
+
+    function buildDayRow(dayNum, destKey, destData, dayData, isEn) {
+        const row = document.createElement('div');
+        row.className = 'planner-day-row fade-in';
+
+        const header = document.createElement('div');
+        header.className = 'planner-day-header';
+
+        const badge = document.createElement('span');
+        badge.className = 'planner-day-badge';
+        badge.textContent = isEn ? `Day ${dayNum}` : `${dayNum}日目`;
+
+        const destTag = document.createElement('span');
+        destTag.className = 'planner-day-dest-tag';
+        destTag.setAttribute('data-dest', destKey);
+        destTag.textContent = `${destData.emoji} ${isEn ? destData.nameEn : destData.nameJa}`;
+
+        header.appendChild(badge);
+        header.appendChild(destTag);
+
+        const activities = document.createElement('div');
+        activities.className = 'planner-activities';
+
+        const slots = [
+            { key: 'morning', icon: '🌅', jaLabel: '朝', enLabel: 'Morning' },
+            { key: 'lunch',   icon: '🍴', jaLabel: '昼', enLabel: 'Lunch' },
+            { key: 'evening', icon: '🌆', jaLabel: '夕', enLabel: 'Evening' }
+        ];
+
+        slots.forEach(slot => {
+            const act = document.createElement('div');
+            act.className = 'planner-activity';
+            act.setAttribute('data-dest', destKey);
+
+            const timeLabel = document.createElement('div');
+            timeLabel.className = 'planner-activity-time';
+            timeLabel.innerHTML = `<span>${slot.icon}</span><span>${isEn ? slot.enLabel : slot.jaLabel}</span>`;
+
+            const nameJa = document.createElement('div');
+            nameJa.className = 'planner-activity-name';
+            nameJa.setAttribute('data-lang-ja', '');
+            nameJa.textContent = dayData[slot.key].ja;
+
+            const nameEn = document.createElement('div');
+            nameEn.className = 'planner-activity-name-en';
+            nameEn.setAttribute('data-lang-en', '');
+            nameEn.textContent = dayData[slot.key].en;
+
+            if (isEn) {
+                nameJa.style.display = 'none';
+                nameEn.style.display = 'block';
+                nameEn.style.fontSize = '0.88rem';
+                nameEn.style.color = '#1a1a2e';
+                nameEn.style.fontWeight = '700';
+            }
+
+            act.appendChild(timeLabel);
+            act.appendChild(nameJa);
+            act.appendChild(nameEn);
+            activities.appendChild(act);
+        });
+
+        row.appendChild(header);
+        row.appendChild(activities);
+
+        requestAnimationFrame(() => {
+            if (typeof window._qpObserver !== 'undefined') {
+                window._qpObserver.observe(row);
+            }
+        });
+
+        return row;
+    }
+
+    window.plannerReset = function () {
+        const scheduleEl = document.getElementById('planner-schedule');
+        scheduleEl.classList.remove('active');
+        scheduleEl.querySelector('#planner-schedule-body').innerHTML = '';
+    };
+
+    /* =============================================
+       INTERSECTION OBSERVER — fade-in for our sections
+    ============================================= */
+    const qpObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                qpObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    window._qpObserver = qpObserver;
+
+    function qpObserveAll() {
+        const sections = document.querySelectorAll('#quiz, #planner');
+        sections.forEach(sec => {
+            sec.querySelectorAll('.fade-in').forEach(el => qpObserver.observe(el));
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', qpObserveAll);
+    } else {
+        qpObserveAll();
+    }
+
+    /* =============================================
+       LANGUAGE TOGGLE — watch for body class change
+    ============================================= */
+    const langObserver = new MutationObserver(() => {
+        const scheduleEl = document.getElementById('planner-schedule');
+        if (scheduleEl && scheduleEl.classList.contains('active')) {
+            plannerGenerate();
+        }
+        const resultEl = document.getElementById('quiz-result');
+        if (resultEl && resultEl.classList.contains('active')) {
+            const isEn = document.body.classList.contains('lang-en');
+            const descEl = document.getElementById('quiz-result-desc');
+            if (descEl) {
+                const ja = descEl.querySelector('[data-lang-ja]');
+                const en = descEl.querySelector('[data-lang-en]');
+                if (ja && en) {
+                    ja.style.display = isEn ? 'none' : 'block';
+                    en.style.display = isEn ? 'block' : 'none';
+                }
+            }
+        }
+    });
+
+    if (document.body) {
+        langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        });
+    }
+
+})();
+    </script>
+
+    <!-- Gourmet & Filter JS -->
+    <script>
+(function () {
+    'use strict';
+
+    /* ============================================================
+       GOURMET SECTION — Scroll fade-in for cards
+    ============================================================ */
+    function initGourmetFadeIn() {
+        var cards = document.querySelectorAll('.gourmet-card.fade-in');
+        if (!cards.length) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry, i) {
+                if (entry.isIntersecting) {
+                    var card = entry.target;
+                    var delay = (Array.prototype.indexOf.call(cards, card) % 4) * 80;
+                    setTimeout(function () {
+                        card.classList.add('visible');
+                    }, delay);
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        cards.forEach(function (card) {
+            observer.observe(card);
+        });
+    }
+
+    /* ============================================================
+       DESTINATION FILTER & SEARCH
+    ============================================================ */
+    function initDestFilter() {
+        var filterBtns = document.querySelectorAll('#dest-filter .filter-btn');
+        var searchInput = document.getElementById('dest-search');
+        var noResults = document.getElementById('dest-no-results');
+
+        if (!filterBtns.length) return;
+
+        var currentFilter = 'all';
+        var currentSearch = '';
+
+        function getDestCards() {
+            var cards = document.querySelectorAll('.destinations-grid .dest-card, .destinations-grid .destination-card, .destinations-grid [data-tags]');
+            return Array.prototype.slice.call(cards);
+        }
+
+        function applyFilters() {
+            var cards = getDestCards();
+            var query = currentSearch.trim().toLowerCase();
+            var visible = 0;
+
+            cards.forEach(function (card) {
+                var matchesFilter = false;
+                var matchesSearch = true;
+
+                if (currentFilter === 'all') {
+                    matchesFilter = true;
+                } else {
+                    var tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+                    matchesFilter = tags.indexOf(currentFilter) !== -1;
+                }
+
+                if (query) {
+                    var h3s = card.querySelectorAll('h3');
+                    var cardText = '';
+                    h3s.forEach(function (h) {
+                        cardText += ' ' + (h.textContent || '');
+                    });
+                    cardText += ' ' + (card.textContent || '');
+                    matchesSearch = cardText.toLowerCase().indexOf(query) !== -1;
+                }
+
+                var show = matchesFilter && matchesSearch;
+
+                if (show) {
+                    showCard(card);
+                    visible++;
+                } else {
+                    hideCard(card);
+                }
+            });
+
+            if (noResults) {
+                noResults.classList.toggle('visible', visible === 0 && cards.length > 0);
+            }
+        }
+
+        function showCard(card) {
+            card.classList.remove('dest-card-hidden');
+            card.classList.add('dest-card-visible');
+            if (card.style.display === 'none') {
+                card.style.display = '';
+            }
+        }
+
+        function hideCard(card) {
+            card.classList.remove('dest-card-visible');
+            card.classList.add('dest-card-hidden');
+        }
+
+        filterBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(function (b) {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                currentFilter = btn.getAttribute('data-filter') || 'all';
+                applyFilters();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                currentSearch = searchInput.value;
+                applyFilters();
+            });
+
+            searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    currentSearch = '';
+                    applyFilters();
+                }
+            });
+        }
+
+        applyFilters();
+    }
+
+    /* ============================================================
+       GENERAL fade-in observer
+    ============================================================ */
+    function initGeneralFadeIn() {
+        var els = document.querySelectorAll('#gourmet.fade-in, .dest-filter-wrapper.fade-in');
+        if (!els.length) return;
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        els.forEach(function (el) { obs.observe(el); });
+    }
+
+    /* ============================================================
+       BOOT
+    ============================================================ */
+    function boot() {
+        initGeneralFadeIn();
+        initGourmetFadeIn();
+        initDestFilter();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+
+})();
+    </script>
+
+    <!-- Accessibility JS -->
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
+  function isEnglish() {
+    return document.body.classList.contains('lang-en');
+  }
+
+  /* ========================================================
+     1. PATCH LANDMARK ROLES ON EXISTING ELEMENTS
+  ======================================================== */
+  (function patchLandmarks() {
+    var hero = document.querySelector('header.hero');
+    if (hero && !hero.hasAttribute('role')) {
+      hero.setAttribute('role', 'banner');
+    }
+
+    var footer = document.querySelector('footer');
+    if (footer && !footer.hasAttribute('role')) {
+      footer.setAttribute('role', 'contentinfo');
+    }
+
+    var nav = document.querySelector('nav.nav');
+    if (nav) {
+      if (!nav.hasAttribute('role')) nav.setAttribute('role', 'navigation');
+      nav.setAttribute('aria-label', 'メインナビゲーション / Main navigation');
+    }
+
+    var existingMain = document.querySelector('main');
+    if (!existingMain) {
+      var sections = [
+        document.getElementById('destinations'),
+        document.getElementById('map'),
+        document.getElementById('seasons'),
+        document.getElementById('climate'),
+        document.getElementById('tips')
+      ].filter(Boolean);
+
+      if (sections.length > 0) {
+        var mainEl = document.createElement('main');
+        mainEl.id = 'main-content';
+
+        var firstSection = sections[0];
+        firstSection.parentNode.insertBefore(mainEl, firstSection);
+
+        sections.forEach(function (sec) {
+          mainEl.appendChild(sec);
+        });
+      }
+    }
+  })();
+
+  /* ========================================================
+     2. LANGUAGE TOGGLE — aria-pressed + aria-label
+  ======================================================== */
+  (function patchLangToggle() {
+    var jaBtn = document.querySelector('#langToggle button[data-lang="ja"]');
+    var enBtn = document.querySelector('#langToggle button[data-lang="en"]');
+
+    if (jaBtn) {
+      jaBtn.setAttribute('aria-label', '日本語に切り替え');
+      jaBtn.setAttribute('aria-pressed', jaBtn.classList.contains('active') ? 'true' : 'false');
+    }
+    if (enBtn) {
+      enBtn.setAttribute('aria-label', '英語に切り替え / Switch to English');
+      enBtn.setAttribute('aria-pressed', enBtn.classList.contains('active') ? 'true' : 'false');
+    }
+
+    var langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-lang]');
+        if (!btn) return;
+        var allBtns = langToggle.querySelectorAll('button[data-lang]');
+        allBtns.forEach(function (b) {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      });
+    }
+  })();
+
+  /* ========================================================
+     3. NAVIGATION — aria-current on scroll
+  ======================================================== */
+  (function patchNavCurrent() {
+    var navLinks = Array.from(document.querySelectorAll('nav.nav a[href^="#"]'));
+    if (!navLinks.length) return;
+
+    var sectionIds = navLinks.map(function (a) {
+      return a.getAttribute('href').replace('#', '');
+    });
+
+    var sections = sectionIds.map(function (id) {
+      return document.getElementById(id);
+    }).filter(Boolean);
+
+    function updateCurrent() {
+      var scrollY = window.scrollY + 120;
+      var current = null;
+
+      sections.forEach(function (sec) {
+        if (sec.offsetTop <= scrollY) {
+          current = sec.id;
+        }
+      });
+
+      navLinks.forEach(function (a) {
+        var href = a.getAttribute('href').replace('#', '');
+        if (href === current) {
+          a.setAttribute('aria-current', 'page');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateCurrent, { passive: true });
+    updateCurrent();
+  })();
+
+  /* ========================================================
+     4. DESTINATION CARDS — keyboard support + ARIA
+  ======================================================== */
+  (function patchCards() {
+    var cardInfo = {
+      red:    { ja: '東京',   en: 'Tokyo',    imgLabel: '東京 / Tokyo' },
+      purple: { ja: '京都',   en: 'Kyoto',    imgLabel: '京都 / Kyoto' },
+      orange: { ja: '大阪',   en: 'Osaka',    imgLabel: '大阪 / Osaka' },
+      blue:   { ja: '富士山', en: 'Mt. Fuji', imgLabel: '富士山 / Mt. Fuji' },
+      teal:   { ja: '沖縄',   en: 'Okinawa',  imgLabel: '沖縄 / Okinawa' },
+      green:  { ja: '北海道', en: 'Hokkaido', imgLabel: '北海道 / Hokkaido' }
+    };
+
+    document.querySelectorAll('article.card').forEach(function (card, index) {
+      var accent = card.getAttribute('data-accent') || '';
+      var info = cardInfo[accent] || { ja: '観光地', en: 'Destination', imgLabel: '観光地 / Destination' };
+
+      card.setAttribute('tabindex', '0');
+
+      function setCardLabel() {
+        var label = isEnglish()
+          ? 'View details for ' + info.en
+          : info.ja + 'の詳細を見る';
+        card.setAttribute('aria-label', label);
+      }
+      setCardLabel();
+
+      var desc = card.querySelector('.card-body p');
+      if (desc) {
+        var descId = 'card-desc-' + (accent || index);
+        desc.id = descId;
+        card.setAttribute('aria-describedby', descId);
+      }
+
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+
+      var cardImage = card.querySelector('.card-image');
+      if (cardImage) {
+        cardImage.setAttribute('role', 'img');
+        cardImage.setAttribute('aria-label', info.imgLabel + 'の風景 / ' + info.en + ' scenery');
+      }
+
+      var mapBtn = card.querySelector('.card-map-btn');
+      if (mapBtn) {
+        function setMapBtnLabel() {
+          var label = isEnglish()
+            ? 'View ' + info.en + ' on map'
+            : info.ja + 'を地図で見る / View ' + info.en + ' on map';
+          mapBtn.setAttribute('aria-label', label);
+        }
+        setMapBtnLabel();
+        observeLangChange(setMapBtnLabel);
+      }
+
+      observeLangChange(setCardLabel);
+    });
+  })();
+
+  /* ========================================================
+     5. PHOTO MODAL — role, aria-modal, focus trap
+  ======================================================== */
+  (function patchModal() {
+    var overlay   = document.getElementById('photoModal');
+    var modalBox  = document.getElementById('modalBox');
+    var closeBtn  = document.getElementById('modalClose');
+
+    if (!overlay || !modalBox) return;
+
+    modalBox.setAttribute('role', 'dialog');
+    modalBox.setAttribute('aria-modal', 'true');
+    modalBox.setAttribute('aria-labelledby', 'modalTitle');
+
+    if (closeBtn) {
+      closeBtn.setAttribute('aria-label', 'モーダルを閉じる / Close modal');
+    }
+
+    var triggerElement = null;
+
+    document.querySelectorAll('article.card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        triggerElement = card;
+      }, true);
+    });
+
+    var FOCUSABLE = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    function getFocusable() {
+      return Array.from(modalBox.querySelectorAll(FOCUSABLE)).filter(function (el) {
+        return el.offsetParent !== null;
+      });
+    }
+
+    function trapFocus(e) {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key !== 'Tab') return;
+
+      var focusable = getFocusable();
+      if (!focusable.length) { e.preventDefault(); return; }
+
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    var modalObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class') {
+          if (overlay.classList.contains('open')) {
+            onModalOpen();
+          } else {
+            onModalClose();
+          }
+        }
+      });
+    });
+    modalObserver.observe(overlay, { attributes: true });
+
+    function onModalOpen() {
+      document.addEventListener('keydown', trapFocus);
+      setTimeout(function () {
+        var focusable = getFocusable();
+        if (focusable.length) focusable[0].focus();
+      }, 50);
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function onModalClose() {
+      document.removeEventListener('keydown', trapFocus);
+      overlay.setAttribute('aria-hidden', 'true');
+      if (triggerElement) {
+        triggerElement.focus();
+        triggerElement = null;
+      }
+    }
+
+    overlay.setAttribute('aria-hidden', 'true');
+  })();
+
+  /* ========================================================
+     6. CLIMATE TABS — role="tablist/tab", aria-selected,
+        arrow-key navigation
+  ======================================================== */
+  (function patchClimateTabs() {
+    var tabsContainer = document.querySelector('.climate-tabs');
+    if (!tabsContainer) return;
+
+    tabsContainer.setAttribute('role', 'tablist');
+    tabsContainer.setAttribute('aria-label', '都市を選択 / Select city');
+
+    var tabs = Array.from(tabsContainer.querySelectorAll('.climate-tab'));
+
+    tabs.forEach(function (tab) {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', 'climateTbody');
+      tab.setAttribute('aria-selected', tab.classList.contains('active') ? 'true' : 'false');
+    });
+
+    tabsContainer.addEventListener('click', function (e) {
+      var clickedTab = e.target.closest('.climate-tab');
+      if (!clickedTab) return;
+
+      setTimeout(function () {
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+        });
+        updateFilterStatus(clickedTab);
+      }, 0);
+    });
+
+    tabsContainer.addEventListener('keydown', function (e) {
+      var focused = document.activeElement;
+      if (!focused || !focused.classList.contains('climate-tab')) return;
+
+      var visibleTabs = tabs.filter(function (t) {
+        return t.offsetParent !== null;
+      });
+      var idx = visibleTabs.indexOf(focused);
+      if (idx === -1) return;
+
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        next = visibleTabs[(idx + 1) % visibleTabs.length];
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        next = visibleTabs[(idx - 1 + visibleTabs.length) % visibleTabs.length];
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        next = visibleTabs[0];
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        next = visibleTabs[visibleTabs.length - 1];
+      }
+
+      if (next) {
+        next.focus();
+        next.click();
+      }
+    });
+  })();
+
+  /* ========================================================
+     7. BACK TO TOP BUTTON
+  ======================================================== */
+  (function patchBackToTop() {
+    var btn = document.getElementById('backToTop');
+    if (btn) {
+      btn.setAttribute('aria-label', 'ページトップへ戻る / Back to top');
+    }
+  })();
+
+  /* ========================================================
+     8. FILTER STATUS — ARIA live region helper
+  ======================================================== */
+  window.announceFilterStatus = function (count) {
+    var statusEl = document.getElementById('filter-status');
+    if (!statusEl) return;
+    var msg = isEnglish()
+      ? count + ' destination' + (count !== 1 ? 's' : '') + ' found'
+      : count + '件の観光地が見つかりました';
+    statusEl.textContent = '';
+    setTimeout(function () {
+      statusEl.textContent = msg;
+    }, 10);
+  };
+
+  /* ========================================================
+     9. LANGUAGE CHANGE OBSERVER
+  ======================================================== */
+  var langChangeCallbacks = [];
+
+  function observeLangChange(cb) {
+    langChangeCallbacks.push(cb);
+  }
+
+  var langObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      if (m.attributeName === 'class') {
+        langChangeCallbacks.forEach(function (cb) {
+          try { cb(); } catch (err) { /* ignore */ }
+        });
+      }
+    });
+  });
+  langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  /* ========================================================
+     10. HERO CTA
+  ======================================================== */
+  (function patchHeroCTA() {
+    document.querySelectorAll('a.hero-cta').forEach(function (cta) {
+      if (!cta.hasAttribute('aria-label')) {
+        cta.setAttribute('role', 'button');
+      }
+    });
+  })();
+
+});
     </script>
 
 </body>

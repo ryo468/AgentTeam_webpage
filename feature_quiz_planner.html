@@ -1,0 +1,1679 @@
+<!-- QUIZ_PLANNER_FEATURE: CSS -->
+<style id="quiz-planner-css">
+    /* ===== Quiz Section ===== */
+    #quiz {
+        background: linear-gradient(160deg, #fff9fb 0%, #f3e5f5 40%, #e8f4fd 100%);
+    }
+
+    .quiz-wrapper {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    /* Progress Bar */
+    .quiz-progress-bar-container {
+        background: rgba(194, 24, 91, 0.12);
+        border-radius: 50px;
+        height: 8px;
+        margin-bottom: 2.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .quiz-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #c2185b, #7b1fa2);
+        border-radius: 50px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 0%;
+    }
+
+    .quiz-progress-label {
+        text-align: center;
+        font-size: 0.82rem;
+        color: #aaa;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Question Container */
+    .quiz-question-container {
+        position: relative;
+        min-height: 320px;
+    }
+
+    .quiz-question {
+        display: none;
+        animation: quizSlideIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quiz-question.active {
+        display: block;
+    }
+
+    .quiz-question.slide-out {
+        animation: quizSlideOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes quizSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes quizSlideOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+    }
+
+    .quiz-question-number {
+        display: inline-block;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+    }
+
+    .quiz-question h3 {
+        font-size: clamp(1.3rem, 3vw, 1.7rem);
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+
+    .quiz-question h3[data-lang-en] {
+        display: none;
+        font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+    }
+
+    body.lang-en .quiz-question h3[data-lang-ja] {
+        display: none !important;
+    }
+
+    body.lang-en .quiz-question h3[data-lang-en] {
+        display: block !important;
+    }
+
+    .quiz-answers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        margin-top: 1.5rem;
+    }
+
+    .quiz-answer-btn {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.4rem;
+        border: 2px solid rgba(194, 24, 91, 0.18);
+        border-radius: 16px;
+        background: #fff;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2d2d2d;
+        text-align: left;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-answer-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        opacity: 0;
+        transition: opacity 0.25s;
+    }
+
+    .quiz-answer-btn:hover {
+        border-color: #c2185b;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(194, 24, 91, 0.18);
+    }
+
+    .quiz-answer-btn:hover::before {
+        opacity: 0.06;
+    }
+
+    .quiz-answer-btn.selected {
+        border-color: #c2185b;
+        background: linear-gradient(135deg, rgba(194, 24, 91, 0.08), rgba(123, 31, 162, 0.08));
+        color: #c2185b;
+    }
+
+    .quiz-answer-icon {
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .quiz-answer-text {
+        position: relative;
+        z-index: 1;
+        line-height: 1.3;
+    }
+
+    .quiz-answer-text .ja-text {
+        display: block;
+        font-size: 0.95rem;
+    }
+
+    .quiz-answer-text .en-text {
+        display: block;
+        font-size: 0.78rem;
+        color: #999;
+        font-weight: 500;
+        margin-top: 0.1rem;
+    }
+
+    body.lang-en .quiz-answer-btn .ja-text {
+        display: none !important;
+    }
+
+    body.lang-en .quiz-answer-btn .en-text {
+        font-size: 0.95rem;
+        color: inherit;
+        font-weight: 600;
+    }
+
+    /* Horizontal answer layout for Q2 and Q3 (2 options) */
+    .quiz-answers.quiz-answers-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .quiz-answers.quiz-answers-row .quiz-answer-btn {
+        flex: 1;
+        min-width: 160px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.4rem 1rem;
+    }
+
+    .quiz-answers.quiz-answers-row .quiz-answer-text {
+        text-align: center;
+    }
+
+    /* Result Card */
+    .quiz-result {
+        display: none;
+        animation: quizSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quiz-result.active {
+        display: block;
+    }
+
+    .quiz-result-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-result-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #c2185b, #7b1fa2, #1565c0);
+    }
+
+    .quiz-result-confetti {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        animation: confettiFall 2.5s ease-in forwards;
+    }
+
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(-20px) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(300px) rotate(540deg);
+            opacity: 0;
+        }
+    }
+
+    .quiz-result-emoji {
+        font-size: 5rem;
+        margin-bottom: 0.5rem;
+        animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        display: inline-block;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0); opacity: 0; }
+        60% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .quiz-result-tag {
+        display: inline-block;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        padding: 0.3rem 1.2rem;
+        border-radius: 50px;
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .quiz-result-name {
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        font-weight: 900;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+        line-height: 1.1;
+    }
+
+    .quiz-result-name-en {
+        font-size: 1rem;
+        color: #aaa;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+    }
+
+    .quiz-result-desc {
+        font-size: 0.98rem;
+        color: #555;
+        max-width: 480px;
+        margin: 0 auto 1.8rem;
+        line-height: 1.8;
+    }
+
+    .quiz-result-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .quiz-btn-primary {
+        padding: 0.75rem 2rem;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        box-shadow: 0 6px 20px rgba(194, 24, 91, 0.3);
+        letter-spacing: 0.03em;
+    }
+
+    .quiz-btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(194, 24, 91, 0.4);
+    }
+
+    .quiz-btn-secondary {
+        padding: 0.75rem 2rem;
+        background: transparent;
+        color: #7b1fa2;
+        border: 2px solid #7b1fa2;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        letter-spacing: 0.03em;
+    }
+
+    .quiz-btn-secondary:hover {
+        background: #7b1fa2;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(123, 31, 162, 0.3);
+    }
+
+    /* ===== Planner Section ===== */
+    #planner {
+        background: #fff;
+    }
+
+    .planner-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Planner Card */
+    .planner-card {
+        background: #fafaf7;
+        border-radius: 24px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+        margin-bottom: 2.5rem;
+    }
+
+    .planner-step-label {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .planner-step-num {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .planner-step-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    /* Day selector buttons */
+    .planner-day-btns {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .planner-day-btn {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        border: 2px solid rgba(194, 24, 91, 0.25);
+        background: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #555;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .planner-day-btn:hover {
+        border-color: #c2185b;
+        color: #c2185b;
+        transform: scale(1.08);
+    }
+
+    .planner-day-btn.active {
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(194, 24, 91, 0.35);
+        transform: scale(1.08);
+    }
+
+    /* Destination checkboxes */
+    .planner-dest-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+    }
+
+    .planner-dest-item {
+        position: relative;
+    }
+
+    .planner-dest-item input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .planner-dest-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 1rem 0.6rem;
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.25s;
+        text-align: center;
+        user-select: none;
+    }
+
+    .planner-dest-label:hover {
+        border-color: #c2185b;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(194, 24, 91, 0.12);
+    }
+
+    .planner-dest-item input:checked + .planner-dest-label {
+        border-color: #c2185b;
+        background: linear-gradient(135deg, rgba(194, 24, 91, 0.07), rgba(123, 31, 162, 0.07));
+        box-shadow: 0 6px 18px rgba(194, 24, 91, 0.15);
+    }
+
+    .planner-dest-emoji {
+        font-size: 2rem;
+    }
+
+    .planner-dest-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .planner-dest-name-en {
+        font-size: 0.72rem;
+        color: #aaa;
+    }
+
+    .planner-max-hint {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-top: 0.8rem;
+    }
+
+    /* Generate Button */
+    .planner-generate-btn {
+        display: block;
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+        padding: 1.1rem 2rem;
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        box-shadow: 0 8px 24px rgba(194, 24, 91, 0.3);
+        letter-spacing: 0.04em;
+    }
+
+    .planner-generate-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 32px rgba(194, 24, 91, 0.4);
+    }
+
+    .planner-generate-btn:active {
+        transform: translateY(-1px);
+    }
+
+    /* Schedule Output */
+    .planner-schedule {
+        display: none;
+        animation: quizSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .planner-schedule.active {
+        display: block;
+    }
+
+    .planner-schedule-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .planner-schedule-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 0.3rem;
+    }
+
+    .planner-schedule-sub {
+        font-size: 0.88rem;
+        color: #aaa;
+        letter-spacing: 0.08em;
+    }
+
+    /* Day Row */
+    .planner-day-row {
+        margin-bottom: 1.8rem;
+    }
+
+    .planner-day-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .planner-day-badge {
+        background: linear-gradient(135deg, #c2185b, #7b1fa2);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 800;
+        padding: 0.35rem 1.1rem;
+        border-radius: 50px;
+        letter-spacing: 0.06em;
+        flex-shrink: 0;
+    }
+
+    .planner-day-dest-tag {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.25rem 0.85rem;
+        border-radius: 20px;
+        letter-spacing: 0.04em;
+    }
+
+    /* Activity Cards */
+    .planner-activities {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+
+    .planner-activity {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        border-top: 3px solid #c2185b;
+        transition: transform 0.25s;
+    }
+
+    .planner-activity:hover {
+        transform: translateY(-3px);
+    }
+
+    .planner-activity-time {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #aaa;
+        margin-bottom: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .planner-activity-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        line-height: 1.4;
+    }
+
+    .planner-activity-name-en {
+        font-size: 0.76rem;
+        color: #aaa;
+        margin-top: 0.2rem;
+        line-height: 1.3;
+    }
+
+    body.lang-en .planner-activity-name {
+        display: none !important;
+    }
+
+    body.lang-en .planner-activity-name-en {
+        display: block !important;
+        font-size: 0.88rem;
+        color: #1a1a2e;
+        font-weight: 700;
+    }
+
+    /* Destination color themes for activity borders */
+    .planner-activity[data-dest="tokyo"] { border-top-color: #c2185b; }
+    .planner-activity[data-dest="kyoto"] { border-top-color: #7b1fa2; }
+    .planner-activity[data-dest="osaka"] { border-top-color: #e65100; }
+    .planner-activity[data-dest="fuji"] { border-top-color: #1565c0; }
+    .planner-activity[data-dest="okinawa"] { border-top-color: #00838f; }
+    .planner-activity[data-dest="hokkaido"] { border-top-color: #2e7d32; }
+
+    /* Activity card soft bg per destination */
+    .planner-activity[data-dest="tokyo"] { background: #fff9fa; }
+    .planner-activity[data-dest="kyoto"] { background: #fdf5ff; }
+    .planner-activity[data-dest="osaka"] { background: #fff8f0; }
+    .planner-activity[data-dest="fuji"] { background: #f0f4ff; }
+    .planner-activity[data-dest="okinawa"] { background: #f0fbfc; }
+    .planner-activity[data-dest="hokkaido"] { background: #f0faf0; }
+
+    /* Destination day tag colors */
+    .planner-day-dest-tag[data-dest="tokyo"] { background: #fff0f0; color: #c2185b; }
+    .planner-day-dest-tag[data-dest="kyoto"] { background: #f3e5f5; color: #7b1fa2; }
+    .planner-day-dest-tag[data-dest="osaka"] { background: #fff3e0; color: #e65100; }
+    .planner-day-dest-tag[data-dest="fuji"] { background: #e8f4fd; color: #1565c0; }
+    .planner-day-dest-tag[data-dest="okinawa"] { background: #e0f7fa; color: #00838f; }
+    .planner-day-dest-tag[data-dest="hokkaido"] { background: #e8f5e9; color: #2e7d32; }
+
+    .planner-reset-btn {
+        display: block;
+        margin: 2rem auto 0;
+        padding: 0.7rem 2rem;
+        background: transparent;
+        color: #7b1fa2;
+        border: 2px solid #7b1fa2;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        letter-spacing: 0.03em;
+    }
+
+    .planner-reset-btn:hover {
+        background: #7b1fa2;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(123, 31, 162, 0.28);
+    }
+
+    /* No destination selected warning */
+    .planner-no-dest-msg {
+        display: none;
+        text-align: center;
+        color: #c2185b;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 0.8rem;
+        padding: 0.6rem 1rem;
+        background: rgba(194, 24, 91, 0.06);
+        border-radius: 10px;
+        animation: quizSlideIn 0.3s ease;
+    }
+
+    /* ===== Responsive — Quiz & Planner ===== */
+    @media (max-width: 768px) {
+        .quiz-answers.quiz-answers-row {
+            flex-direction: column;
+        }
+
+        .quiz-answers.quiz-answers-row .quiz-answer-btn {
+            flex-direction: row;
+            text-align: left;
+            align-items: center;
+        }
+
+        .quiz-answers.quiz-answers-row .quiz-answer-text {
+            text-align: left;
+        }
+
+        .quiz-result-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .quiz-btn-primary,
+        .quiz-btn-secondary {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .planner-dest-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .planner-activities {
+            grid-template-columns: 1fr;
+        }
+
+        .planner-card {
+            padding: 1.8rem 1.2rem;
+        }
+
+        .planner-day-badge {
+            font-size: 0.78rem;
+            padding: 0.3rem 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .planner-dest-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quiz-result-card {
+            padding: 1.8rem 1.2rem;
+        }
+
+        .quiz-result-emoji {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+<!-- QUIZ_PLANNER_FEATURE: QUIZ HTML -->
+<section id="quiz" class="section fade-in">
+    <h2 class="section-title">
+        <span data-lang-ja>🗺️ 行き先診断クイズ</span>
+        <span data-lang-en>🗺️ Destination Quiz</span>
+    </h2>
+    <p class="section-subtitle">
+        <span data-lang-ja>4つの質問で、あなたにぴったりの旅先を診断します</span>
+        <span data-lang-en>4 questions to find your perfect Japan destination</span>
+    </p>
+
+    <div class="quiz-wrapper fade-in">
+        <!-- Progress -->
+        <p class="quiz-progress-label" id="quiz-progress-label">
+            <span data-lang-ja>質問 <span id="quiz-q-num">1</span> / 4</span>
+            <span data-lang-en>Question <span id="quiz-q-num-en">1</span> / 4</span>
+        </p>
+        <div class="quiz-progress-bar-container">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Questions -->
+        <div class="quiz-question-container" id="quiz-question-container">
+
+            <!-- Q1 -->
+            <div class="quiz-question active" data-q="1">
+                <span class="quiz-question-number">Q1</span>
+                <h3 data-lang-ja>どんな旅がしたいですか？</h3>
+                <h3 data-lang-en>What type of trip do you prefer?</h3>
+                <div class="quiz-answers">
+                    <button class="quiz-answer-btn" data-tags="nature" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🌿</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">自然・アウトドア</span>
+                            <span class="en-text">Nature & Outdoors</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="culture" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">⛩️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">文化・歴史</span>
+                            <span class="en-text">Culture & History</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="city" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🏙️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">グルメ・都市</span>
+                            <span class="en-text">Food & City</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="quiz-question" data-q="2">
+                <span class="quiz-question-number">Q2</span>
+                <h3 data-lang-ja>好きな季節は？</h3>
+                <h3 data-lang-en>Preferred season?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="warm" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🌸</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">春・夏</span>
+                            <span class="en-text">Spring & Summer</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="cool" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🍁</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">秋・冬</span>
+                            <span class="en-text">Autumn & Winter</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="quiz-question" data-q="3">
+                <span class="quiz-question-number">Q3</span>
+                <h3 data-lang-ja>どんな旅スタイル？</h3>
+                <h3 data-lang-en>What's your travel style?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="active" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🏃</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">アクティブ（歩き回る）</span>
+                            <span class="en-text">Active — Explore on foot</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="relaxed" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">☕</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">のんびり（ゆっくり）</span>
+                            <span class="en-text">Relaxed — Take it slow</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="quiz-question" data-q="4">
+                <span class="quiz-question-number">Q4</span>
+                <h3 data-lang-ja>旅行期間は？</h3>
+                <h3 data-lang-en>How long is your trip?</h3>
+                <div class="quiz-answers quiz-answers-row">
+                    <button class="quiz-answer-btn" data-tags="short" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">⚡</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">1〜3日</span>
+                            <span class="en-text">1–3 days</span>
+                        </span>
+                    </button>
+                    <button class="quiz-answer-btn" data-tags="long" onclick="quizAnswer(this)">
+                        <span class="quiz-answer-icon">🗓️</span>
+                        <span class="quiz-answer-text">
+                            <span class="ja-text">4〜7日</span>
+                            <span class="en-text">4–7 days</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+        </div><!-- /quiz-question-container -->
+
+        <!-- Result -->
+        <div class="quiz-result" id="quiz-result">
+            <div class="quiz-result-card">
+                <div class="quiz-result-confetti" id="quiz-confetti"></div>
+                <div class="quiz-result-emoji" id="quiz-result-emoji">🗼</div>
+                <div class="quiz-result-tag">
+                    <span data-lang-ja>あなたにおすすめ！</span>
+                    <span data-lang-en>Your match!</span>
+                </div>
+                <div class="quiz-result-name" id="quiz-result-name"></div>
+                <div class="quiz-result-name-en" id="quiz-result-name-en"></div>
+                <p class="quiz-result-desc" id="quiz-result-desc"></p>
+                <div class="quiz-result-actions">
+                    <button class="quiz-btn-primary" id="quiz-see-details">
+                        <span data-lang-ja>🔍 詳細を見る</span>
+                        <span data-lang-en>🔍 See Details</span>
+                    </button>
+                    <button class="quiz-btn-secondary" onclick="quizReset()">
+                        <span data-lang-ja>🔄 もう一度</span>
+                        <span data-lang-en>🔄 Retake Quiz</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /quiz-wrapper -->
+</section>
+
+<!-- QUIZ_PLANNER_FEATURE: PLANNER HTML -->
+<section id="planner" class="section fade-in">
+    <h2 class="section-title">
+        <span data-lang-ja>📅 旅程プランナー</span>
+        <span data-lang-en>📅 Itinerary Planner</span>
+    </h2>
+    <p class="section-subtitle">
+        <span data-lang-ja>日数と訪問地を選んで、オリジナル旅程を作成しよう</span>
+        <span data-lang-en>Choose days and destinations to build your custom itinerary</span>
+    </p>
+
+    <div class="planner-wrapper">
+        <div class="planner-card fade-in">
+
+            <!-- Step 1: Days -->
+            <div class="planner-step-label">
+                <div class="planner-step-num">1</div>
+                <div class="planner-step-title">
+                    <span data-lang-ja>日数を選んでください</span>
+                    <span data-lang-en>Select number of days</span>
+                </div>
+            </div>
+            <div class="planner-day-btns" id="planner-day-btns">
+                <button class="planner-day-btn" data-day="1" onclick="plannerSelectDay(this)">1</button>
+                <button class="planner-day-btn" data-day="2" onclick="plannerSelectDay(this)">2</button>
+                <button class="planner-day-btn active" data-day="3" onclick="plannerSelectDay(this)">3</button>
+                <button class="planner-day-btn" data-day="4" onclick="plannerSelectDay(this)">4</button>
+                <button class="planner-day-btn" data-day="5" onclick="plannerSelectDay(this)">5</button>
+                <button class="planner-day-btn" data-day="6" onclick="plannerSelectDay(this)">6</button>
+                <button class="planner-day-btn" data-day="7" onclick="plannerSelectDay(this)">7</button>
+            </div>
+
+        </div>
+
+        <div class="planner-card fade-in">
+
+            <!-- Step 2: Destinations -->
+            <div class="planner-step-label">
+                <div class="planner-step-num">2</div>
+                <div class="planner-step-title">
+                    <span data-lang-ja>訪問地を選んでください（最大3つ）</span>
+                    <span data-lang-en>Choose destinations (up to 3)</span>
+                </div>
+            </div>
+            <div class="planner-dest-grid" id="planner-dest-grid">
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-tokyo" name="dest" value="tokyo" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-tokyo">
+                        <span class="planner-dest-emoji">🗼</span>
+                        <span class="planner-dest-name" data-lang-ja>東京</span>
+                        <span class="planner-dest-name" data-lang-en>Tokyo</span>
+                        <span class="planner-dest-name-en">Tokyo</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-kyoto" name="dest" value="kyoto" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-kyoto">
+                        <span class="planner-dest-emoji">⛩️</span>
+                        <span class="planner-dest-name" data-lang-ja>京都</span>
+                        <span class="planner-dest-name" data-lang-en>Kyoto</span>
+                        <span class="planner-dest-name-en">Kyoto</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-osaka" name="dest" value="osaka" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-osaka">
+                        <span class="planner-dest-emoji">🦀</span>
+                        <span class="planner-dest-name" data-lang-ja>大阪</span>
+                        <span class="planner-dest-name" data-lang-en>Osaka</span>
+                        <span class="planner-dest-name-en">Osaka</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-fuji" name="dest" value="fuji" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-fuji">
+                        <span class="planner-dest-emoji">🗻</span>
+                        <span class="planner-dest-name" data-lang-ja>富士山</span>
+                        <span class="planner-dest-name" data-lang-en>Mt. Fuji</span>
+                        <span class="planner-dest-name-en">Mt. Fuji</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-okinawa" name="dest" value="okinawa" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-okinawa">
+                        <span class="planner-dest-emoji">🌺</span>
+                        <span class="planner-dest-name" data-lang-ja>沖縄</span>
+                        <span class="planner-dest-name" data-lang-en>Okinawa</span>
+                        <span class="planner-dest-name-en">Okinawa</span>
+                    </label>
+                </div>
+
+                <div class="planner-dest-item">
+                    <input type="checkbox" id="dest-hokkaido" name="dest" value="hokkaido" onchange="plannerDestChange()">
+                    <label class="planner-dest-label" for="dest-hokkaido">
+                        <span class="planner-dest-emoji">🦌</span>
+                        <span class="planner-dest-name" data-lang-ja>北海道</span>
+                        <span class="planner-dest-name" data-lang-en>Hokkaido</span>
+                        <span class="planner-dest-name-en">Hokkaido</span>
+                    </label>
+                </div>
+
+            </div>
+            <p class="planner-max-hint">
+                <span data-lang-ja>💡 最大3つまで選択できます</span>
+                <span data-lang-en>💡 You can select up to 3 destinations</span>
+            </p>
+            <p class="planner-no-dest-msg" id="planner-no-dest-msg">
+                <span data-lang-ja>⚠️ 少なくとも1つの訪問地を選んでください</span>
+                <span data-lang-en>⚠️ Please select at least one destination</span>
+            </p>
+
+        </div>
+
+        <!-- Generate Button -->
+        <button class="planner-generate-btn fade-in" onclick="plannerGenerate()">
+            <span data-lang-ja>✨ プランを作成する</span>
+            <span data-lang-en>✨ Create My Plan</span>
+        </button>
+
+        <!-- Schedule Output -->
+        <div class="planner-schedule" id="planner-schedule">
+            <div class="planner-schedule-header">
+                <h3 class="planner-schedule-title" id="planner-schedule-title"></h3>
+                <p class="planner-schedule-sub" id="planner-schedule-sub"></p>
+            </div>
+            <div id="planner-schedule-body"></div>
+            <button class="planner-reset-btn" onclick="plannerReset()">
+                <span data-lang-ja>🔄 プランをリセット</span>
+                <span data-lang-en>🔄 Reset Plan</span>
+            </button>
+        </div>
+
+    </div><!-- /planner-wrapper -->
+</section>
+
+<!-- QUIZ_PLANNER_FEATURE: JS -->
+<script id="quiz-planner-js">
+(function () {
+    'use strict';
+
+    /* =============================================
+       QUIZ DATA & LOGIC
+    ============================================= */
+    const QUIZ_DESTINATIONS = {
+        tokyo: {
+            emoji: '🗼',
+            nameJa: '東京',
+            nameEn: 'Tokyo',
+            descJa: '最先端のカルチャーと伝統が融合する日本の首都。多彩なグルメ、最新スポット、そして下町の魅力を一度に楽しめます。',
+            descEn: 'Japan\'s capital where cutting-edge culture meets tradition. Enjoy diverse cuisine, trending hotspots, and charming old-town neighborhoods.',
+            scores: { city: 2, active: 2, long: 1, warm: 1 },
+            destId: 'tokyo'
+        },
+        kyoto: {
+            emoji: '⛩️',
+            nameJa: '京都',
+            nameEn: 'Kyoto',
+            descJa: '千年の歴史を持つ古都。神社仏閣、枯山水の庭園、そして伝統的な京料理があなたを非日常へと誘います。',
+            descEn: 'The ancient capital with a thousand years of history. Shrines, zen gardens, and traditional cuisine transport you to another era.',
+            scores: { culture: 2, relaxed: 2, cool: 1, short: 1 },
+            destId: 'kyoto'
+        },
+        osaka: {
+            emoji: '🦀',
+            nameJa: '大阪',
+            nameEn: 'Osaka',
+            descJa: '「食い倒れの街」として知られる大阪は、たこ焼き・お好み焼きなど絶品グルメと、陽気な人々の笑顔が魅力です。',
+            descEn: 'Known as Japan\'s food capital, Osaka delights with takoyaki, okonomiyaki, and the warmest, funniest people in Japan.',
+            scores: { city: 2, short: 1, warm: 2, active: 1 },
+            destId: 'osaka'
+        },
+        fuji: {
+            emoji: '🗻',
+            nameJa: '富士山',
+            nameEn: 'Mt. Fuji',
+            descJa: '日本のシンボル、霊峰富士。登山はもちろん、河口湖からの絶景や忍野八海など、圧倒的な自然美が広がります。',
+            descEn: 'Japan\'s iconic sacred peak. Whether you climb it or admire it from Kawaguchiko, Mt. Fuji\'s majesty is awe-inspiring.',
+            scores: { nature: 2, active: 2, warm: 1, short: 1 },
+            destId: 'fuji'
+        },
+        okinawa: {
+            emoji: '🌺',
+            nameJa: '沖縄',
+            nameEn: 'Okinawa',
+            descJa: 'エメラルドグリーンの海と独自の文化が息づく南の楽園。シュノーケリングや美ら海水族館など、非日常体験が満載です。',
+            descEn: 'A tropical paradise with emerald waters and unique Ryukyu culture. Perfect for snorkeling, stunning beaches, and relaxed island vibes.',
+            scores: { nature: 2, warm: 2, relaxed: 1, long: 1 },
+            destId: 'okinawa'
+        },
+        hokkaido: {
+            emoji: '🦌',
+            nameJa: '北海道',
+            nameEn: 'Hokkaido',
+            descJa: '雄大な大自然と新鮮な海の幸、ラベンダー畑に温泉。四季折々の北海道の絶景は日本屈指の癒しをもたらします。',
+            descEn: 'Vast nature, fresh seafood, lavender fields, and hot springs. Hokkaido\'s sweeping landscapes offer the ultimate restorative escape.',
+            scores: { nature: 2, cool: 2, active: 1, long: 1 },
+            destId: 'hokkaido'
+        }
+    };
+
+    let quizCurrentQ = 1;
+    let quizTags = [];
+    const QUIZ_TOTAL = 4;
+
+    function quizUpdateProgress() {
+        const pct = ((quizCurrentQ - 1) / QUIZ_TOTAL) * 100;
+        document.getElementById('quiz-progress-fill').style.width = pct + '%';
+        const el1 = document.getElementById('quiz-q-num');
+        const el2 = document.getElementById('quiz-q-num-en');
+        if (el1) el1.textContent = quizCurrentQ;
+        if (el2) el2.textContent = quizCurrentQ;
+    }
+
+    window.quizAnswer = function (btn) {
+        const q = btn.closest('.quiz-question');
+        if (!q) return;
+
+        // Visual feedback — select the clicked btn
+        q.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        // Collect tags
+        const tags = btn.getAttribute('data-tags').split(',').map(t => t.trim());
+        quizTags = quizTags.concat(tags);
+
+        // Proceed after short delay for visual feedback
+        setTimeout(() => {
+            if (quizCurrentQ < QUIZ_TOTAL) {
+                // Slide out current question
+                q.classList.add('slide-out');
+                setTimeout(() => {
+                    q.classList.remove('active', 'slide-out');
+                    quizCurrentQ++;
+                    quizUpdateProgress();
+                    const next = document.querySelector(`.quiz-question[data-q="${quizCurrentQ}"]`);
+                    if (next) next.classList.add('active');
+                }, 350);
+            } else {
+                // Last question — show result
+                q.classList.add('slide-out');
+                setTimeout(() => {
+                    q.classList.remove('active', 'slide-out');
+                    quizCurrentQ = QUIZ_TOTAL + 1;
+                    document.getElementById('quiz-progress-fill').style.width = '100%';
+                    quizShowResult();
+                }, 350);
+            }
+        }, 280);
+    };
+
+    function quizCalcResult() {
+        const destKeys = Object.keys(QUIZ_DESTINATIONS);
+        const totals = {};
+        destKeys.forEach(k => totals[k] = 0);
+
+        quizTags.forEach(tag => {
+            destKeys.forEach(k => {
+                const s = QUIZ_DESTINATIONS[k].scores;
+                if (s[tag]) totals[k] += s[tag];
+            });
+        });
+
+        let best = 'kyoto';
+        let bestScore = -1;
+        destKeys.forEach(k => {
+            if (totals[k] > bestScore) {
+                bestScore = totals[k];
+                best = k;
+            }
+        });
+        return best;
+    }
+
+    function quizShowResult() {
+        const destKey = quizCalcResult();
+        const dest = QUIZ_DESTINATIONS[destKey];
+        const isEn = document.body.classList.contains('lang-en');
+
+        document.getElementById('quiz-result-emoji').textContent = dest.emoji;
+        document.getElementById('quiz-result-name').textContent = dest.nameJa;
+        document.getElementById('quiz-result-name-en').textContent = dest.nameEn.toUpperCase();
+
+        const descEl = document.getElementById('quiz-result-desc');
+        descEl.innerHTML =
+            `<span data-lang-ja>${dest.descJa}</span><span data-lang-en style="display:none">${dest.descEn}</span>`;
+
+        // Apply bilingual state immediately
+        if (isEn) {
+            descEl.querySelector('[data-lang-ja]').style.display = 'none';
+            descEl.querySelector('[data-lang-en]').style.display = 'block';
+        }
+
+        // Wire up "See Details" button
+        const detailsBtn = document.getElementById('quiz-see-details');
+        detailsBtn.onclick = function () {
+            if (typeof window.flyToDestination === 'function') {
+                window.flyToDestination(dest.destId);
+            }
+            const destSection = document.getElementById('destinations');
+            if (destSection) {
+                destSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
+        document.getElementById('quiz-result').classList.add('active');
+        spawnConfetti();
+    }
+
+    window.quizReset = function () {
+        quizTags = [];
+        quizCurrentQ = 1;
+        quizUpdateProgress();
+
+        document.getElementById('quiz-result').classList.remove('active');
+        document.querySelectorAll('.quiz-question').forEach(q => {
+            q.classList.remove('active', 'slide-out');
+            q.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.remove('selected'));
+        });
+        document.querySelector('.quiz-question[data-q="1"]').classList.add('active');
+    };
+
+    function spawnConfetti() {
+        const container = document.getElementById('quiz-confetti');
+        if (!container) return;
+        container.innerHTML = '';
+        const colors = ['#c2185b', '#7b1fa2', '#1565c0', '#e65100', '#00838f', '#2e7d32', '#f4c430'];
+        for (let i = 0; i < 28; i++) {
+            const p = document.createElement('div');
+            p.className = 'confetti-piece';
+            p.style.cssText = `
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 40}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-delay: ${Math.random() * 0.8}s;
+                animation-duration: ${1.8 + Math.random() * 1.2}s;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            container.appendChild(p);
+        }
+    }
+
+    // Initialize progress on load
+    quizUpdateProgress();
+
+    /* =============================================
+       PLANNER DATA & LOGIC
+    ============================================= */
+    const PLANNER_DATA = {
+        tokyo: {
+            color: '#c2185b',
+            emoji: '🗼',
+            nameJa: '東京',
+            nameEn: 'Tokyo',
+            days: [
+                {
+                    morning:   { ja: '浅草寺・雷門参拝',        en: 'Senso-ji Temple & Kaminarimon Gate' },
+                    lunch:     { ja: '築地場外市場でグルメ',      en: 'Tsukiji Outer Market food stroll' },
+                    evening:   { ja: '渋谷スクランブル交差点',    en: 'Shibuya Scramble Crossing' }
+                },
+                {
+                    morning:   { ja: '新宿御苑散策',             en: 'Shinjuku Gyoen Garden stroll' },
+                    lunch:     { ja: '原宿・竹下通り',           en: 'Harajuku Takeshita Street' },
+                    evening:   { ja: '六本木ヒルズ夜景',         en: 'Roppongi Hills night view' }
+                },
+                {
+                    morning:   { ja: '秋葉原探索',               en: 'Akihabara electronics town' },
+                    lunch:     { ja: '上野・アメ横',             en: 'Ueno Ameyoko market' },
+                    evening:   { ja: '東京スカイツリー',         en: 'Tokyo Skytree observation deck' }
+                }
+            ]
+        },
+        kyoto: {
+            color: '#7b1fa2',
+            emoji: '⛩️',
+            nameJa: '京都',
+            nameEn: 'Kyoto',
+            days: [
+                {
+                    morning:   { ja: '伏見稲荷大社',             en: 'Fushimi Inari Shrine torii gates' },
+                    lunch:     { ja: '錦市場グルメ',             en: 'Nishiki Market food walk' },
+                    evening:   { ja: '祇園散策',                 en: 'Gion district evening stroll' }
+                },
+                {
+                    morning:   { ja: '金閣寺',                   en: 'Kinkaku-ji Golden Pavilion' },
+                    lunch:     { ja: '嵐山・竹林の道',           en: 'Arashiyama bamboo grove' },
+                    evening:   { ja: '河原町グルメ',             en: 'Kawaramachi dining & bars' }
+                },
+                {
+                    morning:   { ja: '清水寺',                   en: 'Kiyomizudera Temple' },
+                    lunch:     { ja: '哲学の道',                 en: 'Philosopher\'s Path canal walk' },
+                    evening:   { ja: '二条城ライトアップ',       en: 'Nijo Castle illumination' }
+                }
+            ]
+        },
+        osaka: {
+            color: '#e65100',
+            emoji: '🦀',
+            nameJa: '大阪',
+            nameEn: 'Osaka',
+            days: [
+                {
+                    morning:   { ja: '大阪城',                   en: 'Osaka Castle & park' },
+                    lunch:     { ja: '道頓堀グルメ',             en: 'Dotonbori street food' },
+                    evening:   { ja: '通天閣・新世界',           en: 'Tsutenkaku & Shinsekai' }
+                },
+                {
+                    morning:   { ja: '海遊館',                   en: 'Kaiyukan Aquarium' },
+                    lunch:     { ja: '心斎橋ショッピング',       en: 'Shinsaibashi shopping street' },
+                    evening:   { ja: '梅田スカイビル夜景',       en: 'Umeda Sky Building night view' }
+                },
+                {
+                    morning:   { ja: '黒門市場',                 en: 'Kuromon Ichiba Market' },
+                    lunch:     { ja: 'たこ焼き・お好み焼き体験', en: 'Takoyaki & okonomiyaki tasting' },
+                    evening:   { ja: '天王寺公園・あべのハルカス', en: 'Tennoji Park & Abeno Harukas' }
+                }
+            ]
+        },
+        fuji: {
+            color: '#1565c0',
+            emoji: '🗻',
+            nameJa: '富士山',
+            nameEn: 'Mt. Fuji',
+            days: [
+                {
+                    morning:   { ja: '五合目登山口',             en: 'Fuji 5th Station trailhead' },
+                    lunch:     { ja: '富士宮焼きそば',           en: 'Fujinomiya yakisoba lunch' },
+                    evening:   { ja: '河口湖ほとりの宿',         en: 'Lakeside ryokan at Kawaguchiko' }
+                },
+                {
+                    morning:   { ja: '忍野八海散策',             en: 'Oshino Hakkai spring ponds' },
+                    lunch:     { ja: '富士吉田うどん',           en: 'Fujiyoshida udon noodles' },
+                    evening:   { ja: '河口湖大橋から富士山',     en: 'Kawaguchi Bridge Mt. Fuji sunset' }
+                },
+                {
+                    morning:   { ja: '青木ヶ原樹海ウォーク',     en: 'Aokigahara forest walk' },
+                    lunch:     { ja: '山梨のほうとう鍋',         en: 'Yamanashi hoto noodle hot pot' },
+                    evening:   { ja: '富士山世界遺産センター',   en: 'Mt. Fuji World Heritage Centre' }
+                }
+            ]
+        },
+        okinawa: {
+            color: '#00838f',
+            emoji: '🌺',
+            nameJa: '沖縄',
+            nameEn: 'Okinawa',
+            days: [
+                {
+                    morning:   { ja: '美ら海水族館',             en: 'Churaumi Aquarium' },
+                    lunch:     { ja: 'ソーキそば',               en: 'Soki soba noodles' },
+                    evening:   { ja: '古宇利島ドライブ',         en: 'Kouri Island sunset drive' }
+                },
+                {
+                    morning:   { ja: '首里城',                   en: 'Shuri Castle' },
+                    lunch:     { ja: '国際通りショッピング',     en: 'Kokusai Street shopping' },
+                    evening:   { ja: '波上宮・那覇の夕日',       en: 'Naminoue Shrine & Naha sunset' }
+                },
+                {
+                    morning:   { ja: '慶良間諸島シュノーケル',   en: 'Kerama Islands snorkeling' },
+                    lunch:     { ja: '島の海鮮',                 en: 'Fresh island seafood' },
+                    evening:   { ja: '残波岬夕日',               en: 'Zanpa Cape sunset' }
+                }
+            ]
+        },
+        hokkaido: {
+            color: '#2e7d32',
+            emoji: '🦌',
+            nameJa: '北海道',
+            nameEn: 'Hokkaido',
+            days: [
+                {
+                    morning:   { ja: '札幌市場の海鮮丼',         en: 'Sapporo market seafood rice bowl' },
+                    lunch:     { ja: '大通公園',                 en: 'Odori Park stroll' },
+                    evening:   { ja: 'ススキノグルメ',           en: 'Susukino dining & entertainment' }
+                },
+                {
+                    morning:   { ja: '小樽運河',                 en: 'Otaru Canal walk' },
+                    lunch:     { ja: '小樽寿司',                 en: 'Otaru sushi lunch' },
+                    evening:   { ja: 'ニセコ温泉',               en: 'Niseko onsen hot springs' }
+                },
+                {
+                    morning:   { ja: '富良野ラベンダー畑',       en: 'Furano lavender fields' },
+                    lunch:     { ja: '富良野カレー',             en: 'Furano curry lunch' },
+                    evening:   { ja: '美瑛の丘',                 en: 'Biei rolling hills & sunset' }
+                }
+            ]
+        }
+    };
+
+    const DEST_ORDER = ['tokyo', 'kyoto', 'osaka', 'fuji', 'okinawa', 'hokkaido'];
+
+    let plannerDays = 3;
+    let plannerDests = [];
+
+    window.plannerSelectDay = function (btn) {
+        document.querySelectorAll('.planner-day-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        plannerDays = parseInt(btn.getAttribute('data-day'));
+    };
+
+    window.plannerDestChange = function () {
+        const checked = document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked');
+        if (checked.length > 3) {
+            // Uncheck the last one
+            event.target.checked = false;
+        }
+        plannerDests = Array.from(
+            document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+
+        // Hide warning if now valid
+        if (plannerDests.length > 0) {
+            document.getElementById('planner-no-dest-msg').style.display = 'none';
+        }
+    };
+
+    window.plannerGenerate = function () {
+        // Refresh dest list
+        plannerDests = Array.from(
+            document.querySelectorAll('#planner-dest-grid input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+
+        if (plannerDests.length === 0) {
+            const msg = document.getElementById('planner-no-dest-msg');
+            msg.style.display = 'block';
+            msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            return;
+        }
+        document.getElementById('planner-no-dest-msg').style.display = 'none';
+
+        const isEn = document.body.classList.contains('lang-en');
+
+        // Build schedule title
+        const titleEl = document.getElementById('planner-schedule-title');
+        const subEl = document.getElementById('planner-schedule-sub');
+        const destNames = plannerDests.map(d => {
+            const data = PLANNER_DATA[d];
+            return `${data.emoji} ${isEn ? data.nameEn : data.nameJa}`;
+        }).join(' → ');
+
+        if (isEn) {
+            titleEl.textContent = `Your ${plannerDays}-Day Japan Itinerary`;
+            subEl.textContent = destNames;
+        } else {
+            titleEl.textContent = `${plannerDays}日間の旅程プラン`;
+            subEl.textContent = destNames;
+        }
+
+        // Build schedule body
+        const body = document.getElementById('planner-schedule-body');
+        body.innerHTML = '';
+
+        // Distribute days across destinations
+        const daysPerDest = distributeDays(plannerDays, plannerDests.length);
+
+        let globalDay = 1;
+        plannerDests.forEach((destKey, destIdx) => {
+            const destData = PLANNER_DATA[destKey];
+            const numDays = daysPerDest[destIdx];
+
+            for (let d = 0; d < numDays; d++) {
+                const dayData = destData.days[d % destData.days.length];
+                const row = buildDayRow(globalDay, destKey, destData, dayData, isEn);
+                body.appendChild(row);
+                globalDay++;
+            }
+        });
+
+        const scheduleEl = document.getElementById('planner-schedule');
+        scheduleEl.classList.add('active');
+        scheduleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    function distributeDays(totalDays, numDests) {
+        // Distribute days as evenly as possible
+        const base = Math.floor(totalDays / numDests);
+        const remainder = totalDays % numDests;
+        const result = [];
+        for (let i = 0; i < numDests; i++) {
+            result.push(base + (i < remainder ? 1 : 0));
+        }
+        return result;
+    }
+
+    function buildDayRow(dayNum, destKey, destData, dayData, isEn) {
+        const row = document.createElement('div');
+        row.className = 'planner-day-row fade-in';
+
+        const header = document.createElement('div');
+        header.className = 'planner-day-header';
+
+        const badge = document.createElement('span');
+        badge.className = 'planner-day-badge';
+        badge.textContent = isEn ? `Day ${dayNum}` : `${dayNum}日目`;
+
+        const destTag = document.createElement('span');
+        destTag.className = 'planner-day-dest-tag';
+        destTag.setAttribute('data-dest', destKey);
+        destTag.textContent = `${destData.emoji} ${isEn ? destData.nameEn : destData.nameJa}`;
+
+        header.appendChild(badge);
+        header.appendChild(destTag);
+
+        const activities = document.createElement('div');
+        activities.className = 'planner-activities';
+
+        const slots = [
+            { key: 'morning', icon: '🌅', jaLabel: '朝', enLabel: 'Morning' },
+            { key: 'lunch',   icon: '🍴', jaLabel: '昼', enLabel: 'Lunch' },
+            { key: 'evening', icon: '🌆', jaLabel: '夕', enLabel: 'Evening' }
+        ];
+
+        slots.forEach(slot => {
+            const act = document.createElement('div');
+            act.className = 'planner-activity';
+            act.setAttribute('data-dest', destKey);
+
+            const timeLabel = document.createElement('div');
+            timeLabel.className = 'planner-activity-time';
+            timeLabel.innerHTML = `<span>${slot.icon}</span><span>${isEn ? slot.enLabel : slot.jaLabel}</span>`;
+
+            const nameJa = document.createElement('div');
+            nameJa.className = 'planner-activity-name';
+            nameJa.setAttribute('data-lang-ja', '');
+            nameJa.textContent = dayData[slot.key].ja;
+
+            const nameEn = document.createElement('div');
+            nameEn.className = 'planner-activity-name-en';
+            nameEn.setAttribute('data-lang-en', '');
+            nameEn.textContent = dayData[slot.key].en;
+
+            // Apply bilingual state immediately
+            if (isEn) {
+                nameJa.style.display = 'none';
+                nameEn.style.display = 'block';
+                nameEn.style.fontSize = '0.88rem';
+                nameEn.style.color = '#1a1a2e';
+                nameEn.style.fontWeight = '700';
+            }
+
+            act.appendChild(timeLabel);
+            act.appendChild(nameJa);
+            act.appendChild(nameEn);
+            activities.appendChild(act);
+        });
+
+        row.appendChild(header);
+        row.appendChild(activities);
+
+        // Trigger fade-in via observer (add after appending)
+        requestAnimationFrame(() => {
+            if (typeof window._qpObserver !== 'undefined') {
+                window._qpObserver.observe(row);
+            }
+        });
+
+        return row;
+    }
+
+    window.plannerReset = function () {
+        const scheduleEl = document.getElementById('planner-schedule');
+        scheduleEl.classList.remove('active');
+        scheduleEl.querySelector('#planner-schedule-body').innerHTML = '';
+    };
+
+    /* =============================================
+       INTERSECTION OBSERVER — fade-in for our sections
+    ============================================= */
+    const qpObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                qpObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    window._qpObserver = qpObserver;
+
+    // Observe all .fade-in elements within our sections
+    function qpObserveAll() {
+        const sections = document.querySelectorAll('#quiz, #planner');
+        sections.forEach(sec => {
+            sec.querySelectorAll('.fade-in').forEach(el => qpObserver.observe(el));
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', qpObserveAll);
+    } else {
+        qpObserveAll();
+    }
+
+    /* =============================================
+       LANGUAGE TOGGLE — watch for body class change
+    ============================================= */
+    // When the main page toggles language, refresh dynamically built schedule
+    const langObserver = new MutationObserver(() => {
+        const scheduleEl = document.getElementById('planner-schedule');
+        if (scheduleEl && scheduleEl.classList.contains('active')) {
+            // Rebuild schedule in new language
+            plannerGenerate();
+        }
+        // Refresh result description bilingual state
+        const resultEl = document.getElementById('quiz-result');
+        if (resultEl && resultEl.classList.contains('active')) {
+            const isEn = document.body.classList.contains('lang-en');
+            const descEl = document.getElementById('quiz-result-desc');
+            if (descEl) {
+                const ja = descEl.querySelector('[data-lang-ja]');
+                const en = descEl.querySelector('[data-lang-en]');
+                if (ja && en) {
+                    ja.style.display = isEn ? 'none' : 'block';
+                    en.style.display = isEn ? 'block' : 'none';
+                }
+            }
+        }
+    });
+
+    if (document.body) {
+        langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        });
+    }
+
+})();
+</script>

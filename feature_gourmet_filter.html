@@ -1,0 +1,883 @@
+<!-- GOURMET_FILTER_FEATURE: CSS -->
+<style id="gourmet-filter-css">
+
+/* ===== Gourmet Section ===== */
+#gourmet {
+    padding: 5rem 2rem;
+    background: linear-gradient(160deg, #fff9f0 0%, #fafaf7 60%, #f9f0f5 100%);
+    overflow: hidden;
+}
+
+#gourmet .section-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+}
+
+#gourmet .section-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #888;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+}
+
+.gourmet-intro {
+    max-width: 720px;
+    margin: 0 auto 3.5rem;
+    text-align: center;
+}
+
+.gourmet-intro p {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.9;
+}
+
+.gourmet-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gourmet-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.gourmet-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gourmet-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+}
+
+.gourmet-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 140px;
+    font-size: 5rem;
+    line-height: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Distinct gradients per card via data attribute */
+.gourmet-card[data-dish="takoyaki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+}
+.gourmet-card[data-dish="sushi"] .gourmet-card-top {
+    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+}
+.gourmet-card[data-dish="ramen"] .gourmet-card-top {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+}
+.gourmet-card[data-dish="okonomiyaki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%);
+}
+.gourmet-card[data-dish="kaisendon"] .gourmet-card-top {
+    background: linear-gradient(135deg, #00838f 0%, #006064 100%);
+}
+.gourmet-card[data-dish="okinawa-soba"] .gourmet-card-top {
+    background: linear-gradient(135deg, #00796b 0%, #004d40 100%);
+}
+.gourmet-card[data-dish="kaiseki"] .gourmet-card-top {
+    background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+}
+.gourmet-card[data-dish="yakisoba"] .gourmet-card-top {
+    background: linear-gradient(135deg, #558b2f 0%, #33691e 100%);
+}
+
+.gourmet-card-top .food-emoji {
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gourmet-card:hover .food-emoji {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+.gourmet-card-body {
+    padding: 1.2rem 1.3rem 1.4rem;
+}
+
+.gourmet-dish-name {
+    margin-bottom: 0.4rem;
+}
+
+.gourmet-dish-name h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.3;
+}
+
+.gourmet-dish-name h3 span.dish-en {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #888;
+    display: block;
+    margin-top: 0.1rem;
+    letter-spacing: 0.03em;
+}
+
+.gourmet-region-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.04em;
+}
+
+.gourmet-card[data-dish="takoyaki"] .gourmet-region-badge,
+.gourmet-card[data-dish="okonomiyaki"] .gourmet-region-badge {
+    background: rgba(230, 81, 0, 0.12);
+    color: #e65100;
+}
+.gourmet-card[data-dish="sushi"] .gourmet-region-badge {
+    background: rgba(21, 101, 192, 0.12);
+    color: #1565c0;
+}
+.gourmet-card[data-dish="ramen"] .gourmet-region-badge,
+.gourmet-card[data-dish="kaisendon"] .gourmet-region-badge {
+    background: rgba(46, 125, 50, 0.12);
+    color: #2e7d32;
+}
+.gourmet-card[data-dish="okinawa-soba"] .gourmet-region-badge {
+    background: rgba(0, 131, 143, 0.12);
+    color: #00838f;
+}
+.gourmet-card[data-dish="kaiseki"] .gourmet-region-badge {
+    background: rgba(123, 31, 162, 0.12);
+    color: #7b1fa2;
+}
+.gourmet-card[data-dish="yakisoba"] .gourmet-region-badge {
+    background: rgba(85, 139, 47, 0.12);
+    color: #558b2f;
+}
+
+.gourmet-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    min-height: 2.8em;
+}
+
+.gourmet-btn {
+    display: inline-block;
+    padding: 0.45rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 2px solid #c2185b;
+    color: #c2185b;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.04em;
+    transition: background 0.22s ease, color 0.22s ease, transform 0.18s ease;
+}
+
+.gourmet-btn:hover {
+    background: #c2185b;
+    color: #fff;
+    transform: scale(1.04);
+}
+
+/* ===== Destination Filter ===== */
+.dest-filter-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 0.5rem;
+    padding: 0 0 2rem;
+}
+
+.search-wrap {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto 1.4rem;
+}
+
+.search-wrap .search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+    line-height: 1;
+}
+
+#dest-search {
+    width: 100%;
+    padding: 0.7rem 1.2rem 0.7rem 3rem;
+    border-radius: 50px;
+    border: 2px solid #e0e0e0;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: #2d2d2d;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+#dest-search:focus {
+    border-color: #c2185b;
+    box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.12);
+}
+
+#dest-search::placeholder {
+    color: #bbb;
+}
+
+.dest-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 50px;
+    border: 2px solid #c2185b;
+    color: #c2185b;
+    background: transparent;
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background 0.22s ease, color 0.22s ease,
+                transform 0.18s ease, box-shadow 0.22s ease;
+}
+
+.filter-btn:hover:not(.active) {
+    background: rgba(194, 24, 91, 0.07);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #c2185b;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(194, 24, 91, 0.3);
+}
+
+/* Destination card show/hide animation */
+.dest-card-hidden {
+    transform: scale(0.8) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+.dest-card-visible {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* No-results message */
+.dest-no-results {
+    text-align: center;
+    width: 100%;
+    padding: 3rem 1rem;
+    color: #aaa;
+    font-size: 1rem;
+    display: none;
+}
+
+.dest-no-results.visible {
+    display: block;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #gourmet {
+        padding: 3.5rem 1.2rem;
+    }
+
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .gourmet-card-top {
+        height: 110px;
+        font-size: 3.8rem;
+    }
+
+    .gourmet-card-body {
+        padding: 0.9rem 1rem 1.1rem;
+    }
+
+    .gourmet-dish-name h3 {
+        font-size: 0.97rem;
+    }
+
+    .gourmet-desc {
+        font-size: 0.78rem;
+    }
+
+    .filter-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gourmet-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+
+    .gourmet-card-top {
+        height: 90px;
+        font-size: 3rem;
+    }
+}
+</style>
+
+
+<!-- GOURMET_FILTER_FEATURE: GOURMET HTML -->
+<section id="gourmet" class="section fade-in">
+
+    <p class="section-subtitle" data-lang-ja>— JAPANESE GOURMET —</p>
+    <p class="section-subtitle" data-lang-en>— JAPANESE GOURMET —</p>
+
+    <h2 class="section-title">
+        <span data-lang-ja>グルメ特集</span>
+        <span data-lang-en>Gourmet Feature</span>
+    </h2>
+
+    <!-- Food Map intro blurb -->
+    <div class="gourmet-intro">
+        <p data-lang-ja>
+            🗺️ <strong>食の地図</strong> — 日本の各地には、その土地ならではの美食が息づいています。
+            北海道の新鮮な海の幸から、大阪の庶民グルメ、京都の洗練された懐石料理まで、
+            旅の楽しみは「食」にあり。47都道府県それぞれが誇る郷土の味を、この旅で存分に味わってください。
+        </p>
+        <p data-lang-en>
+            🗺️ <strong>Food Map</strong> — Every corner of Japan has its own culinary soul.
+            From Hokkaido's pristine seafood to Osaka's street-food energy, from Kyoto's refined kaiseki
+            to Okinawa's tropical flavors — Japan's greatest journey is tasted, not just seen.
+            Explore the map of flavors below.
+        </p>
+    </div>
+
+    <div class="gourmet-grid">
+
+        <!-- 1. Takoyaki -->
+        <div class="gourmet-card fade-in" data-dish="takoyaki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Takoyaki">🐙</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>たこ焼き<span class="dish-en">Takoyaki</span></span>
+                        <span data-lang-en>Takoyaki<span class="dish-en">たこ焼き</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 大阪</span>
+                    <span data-lang-en>📍 Osaka</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>大阪生まれのソウルフード。外はカリッ、中はトロッの食感が絶品。</span>
+                    <span data-lang-en>Osaka's soul food — crispy outside, creamy inside octopus balls.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('osaka')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Sushi -->
+        <div class="gourmet-card fade-in" data-dish="sushi">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Sushi">🍣</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>寿司<span class="dish-en">Sushi</span></span>
+                        <span data-lang-en>Sushi<span class="dish-en">寿司</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 東京・北海道</span>
+                    <span data-lang-en>📍 Tokyo · Hokkaido</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>江戸前寿司の本場・東京と、新鮮な海の幸が揃う北海道。</span>
+                    <span data-lang-en>Tokyo's Edomae-style and Hokkaido's ultra-fresh seafood — sushi at its finest.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('tokyo')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. Ramen -->
+        <div class="gourmet-card fade-in" data-dish="ramen">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Ramen">🍜</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>ラーメン<span class="dish-en">Ramen</span></span>
+                        <span data-lang-en>Ramen<span class="dish-en">ラーメン</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 北海道（札幌）</span>
+                    <span data-lang-en>📍 Hokkaido (Sapporo)</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>札幌の味噌ラーメン、博多の豚骨など地域ごとに個性豊かなスープ。</span>
+                    <span data-lang-en>Sapporo miso, Hakata tonkotsu — Japan's ramen scene has incredible regional diversity.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('hokkaido')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. Okonomiyaki -->
+        <div class="gourmet-card fade-in" data-dish="okonomiyaki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Okonomiyaki">🥘</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>お好み焼き<span class="dish-en">Okonomiyaki</span></span>
+                        <span data-lang-en>Okonomiyaki<span class="dish-en">お好み焼き</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 大阪・広島</span>
+                    <span data-lang-en>📍 Osaka · Hiroshima</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>「ソース焼き」とも呼ばれる日本風お好みのパンケーキ。大阪・広島で進化した。</span>
+                    <span data-lang-en>Japan's savory pancake — evolved in Osaka and Hiroshima with distinct regional styles.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('osaka')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. Kaisendon -->
+        <div class="gourmet-card fade-in" data-dish="kaisendon">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Kaisendon">🦞</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>海鮮丼<span class="dish-en">Kaisendon</span></span>
+                        <span data-lang-en>Kaisendon<span class="dish-en">海鮮丼</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 北海道</span>
+                    <span data-lang-en>📍 Hokkaido</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>北海道産のイクラ・ウニ・カニなど豪華海鮮が乗った丼は格別。</span>
+                    <span data-lang-en>A bowl of Hokkaido's finest — sea urchin, salmon roe, crab — pure luxury.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('hokkaido')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 6. Okinawa Soba -->
+        <div class="gourmet-card fade-in" data-dish="okinawa-soba">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Okinawa Soba">🍡</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>沖縄そば<span class="dish-en">Okinawa Soba</span></span>
+                        <span data-lang-en>Okinawa Soba<span class="dish-en">沖縄そば</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 沖縄</span>
+                    <span data-lang-en>📍 Okinawa</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>豚肉とかまぼこが乗った、本土のそばとは一線を画す独特の麺料理。</span>
+                    <span data-lang-en>Okinawa's unique noodle soup with pork and fishcake — unlike any other soba in Japan.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('okinawa')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 7. Kyoto Kaiseki -->
+        <div class="gourmet-card fade-in" data-dish="kaiseki">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Kaiseki">🍱</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>京懐石<span class="dish-en">Kyoto Kaiseki</span></span>
+                        <span data-lang-en>Kyoto Kaiseki<span class="dish-en">京懐石</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 京都</span>
+                    <span data-lang-en>📍 Kyoto</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>旬の食材を美しく盛り付けた日本料理の最高峰。京都の料亭で真髄を味わう。</span>
+                    <span data-lang-en>Japan's highest culinary art form — seasonal ingredients beautifully plated in Kyoto's finest restaurants.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('kyoto')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 8. Fujinomiya Yakisoba -->
+        <div class="gourmet-card fade-in" data-dish="yakisoba">
+            <div class="gourmet-card-top">
+                <span class="food-emoji" role="img" aria-label="Yakisoba">🗻</span>
+            </div>
+            <div class="gourmet-card-body">
+                <div class="gourmet-dish-name">
+                    <h3>
+                        <span data-lang-ja>富士宮焼きそば<span class="dish-en">Fujinomiya Yakisoba</span></span>
+                        <span data-lang-en>Fujinomiya Yakisoba<span class="dish-en">富士宮焼きそば</span></span>
+                    </h3>
+                </div>
+                <span class="gourmet-region-badge">
+                    <span data-lang-ja>📍 富士山周辺</span>
+                    <span data-lang-en>📍 Near Mt. Fuji</span>
+                </span>
+                <p class="gourmet-desc">
+                    <span data-lang-ja>モチモチの特製麺とラードで炒めた独特の食感が癖になる富士山麓のB級グルメ。</span>
+                    <span data-lang-en>The chewy noodles fried with lard near Mt. Fuji — a beloved local B-grade gourmet specialty.</span>
+                </p>
+                <button class="gourmet-btn" onclick="window.flyToDestination && window.flyToDestination('fuji')">
+                    <span data-lang-ja>この地域を見る</span>
+                    <span data-lang-en>See Region</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- GOURMET_FILTER_FEATURE: FILTER HTML -->
+<!-- INSERT BEFORE .destinations-grid: -->
+<div class="dest-filter-wrapper fade-in">
+
+    <!-- Search input -->
+    <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+            type="search"
+            id="dest-search"
+            placeholder="観光地を検索... / Search destinations..."
+            aria-label="観光地を検索 / Search destinations"
+            autocomplete="off"
+        >
+    </div>
+
+    <!-- Filter pills -->
+    <div id="dest-filter" class="dest-filter" role="group" aria-label="目的地フィルター / Destination filters">
+
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">
+            <span data-lang-ja>✨ 全て</span>
+            <span data-lang-en>✨ All</span>
+        </button>
+
+        <button class="filter-btn" data-filter="sea" aria-pressed="false">
+            <span data-lang-ja>🌊 海</span>
+            <span data-lang-en>🌊 Sea</span>
+        </button>
+
+        <button class="filter-btn" data-filter="history" aria-pressed="false">
+            <span data-lang-ja>🏛️ 歴史</span>
+            <span data-lang-en>🏛️ History</span>
+        </button>
+
+        <button class="filter-btn" data-filter="nature" aria-pressed="false">
+            <span data-lang-ja>🌿 自然</span>
+            <span data-lang-en>🌿 Nature</span>
+        </button>
+
+        <button class="filter-btn" data-filter="gourmet" aria-pressed="false">
+            <span data-lang-ja>🍜 グルメ</span>
+            <span data-lang-en>🍜 Gourmet</span>
+        </button>
+
+        <button class="filter-btn" data-filter="city" aria-pressed="false">
+            <span data-lang-ja>🌆 都市</span>
+            <span data-lang-en>🌆 City</span>
+        </button>
+
+    </div>
+
+    <!-- No results message -->
+    <p class="dest-no-results" id="dest-no-results" aria-live="polite">
+        <span data-lang-ja>条件に合う観光地が見つかりませんでした。</span>
+        <span data-lang-en>No destinations match your search.</span>
+    </p>
+
+</div>
+
+
+<!-- GOURMET_FILTER_FEATURE: CARD DATA-TAGS -->
+<!--
+  ADD data-tags ATTRIBUTES TO EXISTING DESTINATION CARDS IN index.html:
+
+  Tokyo card    [data-accent="red"]    → add data-tags="history city gourmet"
+  Kyoto card    [data-accent="purple"] → add data-tags="history city"
+  Osaka card    [data-accent="orange"] → add data-tags="history city gourmet"
+  Mt. Fuji card [data-accent="blue"]   → add data-tags="nature"
+  Okinawa card  [data-accent="teal"]   → add data-tags="sea nature"
+  Hokkaido card [data-accent="green"]  → add data-tags="nature gourmet"
+
+  Example — change:
+    <div class="dest-card" data-accent="red">
+  to:
+    <div class="dest-card" data-accent="red" data-tags="history city gourmet">
+-->
+
+
+<!-- GOURMET_FILTER_FEATURE: JS -->
+<script id="gourmet-filter-js">
+(function () {
+    'use strict';
+
+    /* ============================================================
+       GOURMET SECTION — Scroll fade-in for cards
+    ============================================================ */
+    function initGourmetFadeIn() {
+        var cards = document.querySelectorAll('.gourmet-card.fade-in');
+        if (!cards.length) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry, i) {
+                if (entry.isIntersecting) {
+                    // Stagger each card slightly
+                    var card = entry.target;
+                    var delay = (Array.prototype.indexOf.call(cards, card) % 4) * 80;
+                    setTimeout(function () {
+                        card.classList.add('visible');
+                    }, delay);
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        cards.forEach(function (card) {
+            observer.observe(card);
+        });
+    }
+
+    /* ============================================================
+       DESTINATION FILTER & SEARCH
+    ============================================================ */
+    function initDestFilter() {
+        var filterBtns = document.querySelectorAll('#dest-filter .filter-btn');
+        var searchInput = document.getElementById('dest-search');
+        var noResults = document.getElementById('dest-no-results');
+
+        if (!filterBtns.length) return;
+
+        var currentFilter = 'all';
+        var currentSearch = '';
+
+        /* ---- Collect destination cards ---- */
+        function getDestCards() {
+            // Support both .dest-card and .destination-card class names
+            var cards = document.querySelectorAll('.destinations-grid .dest-card, .destinations-grid .destination-card, .destinations-grid [data-tags]');
+            return Array.prototype.slice.call(cards);
+        }
+
+        /* ---- Apply filter + search ---- */
+        function applyFilters() {
+            var cards = getDestCards();
+            var query = currentSearch.trim().toLowerCase();
+            var visible = 0;
+
+            cards.forEach(function (card) {
+                var matchesFilter = false;
+                var matchesSearch = true;
+
+                // Filter logic
+                if (currentFilter === 'all') {
+                    matchesFilter = true;
+                } else {
+                    var tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+                    matchesFilter = tags.indexOf(currentFilter) !== -1;
+                }
+
+                // Search logic — check all h3 text inside card
+                if (query) {
+                    var h3s = card.querySelectorAll('h3');
+                    var cardText = '';
+                    h3s.forEach(function (h) {
+                        cardText += ' ' + (h.textContent || '');
+                    });
+                    // Also check the card's own text in case h3 isn't nested
+                    cardText += ' ' + (card.textContent || '');
+                    matchesSearch = cardText.toLowerCase().indexOf(query) !== -1;
+                }
+
+                var show = matchesFilter && matchesSearch;
+
+                if (show) {
+                    showCard(card);
+                    visible++;
+                } else {
+                    hideCard(card);
+                }
+            });
+
+            // No-results message
+            if (noResults) {
+                noResults.classList.toggle('visible', visible === 0 && cards.length > 0);
+            }
+        }
+
+        /* ---- Animate card in ---- */
+        function showCard(card) {
+            card.classList.remove('dest-card-hidden');
+            card.classList.add('dest-card-visible');
+            // Restore display if it was set to none (fallback)
+            if (card.style.display === 'none') {
+                card.style.display = '';
+            }
+        }
+
+        /* ---- Animate card out ---- */
+        function hideCard(card) {
+            card.classList.remove('dest-card-visible');
+            card.classList.add('dest-card-hidden');
+        }
+
+        /* ---- Filter button clicks ---- */
+        filterBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                // Update active state
+                filterBtns.forEach(function (b) {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                currentFilter = btn.getAttribute('data-filter') || 'all';
+                applyFilters();
+            });
+        });
+
+        /* ---- Search input ---- */
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                currentSearch = searchInput.value;
+                applyFilters();
+            });
+
+            // Clear on Escape key
+            searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    currentSearch = '';
+                    applyFilters();
+                }
+            });
+        }
+
+        // Initial pass — ensure all cards start visible
+        applyFilters();
+    }
+
+    /* ============================================================
+       GENERAL fade-in observer (for gourmet section wrapper + filter)
+    ============================================================ */
+    function initGeneralFadeIn() {
+        var els = document.querySelectorAll('#gourmet.fade-in, .dest-filter-wrapper.fade-in');
+        if (!els.length) return;
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        els.forEach(function (el) { obs.observe(el); });
+    }
+
+    /* ============================================================
+       BOOT — wait for DOM ready
+    ============================================================ */
+    function boot() {
+        initGeneralFadeIn();
+        initGourmetFadeIn();
+        initDestFilter();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+
+})();
+</script>

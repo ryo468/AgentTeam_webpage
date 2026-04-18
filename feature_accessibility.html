@@ -1,0 +1,655 @@
+<!-- ACCESSIBILITY_FEATURE: CSS -->
+<style id="accessibility-css">
+  /* ===== Screen-reader only utility ===== */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ===== Skip Navigation Link ===== */
+  .skip-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #c2185b;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    z-index: 9999;
+    transform: translateY(-100%);
+    transition: transform 0.2s ease;
+    border-radius: 0 0 8px 0;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+
+  /* ===== Focus Visible Enhancement ===== */
+  :focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Remove outline for mouse users, keep for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Ensure card focus ring is clearly visible */
+  .card:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 4px;
+    border-radius: 20px;
+  }
+
+  /* Climate tab focus enhancement */
+  .climate-tab:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+  }
+
+  /* Nav link focus */
+  .nav a:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 4px;
+    border-radius: 4px;
+    color: #c2185b;
+  }
+
+  /* Language toggle button focus */
+  .lang-toggle button:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 2px;
+    border-radius: 50px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Modal close button focus */
+  #modalClose:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  /* Back to top button focus */
+  #backToTop:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  /* Card map button focus */
+  .card-map-btn:focus-visible {
+    outline: 3px solid #c2185b;
+    outline-offset: 3px;
+  }
+
+  /* Hero CTA focus */
+  .hero-cta:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+
+  /* ===== Active nav link indicator ===== */
+  .nav a[aria-current="page"] {
+    color: #c2185b;
+  }
+
+  .nav a[aria-current="page"]::after {
+    width: 100%;
+  }
+
+  /* ===== Reduced Motion Support ===== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .sakura .petal {
+      display: none;
+    }
+
+    /* Ensure fade-in elements are visible even without animation */
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .modal-box {
+      animation: none !important;
+    }
+
+    .modal-overlay.open {
+      animation: none !important;
+    }
+  }
+</style>
+
+<!-- ACCESSIBILITY_FEATURE: SKIP LINK HTML -->
+<!-- INSERT AS FIRST CHILD OF BODY: -->
+<a href="#destinations" class="skip-link" data-lang-ja>メインコンテンツへスキップ</a>
+<a href="#destinations" class="skip-link" data-lang-en>Skip to main content</a>
+<div id="filter-status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+<!-- ACCESSIBILITY_FEATURE: ARIA ATTRIBUTE PATCHES -->
+<!--
+  The following attributes must be added to existing elements in index.html:
+
+  <nav class="nav">
+    → add: role="navigation" aria-label="メインナビゲーション / Main navigation"
+
+  #langToggle button[data-lang="ja"]
+    → add: aria-label="日本語に切り替え" aria-pressed="true"  (initially active)
+
+  #langToggle button[data-lang="en"]
+    → add: aria-label="英語に切り替え / Switch to English" aria-pressed="false"
+
+  .card (each article.card)
+    → add: tabindex="0"
+    → add: role="button"
+    → add: aria-label="[destination name]の詳細を見る / View [destination] details"
+    → add: aria-describedby pointing to the card's <p> description element
+
+  #modalBox
+    → add: role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+
+  #modalClose
+    → add: aria-label="モーダルを閉じる / Close modal"
+
+  .climate-tabs (container div)
+    → add: role="tablist" aria-label="都市を選択 / Select city"
+
+  .climate-tab (each button)
+    → add: role="tab"
+    → add: aria-selected="true" (active) or aria-selected="false"
+    → add: aria-controls="climateTbody"
+
+  .card-image (each div)
+    → add: role="img"
+    → add: aria-label="[city name]の風景 / [city name] scenery"
+
+  .card-map-btn (each button)
+    → add: aria-label="[destination]を地図で見る / View [destination] on map"
+
+  <header class="hero">
+    → add: role="banner"
+
+  <footer>
+    → add: role="contentinfo"
+
+  #climateTbody (tbody element — target of aria-controls)
+    → add: id="climateTbody"  (already present in index.html)
+
+  <section id="destinations">
+    → this and sibling sections should be wrapped in <main id="main-content">
+-->
+
+<!-- ACCESSIBILITY_FEATURE: JS -->
+<script id="accessibility-js">
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
+  /* ========================================================
+     HELPER: determine current language
+  ======================================================== */
+  function isEnglish() {
+    return document.body.classList.contains('lang-en');
+  }
+
+  /* ========================================================
+     1. PATCH LANDMARK ROLES ON EXISTING ELEMENTS
+  ======================================================== */
+  (function patchLandmarks() {
+    // <header class="hero"> → role="banner"
+    var hero = document.querySelector('header.hero');
+    if (hero && !hero.hasAttribute('role')) {
+      hero.setAttribute('role', 'banner');
+    }
+
+    // <footer> → role="contentinfo"
+    var footer = document.querySelector('footer');
+    if (footer && !footer.hasAttribute('role')) {
+      footer.setAttribute('role', 'contentinfo');
+    }
+
+    // <nav class="nav"> → role + aria-label
+    var nav = document.querySelector('nav.nav');
+    if (nav) {
+      if (!nav.hasAttribute('role')) nav.setAttribute('role', 'navigation');
+      nav.setAttribute('aria-label', 'メインナビゲーション / Main navigation');
+    }
+
+    // Wrap standalone sections in <main> if not already inside one
+    var existingMain = document.querySelector('main');
+    if (!existingMain) {
+      var sections = [
+        document.getElementById('destinations'),
+        document.getElementById('map'),
+        document.getElementById('seasons'),
+        document.getElementById('climate'),
+        document.getElementById('tips')
+      ].filter(Boolean);
+
+      if (sections.length > 0) {
+        var mainEl = document.createElement('main');
+        mainEl.id = 'main-content';
+
+        // Insert main before the first section
+        var firstSection = sections[0];
+        firstSection.parentNode.insertBefore(mainEl, firstSection);
+
+        // Move all target sections into main
+        sections.forEach(function (sec) {
+          mainEl.appendChild(sec);
+        });
+      }
+    }
+  })();
+
+  /* ========================================================
+     2. LANGUAGE TOGGLE — aria-pressed + aria-label
+  ======================================================== */
+  (function patchLangToggle() {
+    var jaBtn = document.querySelector('#langToggle button[data-lang="ja"]');
+    var enBtn = document.querySelector('#langToggle button[data-lang="en"]');
+
+    if (jaBtn) {
+      jaBtn.setAttribute('aria-label', '日本語に切り替え');
+      jaBtn.setAttribute('aria-pressed', jaBtn.classList.contains('active') ? 'true' : 'false');
+    }
+    if (enBtn) {
+      enBtn.setAttribute('aria-label', '英語に切り替え / Switch to English');
+      enBtn.setAttribute('aria-pressed', enBtn.classList.contains('active') ? 'true' : 'false');
+    }
+
+    // Keep aria-pressed in sync whenever a lang button is clicked
+    var langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-lang]');
+        if (!btn) return;
+        var allBtns = langToggle.querySelectorAll('button[data-lang]');
+        allBtns.forEach(function (b) {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      });
+    }
+  })();
+
+  /* ========================================================
+     3. NAVIGATION — aria-current on scroll
+  ======================================================== */
+  (function patchNavCurrent() {
+    var navLinks = Array.from(document.querySelectorAll('nav.nav a[href^="#"]'));
+    if (!navLinks.length) return;
+
+    var sectionIds = navLinks.map(function (a) {
+      return a.getAttribute('href').replace('#', '');
+    });
+
+    var sections = sectionIds.map(function (id) {
+      return document.getElementById(id);
+    }).filter(Boolean);
+
+    function updateCurrent() {
+      var scrollY = window.scrollY + 120; // offset for sticky nav height
+      var current = null;
+
+      sections.forEach(function (sec) {
+        if (sec.offsetTop <= scrollY) {
+          current = sec.id;
+        }
+      });
+
+      navLinks.forEach(function (a) {
+        var href = a.getAttribute('href').replace('#', '');
+        if (href === current) {
+          a.setAttribute('aria-current', 'page');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateCurrent, { passive: true });
+    updateCurrent();
+  })();
+
+  /* ========================================================
+     4. DESTINATION CARDS — keyboard support + ARIA
+  ======================================================== */
+  (function patchCards() {
+    // Map card accent → destination names (ja / en)
+    var cardInfo = {
+      red:    { ja: '東京',   en: 'Tokyo',    imgLabel: '東京 / Tokyo' },
+      purple: { ja: '京都',   en: 'Kyoto',    imgLabel: '京都 / Kyoto' },
+      orange: { ja: '大阪',   en: 'Osaka',    imgLabel: '大阪 / Osaka' },
+      blue:   { ja: '富士山', en: 'Mt. Fuji', imgLabel: '富士山 / Mt. Fuji' },
+      teal:   { ja: '沖縄',   en: 'Okinawa',  imgLabel: '沖縄 / Okinawa' },
+      green:  { ja: '北海道', en: 'Hokkaido', imgLabel: '北海道 / Hokkaido' }
+    };
+
+    document.querySelectorAll('article.card').forEach(function (card, index) {
+      var accent = card.getAttribute('data-accent') || '';
+      var info = cardInfo[accent] || { ja: '観光地', en: 'Destination', imgLabel: '観光地 / Destination' };
+
+      // Make card keyboard-focusable
+      card.setAttribute('tabindex', '0');
+
+      // ARIA label (language-aware, kept live via MutationObserver on body.lang-en)
+      function setCardLabel() {
+        var name = isEnglish() ? info.en : info.ja;
+        var label = isEnglish()
+          ? 'View details for ' + info.en
+          : info.ja + 'の詳細を見る';
+        card.setAttribute('aria-label', label);
+      }
+      setCardLabel();
+
+      // Wire up description paragraph for aria-describedby
+      var desc = card.querySelector('.card-body p');
+      if (desc) {
+        var descId = 'card-desc-' + (accent || index);
+        desc.id = descId;
+        card.setAttribute('aria-describedby', descId);
+      }
+
+      // Keyboard activation: Enter or Space triggers click
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+
+      // Patch card-image div with role="img" and aria-label
+      var cardImage = card.querySelector('.card-image');
+      if (cardImage) {
+        cardImage.setAttribute('role', 'img');
+        cardImage.setAttribute('aria-label', info.imgLabel + 'の風景 / ' + info.en + ' scenery');
+      }
+
+      // Patch map button aria-label
+      var mapBtn = card.querySelector('.card-map-btn');
+      if (mapBtn) {
+        function setMapBtnLabel() {
+          var dest = isEnglish() ? info.en : info.ja;
+          var label = isEnglish()
+            ? 'View ' + info.en + ' on map'
+            : info.ja + 'を地図で見る / View ' + info.en + ' on map';
+          mapBtn.setAttribute('aria-label', label);
+        }
+        setMapBtnLabel();
+
+        // Update on language change
+        observeLangChange(setMapBtnLabel);
+      }
+
+      // Update card aria-label on language change
+      observeLangChange(setCardLabel);
+    });
+  })();
+
+  /* ========================================================
+     5. PHOTO MODAL — role, aria-modal, focus trap
+  ======================================================== */
+  (function patchModal() {
+    var overlay   = document.getElementById('photoModal');
+    var modalBox  = document.getElementById('modalBox');
+    var closeBtn  = document.getElementById('modalClose');
+
+    if (!overlay || !modalBox) return;
+
+    // Add ARIA attributes
+    modalBox.setAttribute('role', 'dialog');
+    modalBox.setAttribute('aria-modal', 'true');
+    modalBox.setAttribute('aria-labelledby', 'modalTitle');
+
+    if (closeBtn) {
+      closeBtn.setAttribute('aria-label', 'モーダルを閉じる / Close modal');
+    }
+
+    // Track which element triggered the modal so we can restore focus
+    var triggerElement = null;
+
+    // Intercept card clicks to capture trigger before the existing handler fires
+    document.querySelectorAll('article.card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        triggerElement = card;
+      }, true); // capture phase — runs before existing handlers
+    });
+
+    // ---- Focus Trap helpers ----
+    var FOCUSABLE = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    function getFocusable() {
+      return Array.from(modalBox.querySelectorAll(FOCUSABLE)).filter(function (el) {
+        return el.offsetParent !== null; // visible only
+      });
+    }
+
+    function trapFocus(e) {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key !== 'Tab') return;
+
+      var focusable = getFocusable();
+      if (!focusable.length) { e.preventDefault(); return; }
+
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    // Observe when modal opens / closes via class change
+    var modalObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class') {
+          if (overlay.classList.contains('open')) {
+            onModalOpen();
+          } else {
+            onModalClose();
+          }
+        }
+      });
+    });
+    modalObserver.observe(overlay, { attributes: true });
+
+    function onModalOpen() {
+      document.addEventListener('keydown', trapFocus);
+      // Move focus to close button (first interactive element)
+      setTimeout(function () {
+        var focusable = getFocusable();
+        if (focusable.length) focusable[0].focus();
+      }, 50);
+
+      // Announce to screen readers
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function onModalClose() {
+      document.removeEventListener('keydown', trapFocus);
+      overlay.setAttribute('aria-hidden', 'true');
+
+      // Restore focus to the element that opened the modal
+      if (triggerElement) {
+        triggerElement.focus();
+        triggerElement = null;
+      }
+    }
+
+    // Set initial state
+    overlay.setAttribute('aria-hidden', 'true');
+  })();
+
+  /* ========================================================
+     6. CLIMATE TABS — role="tablist/tab", aria-selected,
+        arrow-key navigation
+  ======================================================== */
+  (function patchClimateTabs() {
+    var tabsContainer = document.querySelector('.climate-tabs');
+    if (!tabsContainer) return;
+
+    tabsContainer.setAttribute('role', 'tablist');
+    tabsContainer.setAttribute('aria-label', '都市を選択 / Select city');
+
+    var tabs = Array.from(tabsContainer.querySelectorAll('.climate-tab'));
+
+    tabs.forEach(function (tab) {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', 'climateTbody');
+      tab.setAttribute('aria-selected', tab.classList.contains('active') ? 'true' : 'false');
+    });
+
+    // Keep aria-selected in sync when a tab is clicked (existing handler sets .active)
+    tabsContainer.addEventListener('click', function (e) {
+      var clickedTab = e.target.closest('.climate-tab');
+      if (!clickedTab) return;
+
+      // Small delay to let existing handler update .active first
+      setTimeout(function () {
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+        });
+
+        // Announce table update to screen readers
+        updateFilterStatus(clickedTab);
+      }, 0);
+    });
+
+    // Arrow key navigation between tabs
+    tabsContainer.addEventListener('keydown', function (e) {
+      var focused = document.activeElement;
+      if (!focused || !focused.classList.contains('climate-tab')) return;
+
+      // Get visible tabs only (lang-filtered)
+      var visibleTabs = tabs.filter(function (t) {
+        return t.offsetParent !== null;
+      });
+      var idx = visibleTabs.indexOf(focused);
+      if (idx === -1) return;
+
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        next = visibleTabs[(idx + 1) % visibleTabs.length];
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        next = visibleTabs[(idx - 1 + visibleTabs.length) % visibleTabs.length];
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        next = visibleTabs[0];
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        next = visibleTabs[visibleTabs.length - 1];
+      }
+
+      if (next) {
+        next.focus();
+        next.click(); // activate the tab
+      }
+    });
+  })();
+
+  /* ========================================================
+     7. BACK TO TOP BUTTON — ensure aria-label is correct
+  ======================================================== */
+  (function patchBackToTop() {
+    var btn = document.getElementById('backToTop');
+    if (btn) {
+      btn.setAttribute('aria-label', 'ページトップへ戻る / Back to top');
+    }
+  })();
+
+  /* ========================================================
+     8. FILTER STATUS — ARIA live region helper
+        (used by Feature 2 filter when it announces results)
+  ======================================================== */
+  window.announceFilterStatus = function (count) {
+    var statusEl = document.getElementById('filter-status');
+    if (!statusEl) return;
+    var msg = isEnglish()
+      ? count + ' destination' + (count !== 1 ? 's' : '') + ' found'
+      : count + '件の観光地が見つかりました';
+    statusEl.textContent = '';
+    // Trigger re-announcement even if same text by clearing first
+    setTimeout(function () {
+      statusEl.textContent = msg;
+    }, 10);
+  };
+
+  /* ========================================================
+     9. LANGUAGE CHANGE OBSERVER
+        Update all dynamically-set ARIA labels when language
+        is toggled by the existing site script.
+  ======================================================== */
+  var langChangeCallbacks = [];
+
+  function observeLangChange(cb) {
+    langChangeCallbacks.push(cb);
+  }
+
+  var langObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      if (m.attributeName === 'class') {
+        langChangeCallbacks.forEach(function (cb) {
+          try { cb(); } catch (err) { /* ignore */ }
+        });
+      }
+    });
+  });
+  langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  /* ========================================================
+     10. HERO CTA — ensure accessible link text
+  ======================================================== */
+  (function patchHeroCTA() {
+    document.querySelectorAll('a.hero-cta').forEach(function (cta) {
+      if (!cta.hasAttribute('aria-label')) {
+        // Text content is already descriptive, but add role clarity
+        cta.setAttribute('role', 'button');
+      }
+    });
+  })();
+
+  /* ========================================================
+     END accessibility enhancements
+  ======================================================== */
+});
+</script>
